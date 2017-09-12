@@ -1,0 +1,45 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile_HOME                                      :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2017/07/21 11:32:30 by tpierron          #+#    #+#              #
+#    Updated: 2017/07/24 09:17:30 by tpierron         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+.PHONY: all clean fclean re
+
+NAME = 42Run
+
+CC = clang++
+SRC = classes/Shader.class.cpp math3d.cpp main.cpp sdl_tools.cpp
+
+CFLAGS = -Wall -Wextra -Werror
+OBJ_PATH = ./obj/
+OBJ_NAME = $(SRC:.cpp=.o)
+
+SDL = -I/usr/local/include/sdl2 -L/usr/local/lib -lSDL2
+OPENGL = -framework OpenGl -framework AppKit
+OPENCL = -framework OpenCL
+
+OBJ = $(addprefix $(OBJ_PATH), $(OBJ_NAME))
+
+all: $(NAME)
+$(OBJ_PATH)%.o: %.cpp
+	@mkdir $(OBJ_PATH) 2> /dev/null || echo "" > /dev/null
+	@mkdir $(OBJ_PATH)/classes 2> /dev/null || echo "" > /dev/null
+	$(CC) $(CFLAGS) -o $@ -c -Iclasses $< 
+
+$(NAME): $(OBJ)
+	$(CC) $(SDL) $(OPENGL) $(OPENCL) $(CFLAGS) -o $@ $^
+
+clean:
+	rm -rf $(OBJ_PATH)
+
+fclean: clean
+	rm -f $(NAME)
+
+re: fclean all
