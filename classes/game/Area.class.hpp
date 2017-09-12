@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Area.class.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibautpierron <thibautpierron@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 09:56:41 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/12 17:19:41 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/12 22:39:25 by thibautpier      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ class Area {
         Area(unsigned int length, unsigned int lineNbr);
         ~Area();
         
-        void            drawGrid(float progress);
+        void            drawGrid(float, float);
         void            drawObstacleDebug(float progress);
         unsigned int	getLineNbr() const;
         unsigned int    getLength() const;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Shader.class.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibautpierron <thibautpierron@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 14:11:32 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/08 10:24:01 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/12 22:36:29 by thibautpier      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ class Shader {
         void    setFloat(const std::string &name, float value) const;
         void    setInt(const std::string &name, float value) const;
         GLuint  getProgramID() const;
-        void    setPerspective();
+        void    setPerspective(float, float);
         
         Shader();
     private:

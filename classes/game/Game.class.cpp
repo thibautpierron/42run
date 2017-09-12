@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Game.class.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibautpierron <thibautpierron@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/12 17:28:00 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/12 23:01:28 by thibautpier      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 Game::Game() {
 	this->area = new Area(30, 5);
-	this->area2 = new Area(30, 5);
-	this->area2->orientate(this->area, static_cast<eOrientation>((rand() % 2) + 2));
+	// this->area2 = new Area(30, 5);
+	// this->area2->orientate(this->area, static_cast<eOrientation>((rand() % 2) + 2));
     this->obstacles = area->getObstacles();
     this->player = new Player(0, area->getLineNbr());
 	this->movementDirection = NORTH;
@@ -24,7 +24,7 @@ Game::Game() {
 Game::~Game() {
 	delete this->player;
 	delete this->area;
-	delete this->area2;
+	// delete this->area2;
 }
 
 void	Game::compute(float gameTime) {
@@ -37,11 +37,12 @@ void	Game::compute(float gameTime) {
 }
 
 void	Game::render(float gameTime) {
-	area->drawGrid(gameTime);
-	area->drawObstacleDebug(gameTime);
+	(void)(gameTime);
+	area->drawGrid(this->player->getX(), this->player->getY());
+	// area->drawObstacleDebug(gameTime);
 
-	area2->drawGrid(gameTime);
-	area2->drawObstacleDebug(gameTime);
+	// area2->drawGrid(gameTime);
+	// area2->drawObstacleDebug(gameTime);
 
 	player->draw();
 	player->drawDebug();

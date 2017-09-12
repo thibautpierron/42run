@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Player.class.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibautpierron <thibautpierron@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/12 17:40:54 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/12 23:01:54 by thibautpier      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void     Player::setupDebug() {
 
     std::vector<glm::vec2> crd;
     crd.push_back(glm::vec2(this->x, this->y));
-    crd[0].x -= (5 / 2) + 0.5f;
+    // crd[0].x -= (5 / 2) + 0.5f;
 
 	glGenVertexArrays(1, &this->debugVao);
 	glGenBuffers(1, &this->debugVbo);
@@ -76,8 +76,7 @@ void    Player::draw() {
     glm::mat4 model;
     model = glm::scale(model, glm::vec3(1.f / scalingRate, 1.f / scalingRate, 1.f / scalingRate));
 
-    float n = this->x - (this->areaLineNbr / 2.f);
-    n *= scalingRate;
+    float n = this->x * scalingRate;
     model = glm::translate(model, glm::vec3(n + scalingRate / 2, 0.f, -1.f));
 
     model = glm::rotate(model, -90.f, glm::vec3(1.f, 0.f, 0.f));
@@ -86,7 +85,7 @@ void    Player::draw() {
     this->shader->use();
     
 	this->shader->setModel(model);
-    this->shader->setPerspective();
+    this->shader->setPerspective(this->x, this->y);
     this->model->draw(this->shader);
 }
 
@@ -98,7 +97,7 @@ void    Player::drawDebug() {
     model = glm::translate(model, glm::vec3(this->x, 0.f, 0.01f));
     // model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
     this->debugShader->setModel(model);
-    this->debugShader->setPerspective();
+    this->debugShader->setPerspective(this->x, this->y);
     glUniform1i(glGetUniformLocation(debugShader->getProgramID(), "playerState"), this->state);    
 
     glBindVertexArray(this->debugVao);
@@ -116,4 +115,12 @@ glm::vec2   Player::getPosition() {
 
 void        Player::setOrientation(eOrientation orientation) {
     this->orientation = orientation;
+}
+
+float   Player::getX() const {
+    return this->x;
+}
+
+float   Player::getY() const {
+    return this->y;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Shader.class.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibautpierron <thibautpierron@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 14:11:27 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/08 11:55:31 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/12 23:08:38 by thibautpier      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ Shader::Shader() {
 Shader::Shader(std::string vertexSrc, std::string fragmentSrc)
                  : vertexSrc(vertexSrc) {
     this->fragmentSrc = fragmentSrc;
-    // std::cout << "CONSTRUCTION: " << fragmentSrc << std::endl;
-    // std::cout << "CONSTRUCTION: " << this->fragmentSrc << std::endl;
     this->vertexID = this->load(GL_VERTEX_SHADER, this->vertexSrc);
     this->fragmentID = this->load(GL_FRAGMENT_SHADER, this->fragmentSrc);
     this->geometryID = 0;
@@ -137,10 +135,12 @@ void    Shader::use() const {
     glUseProgram(this->programID);
 }
 
-void    Shader::setPerspective() {
+void    Shader::setPerspective(float targetX, float targetY) {
+    std::cout << targetX << std::endl;
+    std::cout << targetY << std::endl;
     glm::mat4 view = glm::lookAt(
-        glm::vec3(0.f, 5.f, 5.f),
-        glm::vec3(0.f, 0.f, 0.f),
+        glm::vec3(2.5, 5.f, 5.f),
+        glm::vec3(2.5, targetY, 0.f),
         glm::vec3(0.f, 1.f, 0.f)
     );
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Player.class.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibautpierron <thibautpierron@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:23:51 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/12 17:38:42 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/12 22:43:29 by thibautpier      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ class Player {
         glm::vec2    getPosition();
         void    drawDebug();
         void    draw();
+        float   getX() const;
+        float   getY() const;
 
     private:
         Player();
