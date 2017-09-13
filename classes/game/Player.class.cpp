@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Player.class.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibautpierron <thibautpierron@student.    +#+  +:+       +#+        */
+/*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/12 23:01:54 by thibautpier      ###   ########.fr       */
+/*   Updated: 2017/09/13 10:24:32 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,35 +69,34 @@ void     Player::setupDebug() {
 	glBindVertexArray(0);
 }
 
-void    Player::draw() {
+void    Player::draw(float cameraX) {
     
     float scalingRate = 5.f;
 
     glm::mat4 model;
     model = glm::scale(model, glm::vec3(1.f / scalingRate, 1.f / scalingRate, 1.f / scalingRate));
 
-    float n = this->x * scalingRate;
-    model = glm::translate(model, glm::vec3(n + scalingRate / 2, 0.f, -1.f));
-
-    model = glm::rotate(model, -90.f, glm::vec3(1.f, 0.f, 0.f));
+    float xScaled = this->x * scalingRate + scalingRate * 0.5f;
+    float yScaled = this->y * scalingRate + scalingRate * 0.5f;
+    model = glm::translate(model, glm::vec3(xScaled, yScaled, 0.f));
     model = glm::rotate(model, glm::radians(180.f), glm::vec3(0.f, 0.f, 1.f));
     
     this->shader->use();
     
 	this->shader->setModel(model);
-    this->shader->setPerspective(this->x, this->y);
+    this->shader->setPerspective(cameraX, this->y);
     this->model->draw(this->shader);
 }
 
-void    Player::drawDebug() {
+void    Player::drawDebug(float cameraX) {
     this->debugShader->use();
     
     glm::mat4 model = glm::mat4();
-    model = glm::rotate(model, -90.f, glm::vec3(1.f, 0.f, 0.f));
-    model = glm::translate(model, glm::vec3(this->x, 0.f, 0.01f));
+    // model = glm::rotate(model, -90.f, glm::vec3(1.f, 0.f, 0.f));
+    model = glm::translate(model, glm::vec3(this->x, this->y, 0.01f));
     // model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
     this->debugShader->setModel(model);
-    this->debugShader->setPerspective(this->x, this->y);
+    this->debugShader->setPerspective(cameraX, this->y);
     glUniform1i(glGetUniformLocation(debugShader->getProgramID(), "playerState"), this->state);    
 
     glBindVertexArray(this->debugVao);

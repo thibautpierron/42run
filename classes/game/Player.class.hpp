@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Player.class.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibautpierron <thibautpierron@student.    +#+  +:+       +#+        */
+/*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:23:51 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/12 22:43:29 by thibautpier      ###   ########.fr       */
+/*   Updated: 2017/09/13 10:10:49 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ class Player {
         void    setState(unsigned int);
         void    setOrientation(eOrientation);
         glm::vec2    getPosition();
-        void    drawDebug();
-        void    draw();
+        void    drawDebug(float);
+        void    draw(float);
         float   getX() const;
         float   getY() const;
 

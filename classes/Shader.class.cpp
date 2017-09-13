@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Shader.class.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibautpierron <thibautpierron@student.    +#+  +:+       +#+        */
+/*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 14:11:27 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/12 23:08:38 by thibautpier      ###   ########.fr       */
+/*   Updated: 2017/09/13 10:10:37 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ GLuint    Shader::load(GLenum type, std::string const src) {
     std::string buff;
     std::string shader;
 
-
-    // std::cout << "DEBUG: " << type << " : " << src << std::endl;
     if(!stream) {
         std::cout << "Shader File: " << src << " not found."<< std::endl;
         return -1;
@@ -136,12 +134,10 @@ void    Shader::use() const {
 }
 
 void    Shader::setPerspective(float targetX, float targetY) {
-    std::cout << targetX << std::endl;
-    std::cout << targetY << std::endl;
     glm::mat4 view = glm::lookAt(
-        glm::vec3(2.5, 5.f, 5.f),
-        glm::vec3(2.5, targetY, 0.f),
-        glm::vec3(0.f, 1.f, 0.f)
+        glm::vec3(targetX, targetY - 5.f, 2.f),
+        glm::vec3(targetX, targetY + 5.f, 0.f),
+        glm::vec3(0.f, 0.f, 1.f)
     );
 
     glm::mat4 matrix = glm::perspective(45.f, 1.0f, 0.1f, 100.f);

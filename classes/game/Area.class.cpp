@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Area.class.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibautpierron <thibautpierron@student.    +#+  +:+       +#+        */
+/*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/12 22:56:33 by thibautpier      ###   ########.fr       */
+/*   Updated: 2017/09/13 09:42:20 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ Area::~Area() {
 void    Area::setupGrid() {
 	
 	for(float i = 0.f; i <= this->length; i++) {
-		vertices.push_back(glm::vec3(0.f, 0.f, i));
-		vertices.push_back(glm::vec3(static_cast<float>(this->lineNbr), 0.f, i));
+		vertices.push_back(glm::vec3(0.f, i, 0.f));
+		vertices.push_back(glm::vec3(static_cast<float>(this->lineNbr), i, 0.f));
 	}
 	
 	for(unsigned int i = 0; i <= this->length * 2; i += 2) {
@@ -48,7 +48,7 @@ void    Area::setupGrid() {
 
 	for(float i = 1.f; i < this->lineNbr; i++) {
 		vertices.push_back(glm::vec3(i, 0.f, 0.f));
-		vertices.push_back(glm::vec3(i, 0.f, static_cast<float>(this->length)));
+		vertices.push_back(glm::vec3(i, static_cast<float>(this->length), 0.f));
 		indices.push_back(this->vertices.size() - 2);
 		indices.push_back(this->vertices.size() - 1);
 	}
@@ -77,9 +77,9 @@ void    Area::setupGrid() {
 void	Area::setupObstacleDebug() {
 	std::vector<glm::vec2>      data = this->obstacles;
 
-	for (unsigned int i = 0; i < data.size(); i++) {
-		data[i].x -= (this->lineNbr / 2) + 0.5f;
-	}
+	// for (unsigned int i = 0; i < data.size(); i++) {
+	// 	data[i].x -= (this->lineNbr / 2) + 0.5f;
+	// }
 
 	glGenVertexArrays(1, &this->obstacleDebugVao);
 	glGenBuffers(1, &this->obstacleDebugVbo);
@@ -111,17 +111,17 @@ void    Area::drawGrid(float playerX, float playerY) {
 	glBindVertexArray(0);
 }
 
-void	Area::drawObstacleDebug(float progress) {
+void	Area::drawObstacleDebug(float playerX, float playerY) {
 	this->obstacleDebugShader->use();
 
 	glm::mat4 model = glm::mat4();
 	//////
-	model = glm::rotate(model,-90.f, glm::vec3(1.f, 0.f, 0.f));
-	model = glm::translate(model, glm::vec3(this->xOffset, -progress + this->yOffset, 0.f));
-	model = glm::rotate(model,glm::radians(this->orientationOffset), glm::vec3(0.f, 0.f, 1.f));
+	// model = glm::rotate(model,-90.f, glm::vec3(1.f, 0.f, 0.f));
+	// model = glm::translate(model, glm::vec3(this->xOffset, -progress + this->yOffset, 0.f));
+	// model = glm::rotate(model,glm::radians(this->orientationOffset), glm::vec3(0.f, 0.f, 1.f));
 	////
 	this->obstacleDebugShader->setModel(model);
-	this->obstacleDebugShader->setPerspective(1.0, 1.0);
+	this->obstacleDebugShader->setPerspective(playerX, playerY);
 
     glBindVertexArray(this->obstacleDebugVao);
 	glDrawArrays(GL_POINTS, 0, obstacles.size());

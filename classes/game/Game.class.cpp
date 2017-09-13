@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Game.class.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibautpierron <thibautpierron@student.    +#+  +:+       +#+        */
+/*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/12 23:01:28 by thibautpier      ###   ########.fr       */
+/*   Updated: 2017/09/13 10:12:08 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,15 @@ void	Game::compute(float gameTime) {
 
 void	Game::render(float gameTime) {
 	(void)(gameTime);
-	area->drawGrid(this->player->getX(), this->player->getY());
-	// area->drawObstacleDebug(gameTime);
+	float cameraX = this->area->getLineNbr() * 0.5f;
+	area->drawGrid(cameraX, this->player->getY());
+	area->drawObstacleDebug(cameraX, this->player->getY());
 
 	// area2->drawGrid(gameTime);
 	// area2->drawObstacleDebug(gameTime);
 
-	player->draw();
-	player->drawDebug();
+	player->draw(cameraX);
+	player->drawDebug(cameraX);
 }
 
 bool	Game::checkCollision() {
