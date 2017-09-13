@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/13 09:42:20 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/13 11:40:10 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void    Area::drawGrid(float playerX, float playerY) {
 	glBindVertexArray(0);
 }
 
-void	Area::drawObstacleDebug(float playerX, float playerY) {
+void	Area::drawObstacleDebug(float cameraX, float playerY) {
 	this->obstacleDebugShader->use();
 
 	glm::mat4 model = glm::mat4();
@@ -121,7 +121,7 @@ void	Area::drawObstacleDebug(float playerX, float playerY) {
 	// model = glm::rotate(model,glm::radians(this->orientationOffset), glm::vec3(0.f, 0.f, 1.f));
 	////
 	this->obstacleDebugShader->setModel(model);
-	this->obstacleDebugShader->setPerspective(playerX, playerY);
+	this->obstacleDebugShader->setPerspective(cameraX, playerY);
 
     glBindVertexArray(this->obstacleDebugVao);
 	glDrawArrays(GL_POINTS, 0, obstacles.size());
