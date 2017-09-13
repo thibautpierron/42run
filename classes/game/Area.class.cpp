@@ -6,22 +6,20 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/13 11:40:10 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/13 15:53:32 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Area.class.hpp"
 
-Area::Area(unsigned int length, unsigned int lineNbr) : length(length), lineNbr(lineNbr) {
+Area::Area(float x, float y, eOrientation orientation) : startX(x), startY(y), orientation(orientation) {
+	this->length = 30;
+	this->lineNbr = 5;
 	setupGrid();
 	generateObstacles();
 	setupObstacleDebug();
 	this->gridShader = new Shader("shaders/simple_grid.glvs", "shaders/simple_grid.glfs");
 	this->obstacleDebugShader = new Shader("shaders/simple_grid.glvs", "shaders/geometry_shader.glgs", "shaders/simple_grid.glfs");
-	this->orientationOffset = 0.f;
-	this->xOffset = 0.f;
-	this->yOffset = 0.f;
-	this->orientation = NORTH;
 }
 
 Area::~Area() {
@@ -30,11 +28,34 @@ Area::~Area() {
 }
 
 void    Area::setupGrid() {
-	
-	for(float i = 0.f; i <= this->length; i++) {
-		vertices.push_back(glm::vec3(0.f, i, 0.f));
-		vertices.push_back(glm::vec3(static_cast<float>(this->lineNbr), i, 0.f));
+
+	switch (this->orientation) {
+		case NORTH:
+			for(float i = 0.f; i <= this->length; i++) {
+				vertices.push_back(glm::vec3(0.f + this->startX, i + startY, 0.f));
+				vertices.push_back(glm::vec3(static_cast<float>(this->lineNbr) + startX, i + this->startY, 0.f));
+			} break;
+		case SOUTH:
+			for(float i = 0.f; i <= this->length; i++) {
+				vertices.push_back(glm::vec3(0.f - this->startX, i - startY, 0.f));
+				vertices.push_back(glm::vec3(static_cast<float>(this->lineNbr) - startX, i - this->startY, 0.f));
+			} break;
+		case WEST:
+			for(float i = 0.f; i <= this->length; i++) {
+				vertices.push_back(glm::vec3(i + startY, 0.f + this->startX, 0.f));
+				vertices.push_back(glm::vec3(i + this->startY, static_cast<float>(this->lineNbr) + startX, 0.f));
+			} break;
+		case EST:
+			for(float i = 0.f; i <= this->length; i++) {
+				vertices.push_back(glm::vec3(i - startY, 0.f - this->startX, 0.f));
+				vertices.push_back(glm::vec3(i - this->startY, static_cast<float>(this->lineNbr) - startX, 0.f));
+			} break;
 	}
+
+	// for(float i = 0.f; i <= this->length; i++) {
+	// 	vertices.push_back(glm::vec3(0.f + this->startX, i + startY, 0.f));
+	// 	vertices.push_back(glm::vec3(static_cast<float>(this->lineNbr) + startX, i + this->startY, 0.f));
+	// }
 	
 	for(unsigned int i = 0; i <= this->length * 2; i += 2) {
 		indices.push_back(static_cast<int>(i));
@@ -46,12 +67,43 @@ void    Area::setupGrid() {
 	indices.push_back(1);
 	indices.push_back(this->length * 2 + 1);
 
-	for(float i = 1.f; i < this->lineNbr; i++) {
-		vertices.push_back(glm::vec3(i, 0.f, 0.f));
-		vertices.push_back(glm::vec3(i, static_cast<float>(this->length), 0.f));
-		indices.push_back(this->vertices.size() - 2);
-		indices.push_back(this->vertices.size() - 1);
+	switch (this->orientation) {
+		case NORTH:
+			for(float i = 1.f; i < this->lineNbr; i++) {
+				vertices.push_back(glm::vec3(i + startX, 0.f + startY, 0.f));
+				vertices.push_back(glm::vec3(i + startX, static_cast<float>(this->length) + startY, 0.f));
+				indices.push_back(this->vertices.size() - 2);
+				indices.push_back(this->vertices.size() - 1);
+			} break;
+		case SOUTH:
+			for(float i = 1.f; i < this->lineNbr; i++) {
+				vertices.push_back(glm::vec3(i - startX, 0.f - startY, 0.f));
+				vertices.push_back(glm::vec3(i - startX, static_cast<float>(this->length) - startY, 0.f));
+				indices.push_back(this->vertices.size() - 2);
+				indices.push_back(this->vertices.size() - 1);
+			} break;
+		case WEST:
+			for(float i = 1.f; i < this->lineNbr; i++) {
+				vertices.push_back(glm::vec3(0.f + startY, i + startX, 0.f));
+				vertices.push_back(glm::vec3(static_cast<float>(this->length) + startY, i + startX, 0.f));
+				indices.push_back(this->vertices.size() - 2);
+				indices.push_back(this->vertices.size() - 1);
+			} break;
+		case EST:
+			for(float i = 1.f; i < this->lineNbr; i++) {
+				vertices.push_back(glm::vec3(0.f - startY, i - startX, 0.f));
+				vertices.push_back(glm::vec3(static_cast<float>(this->length) - startY, i - startX, 0.f));
+				indices.push_back(this->vertices.size() - 2);
+				indices.push_back(this->vertices.size() - 1);
+			} break;
 	}
+
+	// for(float i = 1.f; i < this->lineNbr; i++) {
+	// 	vertices.push_back(glm::vec3(i + startX, 0.f + startY, 0.f));
+	// 	vertices.push_back(glm::vec3(i + startX, static_cast<float>(this->length) + startY, 0.f));
+	// 	indices.push_back(this->vertices.size() - 2);
+	// 	indices.push_back(this->vertices.size() - 1);
+	// }
 
 	// for (unsigned int i = 0; i < vertices.size(); i++) {
 	// 	vertices[i].x -= (this->lineNbr / 2) + 0.5f;
@@ -130,7 +182,7 @@ void	Area::drawObstacleDebug(float cameraX, float playerY) {
 
 void	Area::generateObstacles() {
 	for (unsigned int i = 1; i < this->length; i++) {
-		this->obstacles.push_back(glm::vec2(static_cast<float>(rand() % 5),static_cast<float>(i)));
+		this->obstacles.push_back(glm::vec2(static_cast<float>(rand() % 5) + this->startX, static_cast<float>(i) + this->startY));
 	}
 }
 
@@ -146,17 +198,17 @@ std::vector<glm::vec2> Area::getObstacles() {
 	return this->obstacles;
 }
 
-void	Area::orientate(Area *area, eOrientation orientation) {
-	switch (orientation) {
-		case EST:
-			this->orientationOffset = -90.f;
-			this->xOffset = area->getLineNbr() / 2 + (area->getLineNbr() / 2) - 1.5;
-			this->yOffset = area->getLength() - this->lineNbr + 2.5; break;
-		case WEST:
-			this->orientationOffset = 90.f;
-			this->xOffset = area->getLineNbr() / 2 - (area->getLineNbr() / 2) - 1.5;
-			this->yOffset = area->getLength() - this->lineNbr + 2.5; break;
-		case NORTH: break;
-		case SOUTH: break;
-	}
-}
+// void	Area::orientate(Area *area, eOrientation orientation) {
+// 	switch (orientation) {
+// 		case EST:
+// 			this->orientationOffset = -90.f;
+// 			this->xOffset = area->getLineNbr() / 2 + (area->getLineNbr() / 2) - 1.5;
+// 			this->yOffset = area->getLength() - this->lineNbr + 2.5; break;
+// 		case WEST:
+// 			this->orientationOffset = 90.f;
+// 			this->xOffset = area->getLineNbr() / 2 - (area->getLineNbr() / 2) - 1.5;
+// 			this->yOffset = area->getLength() - this->lineNbr + 2.5; break;
+// 		case NORTH: break;
+// 		case SOUTH: break;
+// 	}
+// }

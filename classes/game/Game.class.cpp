@@ -6,15 +6,15 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/13 11:41:49 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/13 15:50:08 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./Game.class.hpp"
 
 Game::Game() {
-	this->area = new Area(30, 5);
-	// this->area2 = new Area(30, 5);
+	this->area = new Area(0.f, 0.f, NORTH);
+	this->area2 = new Area(0.f, 25.f, WEST);
 	// this->area2->orientate(this->area, static_cast<eOrientation>((rand() % 2) + 2));
     this->obstacles = area->getObstacles();
     this->player = new Player(0, area->getLineNbr());
@@ -24,7 +24,7 @@ Game::Game() {
 Game::~Game() {
 	delete this->player;
 	delete this->area;
-	// delete this->area2;
+	delete this->area2;
 }
 
 void	Game::compute(float gameTime) {
@@ -41,8 +41,8 @@ void	Game::render(float gameTime) {
 	area->drawGrid(cameraX, gameTime);
 	area->drawObstacleDebug(cameraX, gameTime);
 
-	// area2->drawGrid(gameTime);
-	// area2->drawObstacleDebug(gameTime);
+	area2->drawGrid(cameraX, gameTime);
+	area2->drawObstacleDebug(cameraX, gameTime);
 
 	player->draw(cameraX, gameTime);
 	player->drawDebug(cameraX, gameTime);
