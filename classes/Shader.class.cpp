@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 14:11:27 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/14 15:03:22 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/14 15:25:10 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,14 +142,14 @@ void    Shader::setPerspective(float targetX, float targetY) {
 
     // glm::mat4 matrix = glm::perspective(45.f, 1.0f, 0.1f, 100.f);
 
+    // glUniformMatrix4fv(glGetUniformLocation(this->programID, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(Shader::perspective));
+    // glUniformMatrix4fv(glGetUniformLocation(this->programID, "viewMatrix"), 1, GL_FALSE, glm::value_ptr(Shader::camera));
+}
+
+void    Shader::setView() {
     glUniformMatrix4fv(glGetUniformLocation(this->programID, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(Shader::perspective));
     glUniformMatrix4fv(glGetUniformLocation(this->programID, "viewMatrix"), 1, GL_FALSE, glm::value_ptr(Shader::camera));
 }
-
-// void    Shader::setView() {
-//     glUniformMatrix4fv(glGetUniformLocation(this->programID, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(Shader::perspective));
-//     glUniformMatrix4fv(glGetUniformLocation(this->programID, "viewMatrix"), 1, GL_FALSE, glm::value_ptr(Shader::camera));
-// }
 
 void    Shader::setModel(glm::mat4 model) const {
     glUniformMatrix4fv(glGetUniformLocation(this->programID, "modelMatrix"), 1, GL_FALSE, glm::value_ptr(model));
@@ -166,3 +166,11 @@ void    Shader::setInt(const std::string &name, float value) const {
 GLuint  Shader::getProgramID() const {
     return this->programID;
 }
+
+glm::mat4 Shader::camera = glm::lookAt(
+        glm::vec3(0.f, 0.f - 5.f, 2.f),
+        glm::vec3(0.f, 0.f + 5.f, 0.f),
+        glm::vec3(0.f, 0.f, 1.f)
+    );
+
+glm::mat4 Shader::perspective = glm::perspective(45.f, 1.0f, 0.1f, 100.f);

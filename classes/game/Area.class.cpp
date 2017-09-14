@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/14 12:06:07 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/14 15:14:38 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void	Area::setupObstacleDebug() {
 	glBindVertexArray(0);
 }
 
-void    Area::drawGrid(float playerX, float playerY) {
+void    Area::drawGrid() {
 	gridShader->use();
 
 	glm::mat4 model = glm::mat4();
@@ -159,14 +159,15 @@ void    Area::drawGrid(float playerX, float playerY) {
 	// model = glm::rotate(model,glm::radians(this->orientationOffset), glm::vec3(0.f, 0.f, 1.f));
 	////
 	this->gridShader->setModel(model);
-	this->gridShader->setPerspective(playerX, playerY);
+	this->gridShader->setView();
+	// this->gridShader->setPerspective(playerX, playerY);
 
     glBindVertexArray(this->vao);
 	glDrawElements(GL_LINES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 
-void	Area::drawObstacleDebug(float cameraX, float playerY) {
+void	Area::drawObstacleDebug() {
 	this->obstacleDebugShader->use();
 
 	glm::mat4 model = glm::mat4();
@@ -176,7 +177,8 @@ void	Area::drawObstacleDebug(float cameraX, float playerY) {
 	// model = glm::rotate(model,glm::radians(this->orientationOffset), glm::vec3(0.f, 0.f, 1.f));
 	////
 	this->obstacleDebugShader->setModel(model);
-	this->obstacleDebugShader->setPerspective(cameraX, playerY);
+	this->gridShader->setView();
+	// this->obstacleDebugShader->setPerspective(cameraX, playerY);
 
     glBindVertexArray(this->obstacleDebugVao);
 	glDrawArrays(GL_POINTS, 0, obstacles.size());

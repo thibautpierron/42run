@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:23:51 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/14 11:55:16 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/14 15:27:24 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ class Player {
         void    setState(unsigned int);
         void    setOrientation(eOrientation);
         glm::vec2    getPosition();
-        void    drawDebug(float, float);
-        void    draw(float, float);
+        void    drawDebug(float);
+        void    draw(float);
         float   getX() const;
         float   getY() const;
 

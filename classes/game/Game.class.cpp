@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/14 12:04:35 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/14 15:27:53 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,17 @@ void	Game::compute(float gameTime) {
 
 void	Game::render(float gameTime) {
 	float cameraX = this->area->getLineNbr() * 0.5f;
-	area->drawGrid(cameraX, gameTime);
-	area->drawObstacleDebug(cameraX, gameTime);
 
-	area2->drawGrid(cameraX, gameTime);
-	area2->drawObstacleDebug(cameraX, gameTime);
+	Shader::setPerspective(cameraX, gameTime);
+	
+	area->drawGrid();
+	area->drawObstacleDebug();
 
-	player->draw(cameraX, gameTime);
-	player->drawDebug(cameraX, gameTime);
+	area2->drawGrid();
+	area2->drawObstacleDebug();
+
+	player->draw(gameTime);
+	player->drawDebug(gameTime);
 }
 
 bool	Game::checkCollision() {

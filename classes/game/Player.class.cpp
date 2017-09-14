@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/14 12:06:06 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/14 15:27:35 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,7 @@ void     Player::setupDebug() {
 	glBindVertexArray(0);
 }
 
-void    Player::draw(float cameraX, float playerY) {
-    
+void    Player::draw(float playerY) {
     float scalingRate = 5.f;
 
     glm::mat4 model;
@@ -89,11 +88,12 @@ void    Player::draw(float cameraX, float playerY) {
     this->shader->use();
     
 	this->shader->setModel(model);
-    this->shader->setPerspective(cameraX, playerY);
+    this->shader->setView();
+    // this->shader->setPerspective(cameraX, playerY);
     this->model->draw(this->shader);
 }
 
-void    Player::drawDebug(float cameraX, float playerY) {
+void    Player::drawDebug(float playerY) {
     this->debugShader->use();
     
     glm::mat4 model = glm::mat4();
@@ -101,7 +101,8 @@ void    Player::drawDebug(float cameraX, float playerY) {
     model = glm::translate(model, glm::vec3(this->x, playerY, 0.01f));
     // model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
     this->debugShader->setModel(model);
-    this->debugShader->setPerspective(cameraX, playerY);
+    this->debugShader->setView();
+    // this->debugShader->setPerspective(cameraX, playerY);
     glUniform1i(glGetUniformLocation(debugShader->getProgramID(), "playerState"), this->state);    
 
     glBindVertexArray(this->debugVao);
