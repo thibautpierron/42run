@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/13 11:43:42 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/14 12:06:06 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,14 @@ void    Player::moveRight() {
         this->x += 1;
 }
 
-void    Player::goAhead(float gameTime) {
-        float n = floor(gameTime);
-        this->y = static_cast<int>(n);
+void    Player::goAhead() {
+        // std::cout << "YEP" << std::endl;
+        switch(this->orientation) {
+            case NORTH: this->y++; break;
+            case SOUTH: this->y--; break;
+            case WEST: this->x--; break;
+            case EAST: this->x++; break;
+        }
 }
 
 void     Player::setupDebug() {

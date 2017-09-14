@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/14 10:28:13 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/14 12:04:35 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 Game::Game() {
 	this->area = new Area(0.f, 0.f, NORTH);
-	this->area2 = new Area(0.f, 25.f, EST);
-	// this->area2->orientate(this->area, static_cast<eOrientation>((rand() % 2) + 2));
+	this->area2 = new Area(0.f, 25.f, WEST);
     this->obstacles = area->getObstacles();
     this->player = new Player(0, area->getLineNbr());
 	this->movementDirection = NORTH;
@@ -32,8 +31,9 @@ void	Game::compute(float gameTime) {
 		player->setState(1);
 	else
 		player->setState(0);
-	
-	player->goAhead(gameTime);
+
+	if (gameTime == 0)
+		player->goAhead();
 }
 
 void	Game::render(float gameTime) {
@@ -52,13 +52,21 @@ bool	Game::checkCollision() {
 	glm::vec2 playerPosition = this->player->getPosition();
 	for (unsigned int i = 0; i < obstacles.size(); i++) {
         if (obstacles[i].x == playerPosition.x && 
-            ((obstacles[i].y - 1) == playerPosition.y || (obstacles[i].y ) == playerPosition.y) ) {
+            ((obstacles[i].y + 1) == playerPosition.y || (obstacles[i].y ) == playerPosition.y) ) {
             return true;
         }
     }
     return false;
 }
 
-Player	*Game::getPlayer() {
-	return this->player;
+void	Game::movePlayerRight() {
+	this->player->moveRight();
+}
+
+void	Game::movePlayerLeft() {
+	this->player->moveLeft();
+}
+
+void	Game::orientatePlayer() {
+	this->player->setOrientation(WEST);
 }

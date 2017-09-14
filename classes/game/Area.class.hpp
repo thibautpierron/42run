@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 09:56:41 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/13 13:46:02 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/14 12:05:10 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "../../libs/glm/gtx/quaternion.hpp"
 # include "../Shader.class.hpp"
 
-enum eOrientation { NORTH = 0, SOUTH = 1, EST = 2, WEST = 3 };
+enum eOrientation { NORTH = 0, SOUTH = 1, EAST = 2, WEST = 3 };
 
 class Area {
     public:

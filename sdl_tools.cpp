@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/20 14:18:32 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/14 09:53:00 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/14 11:05:34 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ void    eventManager(SDL_Event *events, bool *exitLoop, Game *game) {
     if (events->type == SDL_KEYDOWN && repeatFlag == 0) {
         repeatFlag = 1;
         switch(events->key.keysym.sym) {
-            // case SDLK_SPACE: *pause = !*pause; resetCamera(cameraRotation); break;
+            case SDLK_SPACE: game->orientatePlayer(); break;
             // case SDLK_1: cl->runInitKernel(0); *pause = true; resetCamera(cameraRotation); break;
             // case SDLK_2: cl->runInitKernel(1); *pause = true; resetCamera(cameraRotation); break;
             // case SDLK_3: cl->runInitKernel(2); *pause = true; resetCamera(cameraRotation); break;
-            case SDLK_RIGHT: game->getPlayer()->moveRight(); break;
-            case SDLK_LEFT: game->getPlayer()->moveLeft(); break;
+            case SDLK_RIGHT: game->movePlayerRight(); break;
+            case SDLK_LEFT: game->movePlayerLeft(); break;
             // case SDLK_UP: game->area->n++; break;
             // case SDLK_DOWN: game->area->n--; break;
             // case SDLK_KP_MINUS: cameraRotation->z -= 0.5; *pause = true; break;
