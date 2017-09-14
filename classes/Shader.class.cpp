@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 14:11:27 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/14 15:25:10 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/14 15:50:23 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,27 @@ void    Shader::use() const {
     glUseProgram(this->programID);
 }
 
-void    Shader::setPerspective(float targetX, float targetY) {
+void    Shader::setPerspective(float targetX, float targetY, eOrientation orientation) {
+    float posX;
+    float posY;
+    float lookX;
+    float lookY;
+
+    switch(orientation) {
+        case NORTH:
+            posX = targetX;
+            posY = targetY - 5.f;
+            lookX = targetX;
+            lookY = targetY + 5.f;
+            break;
+        case SOUTH: break;
+        case EAST: break;
+        case WEST: break;
+    }
+    
     Shader::camera = glm::lookAt(
-        glm::vec3(targetX, targetY - 5.f, 2.f),
-        glm::vec3(targetX, targetY + 5.f, 0.f),
+        glm::vec3(posX, posY - 5.f, 2.f),
+        glm::vec3(lookX, lookY + 5.f, 0.f),
         glm::vec3(0.f, 0.f, 1.f)
     );
 

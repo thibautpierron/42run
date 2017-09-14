@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/14 15:27:35 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/14 15:34:46 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void    Player::moveLeft() {
 }
 
 void    Player::moveRight() {
-    if (this->x < this->areaLineNbr - 1)
+    if (this->x < static_cast<int>(this->areaLineNbr - 1))
         this->x += 1;
 }
 
@@ -96,6 +96,8 @@ void    Player::draw(float playerY) {
 void    Player::drawDebug(float playerY) {
     this->debugShader->use();
     
+    std::cout << "Player: x: " << this->x << " y: " << this->y << std::endl;
+
     glm::mat4 model = glm::mat4();
     // model = glm::rotate(model, -90.f, glm::vec3(1.f, 0.f, 0.f));
     model = glm::translate(model, glm::vec3(this->x, playerY, 0.01f));
