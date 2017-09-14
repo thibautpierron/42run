@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/13 15:50:08 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/14 10:28:13 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 Game::Game() {
 	this->area = new Area(0.f, 0.f, NORTH);
-	this->area2 = new Area(0.f, 25.f, WEST);
+	this->area2 = new Area(0.f, 25.f, EST);
 	// this->area2->orientate(this->area, static_cast<eOrientation>((rand() % 2) + 2));
     this->obstacles = area->getObstacles();
     this->player = new Player(0, area->getLineNbr());

@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/20 14:18:32 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/12 17:37:25 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/14 09:53:00 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void    windowTitleUpdate(SDL_Window *win, int frameDuration) {
     timeCounter += frameDuration;
     if(timeCounter > 1000000) {
         frameRate = std::to_string(1000000 / frameDuration);
-        newTitle = "Particle System (" + frameRate + "fps)"; 
+        newTitle = "42 run (" + frameRate + "fps)"; 
         SDL_SetWindowTitle(win, newTitle.c_str());
         timeCounter = 0;
     }
