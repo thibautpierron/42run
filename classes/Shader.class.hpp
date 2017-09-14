@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Shader.class.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibautpierron <thibautpierron@student.    +#+  +:+       +#+        */
+/*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 14:11:32 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/12 22:36:29 by thibautpier      ###   ########.fr       */
+/*   Updated: 2017/09/14 15:02:47 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ class Shader {
         void    setInt(const std::string &name, float value) const;
         GLuint  getProgramID() const;
         void    setPerspective(float, float);
+        // void    setView();
         
         Shader();
     private:
@@ -42,6 +43,8 @@ class Shader {
         bool        checkShaderCompilation(GLuint, GLenum);
         bool        checkProgramCompilation(GLuint);
 
+        static glm::mat4    camera;
+        static glm::mat4    perspective;
         GLuint          vertexID;
         GLuint          fragmentID;
         GLuint          geometryID;
@@ -50,5 +53,14 @@ class Shader {
         std::string     fragmentSrc;
         std::string     geometrySrc;
 };
+
+glm::mat4 Shader::camera = glm::lookAt(
+        glm::vec3(0.f, 0.f - 5.f, 2.f),
+        glm::vec3(0.f, 0.f + 5.f, 0.f),
+        glm::vec3(0.f, 0.f, 1.f)
+    );
+
+glm::mat4 Shader::perspective = glm::perspective(45.f, 1.0f, 0.1f, 100.f);
+
 
 #endif
