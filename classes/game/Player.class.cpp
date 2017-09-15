@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 11:05:12 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 11:34:22 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void    Player::goAhead() {
     switch(this->orientation) {
         case Orientation::NORTH: this->y++; break;
         case Orientation::SOUTH: this->y--; break;
-        case Orientation::WEST: this->x++; break;
-        case Orientation::EAST: this->x--; break;
+        case Orientation::EAST: this->x++; break;
+        case Orientation::WEST: this->x--; break;
     }
 }
 
@@ -90,11 +90,11 @@ void    Player::draw(float gameClock) {
             xScaled = this->x * scalingRate + scalingRate * 0.5f;
             yScaled = gameClock * scalingRate + scalingRate * 0.5f;
             angle = 0.f; break;
-        case Orientation::WEST:
+        case Orientation::EAST:
             xScaled = gameClock * scalingRate + scalingRate * 0.5f;
             yScaled = this->y * scalingRate + scalingRate * 0.5f;
             angle = 90.f; break;
-        case Orientation::EAST:
+        case Orientation::WEST:
             xScaled = gameClock * scalingRate + scalingRate * 0.5f;
             yScaled = this->y * scalingRate + scalingRate * 0.5f;
             angle = -90.f; break;
@@ -127,10 +127,10 @@ void    Player::drawDebug(float gameClock) {
         case Orientation::SOUTH:
             xScaled = static_cast<float>(this->x);
             yScaled = gameClock; break;
-        case Orientation::WEST:
+        case Orientation::EAST:
             xScaled = gameClock;
             yScaled = static_cast<float>(this->y); break;
-        case Orientation::EAST:
+        case Orientation::WEST:
             xScaled = gameClock;
             yScaled = static_cast<float>(this->y); break;
     }

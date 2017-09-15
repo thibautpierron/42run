@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/15 11:16:02 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 11:35:59 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	Game::compute(float gameTick) {
 
 void	Game::render(float gameSpeed) {
 
-	if(this->movementDirection == Orientation::NORTH || this->movementDirection == Orientation::WEST)
+	if(this->movementDirection == Orientation::NORTH || this->movementDirection == Orientation::EAST)
 		gameClockRender += gameSpeed;
 	else
 		gameClockRender -= gameSpeed;
