@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/15 13:11:26 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 14:48:45 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ class Game {
 		// Area	*area2;
 	private:
 		void	checkCollision();
-		void	addAreas(Orientation::Enum);
+		void	addArea(Orientation::Enum);
 		
 		Player	*player;
 		std::vector<glm::vec2> obstacles;
