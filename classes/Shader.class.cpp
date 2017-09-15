@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 14:11:27 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 11:38:38 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 13:15:59 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void    Shader::setCamera(float targetX, float gameClock, Orientation::Enum orie
     }
     
     Shader::camera = glm::lookAt(
-        glm::vec3(posX, posY, 50.f),
+        glm::vec3(posX, posY, 90.f),
         glm::vec3(lookX, lookY, 0.f),
         glm::vec3(0.f, 0.f, 1.f)
     );

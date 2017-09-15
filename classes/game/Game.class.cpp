@@ -6,35 +6,36 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/15 11:35:59 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 13:27:36 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./Game.class.hpp"
 
 Game::Game() {
-	this->area = new Area(0.f, 0.f, Orientation::NORTH);
-	this->area2 = new Area(0.f, 25.f, Orientation::WEST);
-    this->obstacles = area->getObstacles();
-    this->player = new Player(0, area->getLineNbr());
+	// this->area = new Area(0.f, 0.f, Orientation::NORTH);
+	// this->area2 = new Area(0.f, 25.f, Orientation::WEST);
+	this->areas.push_back(new Area(0.f, 0.f, Orientation::NORTH));
+	// this->areas.push_back(new Area(0.f, 25.f, Orientation::WEST));
+	addAreas(Orientation::WEST);
+	addAreas(Orientation::NORTH);
+    this->obstacles = this->areas.front()->getObstacles();
+    this->player = new Player(0, this->areas.front()->getLineNbr());
 	this->movementDirection = Orientation::NORTH;
 	this->gameClockRender = 0.f;
 }
 
 Game::~Game() {
 	delete this->player;
-	delete this->area;
-	delete this->area2;
+	// delete this->area;
+	// delete this->area2;
 }
 
 void	Game::compute(float gameTick) {
-	if (checkCollision())
-		player->setState(1);
-	else
-		player->setState(0);
-
 	if (gameTick == 0)
 		player->goAhead();
+
+	checkCollision();
 }
 
 void	Game::render(float gameSpeed) {
@@ -43,30 +44,37 @@ void	Game::render(float gameSpeed) {
 		gameClockRender += gameSpeed;
 	else
 		gameClockRender -= gameSpeed;
-
-	float cameraX = this->area->getLineNbr() * 0.5f;
+	float cameraX = this->areas.front()->getLineNbr() * 0.5f;
 
 	Shader::setCamera(cameraX, gameClockRender, this->movementDirection);
 	
-	area->drawGrid();
-	area->drawObstacleDebug();
+	for(unsigned int i = 0; i < this->areas.size(); i++) {
+		this->areas[i]->drawGrid();
+		this->areas[i]->drawObstacleDebug();
+	}
 
-	area2->drawGrid();
-	area2->drawObstacleDebug();
+	// this->areas[0]->drawGrid();
+	// this->areas[0]->drawObstacleDebug();
+
+	// this->areas[1]->drawGrid();
+	// this->areas[1]->drawObstacleDebug();
 
 	player->draw(gameClockRender);
 	player->drawDebug(gameClockRender);
+
 }
 
-bool	Game::checkCollision() {
+void	Game::checkCollision() {
 	glm::vec2 playerPosition = this->player->getPosition();
 	for (unsigned int i = 0; i < obstacles.size(); i++) {
         if (obstacles[i].x == playerPosition.x && 
             ((obstacles[i].y + 1) == playerPosition.y || (obstacles[i].y ) == playerPosition.y) ) {
-            return true;
+			player->setState(1);
+            return;
         }
     }
-    return false;
+	player->setState(0);
+    return;
 }
 
 void	Game::movePlayerRight() {
@@ -78,11 +86,31 @@ void	Game::movePlayerLeft() {
 }
 
 void	Game::orientatePlayer() {
-	this->movementDirection = Orientation::SOUTH;
-	this->player->setOrientation(Orientation::SOUTH);
+	
+	Orientation::Enum nextOrientation = this->areas[1]->getOrientation();
+	
+	this->movementDirection = nextOrientation;
+	this->player->setOrientation(nextOrientation);
 }
 
 void	Game::orientatePlayer(Orientation::Enum orientation) {
 	this->movementDirection = orientation;
 	this->player->setOrientation(orientation);
+}
+
+void	Game::addAreas(Orientation::Enum nextOrientation) {
+	Orientation::Enum lastOrientation = this->areas.back()->getOrientation();	
+	float x = this->areas.back()->getStartX();
+	float y = this->areas.back()->getStartY();
+std::cout << x << " "<< y << std::endl;
+	switch(lastOrientation) {
+		case Orientation::NORTH:
+			this->areas.push_back(new Area(x, y - 5, nextOrientation)); break;
+		case Orientation::SOUTH:
+			this->areas.push_back(new Area(x, y + 5, nextOrientation)); break;
+		case Orientation::WEST:
+			this->areas.push_back(new Area(x - 5, y, nextOrientation)); break;
+		case Orientation::EAST:
+			this->areas.push_back(new Area(x + 5, y, nextOrientation)); break;
+	}
 }

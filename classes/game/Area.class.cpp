@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 11:43:07 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 13:30:15 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,36 @@ unsigned int 	Area::getLength() const {
 	return this->length;
 }
 
-std::vector<glm::vec2> Area::getObstacles() {
+std::vector<glm::vec2> Area::getObstacles() const {
 	return this->obstacles;
+}
+
+Orientation::Enum	Area::getOrientation() const {
+	return this->orientation;
+}
+
+float		Area::getStartX() const {
+	switch(this->orientation) {
+		case Orientation::NORTH:
+			return this->startX; break;
+		case Orientation::SOUTH:
+			return this->startX; break;
+		case Orientation::WEST:
+			return this->startX - this->length; break;
+		case Orientation::EAST:
+			return this->startX + this->length; break;
+	}
+}
+
+float		Area::getStartY() const {
+	switch(this->orientation) {
+		case Orientation::NORTH:
+			return this->startY + this->length; break;
+		case Orientation::SOUTH:
+			return this->startY - this->length; break;
+		case Orientation::WEST:
+			return this->startY; break;
+		case Orientation::EAST:
+			return this->startY; break;
+	}
 }
