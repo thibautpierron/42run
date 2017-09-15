@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/15 14:51:25 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 15:10:15 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ class Game {
 		// Area	*area;
 		// Area	*area2;
 	private:
+		void	initAreas();
 		void	checkCollision();
 		void	addArea(Orientation::Enum);
 		void	manageAreas();

@@ -6,20 +6,15 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/15 15:07:01 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 15:52:54 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./Game.class.hpp"
 
 Game::Game() {
-	// this->area = new Area(0.f, 0.f, Orientation::NORTH);
-	// this->area2 = new Area(0.f, 25.f, Orientation::WEST);
-	this->areas.push_back(new Area(0.f, 0.f, Orientation::NORTH));
-	// this->areas.push_back(new Area(0.f, 25.f, Orientation::WEST));
-	addArea(Orientation::WEST);
-	addArea(Orientation::SOUTH);
-	// addArea(Orientation::WEST);
+
+	initAreas();
     this->obstacles = this->areas.front()->getObstacles();
     this->player = new Player(0, this->areas.front()->getLineNbr());
 	this->movementDirection = Orientation::NORTH;
@@ -98,6 +93,7 @@ void	Game::addArea(Orientation::Enum nextOrientation) {
 	float x = this->areas.back()->getEndX();
 	float y = this->areas.back()->getEndY();
 
+
 	switch(lastOrientation) {
 		case Orientation::NORTH:
 			if (nextOrientation == Orientation::EAST)
@@ -132,4 +128,27 @@ void	Game::addArea(Orientation::Enum nextOrientation) {
 				this->areas.push_back(new Area(x, y + 5, nextOrientation));
 			break;
 	}
+}
+
+void	Game::initAreas() {
+	Orientation::Enum randOrientation = Orientation::SOUTH;
+	Orientation::Enum randOrientation2;
+	
+	this->areas.push_back(new Area(0.f, 0.f, Orientation::NORTH));
+	while(randOrientation == Orientation::SOUTH) {
+		randOrientation = static_cast<Orientation::Enum>(rand() % 4);
+		std::cout << "First: " << randOrientation << std::endl;
+	}
+	addArea(randOrientation);
+
+	randOrientation2 = static_cast<Orientation::Enum>((randOrientation + 2) % 4);
+	while(randOrientation2 == ((randOrientation + 2) % 4)) {
+		randOrientation2 = static_cast<Orientation::Enum>(rand() % 4);
+		std::cout << "Seconde: " << randOrientation2 << std::endl;
+	}
+	addArea(randOrientation2);
+}
+
+void	Game::manageAreas() {
+
 }
