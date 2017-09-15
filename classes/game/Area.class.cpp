@@ -6,13 +6,13 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/14 15:14:38 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 09:20:37 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Area.class.hpp"
 
-Area::Area(float x, float y, eOrientation orientation) : startX(x), startY(y), orientation(orientation) {
+Area::Area(float x, float y, Orientation::Enum orientation) : startX(x), startY(y), orientation(orientation) {
 	this->length = 30;
 	this->lineNbr = 5;
 	setupGrid();
@@ -30,24 +30,24 @@ Area::~Area() {
 void    Area::setupGrid() {
 
 	switch (this->orientation) {
-		case NORTH:
+		case Orientation::NORTH:
 			for(float i = 0.f; i <= this->length; i++) {
 				vertices.push_back(glm::vec3(this->startX, i + this->startY, 0.f));
 				vertices.push_back(glm::vec3(static_cast<float>(this->lineNbr) + startX, i + this->startY, 0.f));
 			} break;
 
-		case SOUTH:
+		case Orientation::SOUTH:
 			for(float i = 0.f; i <= this->length; i++) {
 				vertices.push_back(glm::vec3(this->startX, i - this->startY, 0.f));
 				vertices.push_back(glm::vec3(static_cast<float>(this->lineNbr) - startX, i - this->startY, 0.f));
 			} break;
-		case WEST:
+		case Orientation::WEST:
 			for(float i = this->length * -1.f; i <= 0.f; i++) {
 				// std::cout << i + this->startX << " : " << this->startY << std::endl;
 				vertices.push_back(glm::vec3(i - this->startX, this->startY, 0.f));
 				vertices.push_back(glm::vec3(i - this->startX, static_cast<float>(this->lineNbr) + this->startY, 0.f));
 			} break;
-		case EAST:
+		case Orientation::EAST:
 			for(float i = 0.f; i <= this->length; i++) {
 				// std::cout << i - this->startX << " : " << this->startY << std::endl;
 				vertices.push_back(glm::vec3(i - this->startX, this->startY, 0.f));
@@ -71,28 +71,28 @@ void    Area::setupGrid() {
 	indices.push_back(this->length * 2 + 1);
 
 	switch (this->orientation) {
-		case NORTH:
+		case Orientation::NORTH:
 			for(float i = 1.f; i < this->lineNbr; i++) {
 				vertices.push_back(glm::vec3(i + this->startX, this->startY, 0.f));
 				vertices.push_back(glm::vec3(i + this->startX, static_cast<float>(this->length) + this->startY, 0.f));
 				indices.push_back(this->vertices.size() - 2);
 				indices.push_back(this->vertices.size() - 1);
 			} break;
-		case SOUTH:
+		case Orientation::SOUTH:
 			for(float i = 1.f; i < this->lineNbr; i++) {
 				vertices.push_back(glm::vec3(i - this->startX, this->startY, 0.f));
 				vertices.push_back(glm::vec3(i - this->startX, static_cast<float>(this->length) - this->startY, 0.f));
 				indices.push_back(this->vertices.size() - 2);
 				indices.push_back(this->vertices.size() - 1);
 			} break;
-		case EAST:
+		case Orientation::EAST:
 			for(float i = 1.f; i < this->lineNbr; i++) {
 				vertices.push_back(glm::vec3(this->startX, i + this->startY, 0.f));
 				vertices.push_back(glm::vec3(static_cast<float>(this->length) + this->startX, i + this->startY, 0.f));
 				indices.push_back(this->vertices.size() - 2);
 				indices.push_back(this->vertices.size() - 1);
 			} break;
-		case WEST:
+		case Orientation::WEST:
 			for(float i = 1.f; i < this->lineNbr; i++) {
 				vertices.push_back(glm::vec3(this->startX, i + this->startY, 0.f));
 				vertices.push_back(glm::vec3(this->startX - static_cast<float>(this->length), i + this->startY, 0.f));
@@ -187,19 +187,19 @@ void	Area::drawObstacleDebug() {
 
 void	Area::generateObstacles() {
 	switch(orientation) {
-		case NORTH:
+		case Orientation::NORTH:
 			for (unsigned int i = 1; i < this->length; i++) {
 				this->obstacles.push_back(glm::vec2(static_cast<float>(rand() % 5) + this->startX, static_cast<float>(i) + this->startY));
 			} break;
-		case SOUTH:
+		case Orientation::SOUTH:
 			for (unsigned int i = 1; i < this->length; i++) {
 				this->obstacles.push_back(glm::vec2(static_cast<float>(rand() % 5) + this->startX, static_cast<float>(i) + this->startY));
 			} break;
-		case WEST:
+		case Orientation::WEST:
 			for (unsigned int i = 1; i < this->length; i++) {
 				this->obstacles.push_back(glm::vec2(this->startX - static_cast<float>(i), static_cast<float>(rand() % 5) + this->startY));
 			} break;
-		case EAST:
+		case Orientation::EAST:
 			for (unsigned int i = 1; i < this->length; i++) {
 				this->obstacles.push_back(glm::vec2(this->startX + static_cast<float>(i), static_cast<float>(rand() % 5) + this->startY));
 			} break;
@@ -218,17 +218,17 @@ std::vector<glm::vec2> Area::getObstacles() {
 	return this->obstacles;
 }
 
-// void	Area::orientate(Area *area, eOrientation orientation) {
+// void	Area::orientate(Area *area, Orientation::Enum orientation) {
 // 	switch (orientation) {
-// 		case EAST:
+// 		case Orientation::EAST:
 // 			this->orientationOffset = -90.f;
 // 			this->xOffset = area->getLineNbr() / 2 + (area->getLineNbr() / 2) - 1.5;
 // 			this->yOffset = area->getLength() - this->lineNbr + 2.5; break;
-// 		case WEST:
+// 		case Orientation::WEST:
 // 			this->orientationOffset = 90.f;
 // 			this->xOffset = area->getLineNbr() / 2 - (area->getLineNbr() / 2) - 1.5;
 // 			this->yOffset = area->getLength() - this->lineNbr + 2.5; break;
-// 		case NORTH: break;
-// 		case SOUTH: break;
+// 		case Orientation::NORTH: break;
+// 		case Orientation::SOUTH: break;
 // 	}
 // }

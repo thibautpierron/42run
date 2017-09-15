@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 14:11:32 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/14 15:50:39 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 09:26:03 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "../math3d.hpp"
 # include "../libs/glm/gtc/matrix_transform.hpp"
 # include "../libs/glm/gtc/type_ptr.hpp"
-# include "./game/Area.class.hpp"
+# include "../constants/constants.hpp"
 
 class Shader {
 
@@ -33,7 +33,7 @@ class Shader {
         void    setFloat(const std::string &name, float value) const;
         void    setInt(const std::string &name, float value) const;
         GLuint  getProgramID() const;
-        static void    setPerspective(float, float, eOrientation);
+        static void    setPerspective(float, float, Orientation::Enum);
         void    setView();
         
         Shader();

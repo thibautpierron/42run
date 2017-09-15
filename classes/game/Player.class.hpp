@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:23:51 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/14 15:32:20 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 09:20:41 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../model/Model.class.hpp"
 # include "../game/Area.class.hpp"
 # include "../Shader.class.hpp"
+# include "../../constants/constants.hpp"
 
 
 class Player {
@@ -28,7 +29,7 @@ class Player {
         void    goAhead();
         void    setAreaLineNbr(unsigned int);
         void    setState(unsigned int);
-        void    setOrientation(eOrientation);
+        void    setOrientation(Orientation::Enum);
         glm::vec2    getPosition();
         void    drawDebug(float);
         void    draw(float);
@@ -41,7 +42,7 @@ class Player {
 
         int    x;
         int    y;
-        eOrientation    orientation;
+        Orientation::Enum    orientation;
         unsigned int    state;
         unsigned int    areaLineNbr;
 

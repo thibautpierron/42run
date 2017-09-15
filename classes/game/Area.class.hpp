@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 09:56:41 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/14 15:14:48 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 09:20:40 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@
 # include "../../libs/glm/vec3.hpp"
 # include "../../libs/glm/gtx/quaternion.hpp"
 # include "../Shader.class.hpp"
+# include "../../constants/constants.hpp"
 
-enum eOrientation { NORTH = 0, SOUTH = 1, EAST = 2, WEST = 3 };
+// enum Orientation::Enum { Orientation::NORTH = 0, Orientation::SOUTH = 1, Orientation::EAST = 2, Orientation::WEST = 3 };
 
 class Area {
     public:
-        Area(float x, float y, eOrientation orientation);
+        Area(float x, float y, Orientation::Enum orientation);
         ~Area();
         
         void            drawGrid();
@@ -31,7 +32,7 @@ class Area {
         unsigned int	getLineNbr() const;
         unsigned int    getLength() const;
         std::vector<glm::vec2> getObstacles();
-        // void	        orientate(Area *previousArea, eOrientation orientation);
+        // void	        orientate(Area *previousArea, Orientation::Enum orientation);
 
     private:
         Area();
@@ -43,7 +44,7 @@ class Area {
         unsigned int lineNbr;
         float          startX;
         float          startY;
-        eOrientation orientation;
+        Orientation::Enum orientation;
 
         std::vector<unsigned int>	indices;
         std::vector<glm::vec3>		vertices;

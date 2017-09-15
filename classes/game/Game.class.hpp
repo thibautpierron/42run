@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/14 11:05:24 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 09:20:39 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "./Area.class.hpp"
 # include "./Player.class.hpp"
+# include "../../constants/constants.hpp"
 
 class Game {
 	
@@ -35,7 +36,7 @@ class Game {
 		
 		Player	*player;
 		std::vector<glm::vec2> obstacles;
-		eOrientation	movementDirection;
+		Orientation::Enum	movementDirection;
 };
 
 #endif

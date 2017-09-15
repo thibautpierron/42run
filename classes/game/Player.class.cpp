@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/14 15:34:46 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 09:25:02 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ Player::Player(unsigned int x, unsigned int areaLineNbr) : x(x), areaLineNbr(are
 
     this->y = 0;
     this->state = 0;
-    this->orientation = NORTH;
+    this->orientation = Orientation::NORTH;
     setupDebug();
 }
 
@@ -48,10 +48,10 @@ void    Player::moveRight() {
 void    Player::goAhead() {
         // std::cout << "YEP" << std::endl;
         switch(this->orientation) {
-            case NORTH: this->y++; break;
-            case SOUTH: this->y--; break;
-            case WEST: this->x--; break;
-            case EAST: this->x++; break;
+            case Orientation::NORTH: this->y++; break;
+            case Orientation::SOUTH: this->y--; break;
+            case Orientation::WEST: this->x--; break;
+            case Orientation::EAST: this->x++; break;
         }
 }
 
@@ -96,7 +96,7 @@ void    Player::draw(float playerY) {
 void    Player::drawDebug(float playerY) {
     this->debugShader->use();
     
-    std::cout << "Player: x: " << this->x << " y: " << this->y << std::endl;
+    // std::cout << "Player: x: " << this->x << " y: " << this->y << std::endl;
 
     glm::mat4 model = glm::mat4();
     // model = glm::rotate(model, -90.f, glm::vec3(1.f, 0.f, 0.f));
@@ -120,7 +120,7 @@ glm::vec2   Player::getPosition() {
     return glm::vec2(static_cast<float>(this->x), static_cast<float>(this->y));
 }
 
-void        Player::setOrientation(eOrientation orientation) {
+void        Player::setOrientation(Orientation::Enum orientation) {
     this->orientation = orientation;
 }
 

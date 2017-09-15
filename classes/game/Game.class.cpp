@@ -6,18 +6,18 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/14 15:27:53 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 09:24:36 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./Game.class.hpp"
 
 Game::Game() {
-	this->area = new Area(0.f, 0.f, NORTH);
-	this->area2 = new Area(0.f, 25.f, WEST);
+	this->area = new Area(0.f, 0.f, Orientation::NORTH);
+	this->area2 = new Area(0.f, 25.f, Orientation::WEST);
     this->obstacles = area->getObstacles();
     this->player = new Player(0, area->getLineNbr());
-	this->movementDirection = NORTH;
+	this->movementDirection = Orientation::NORTH;
 }
 
 Game::~Game() {
@@ -39,7 +39,7 @@ void	Game::compute(float gameTime) {
 void	Game::render(float gameTime) {
 	float cameraX = this->area->getLineNbr() * 0.5f;
 
-	Shader::setPerspective(cameraX, gameTime);
+	Shader::setPerspective(cameraX, gameTime, this->movementDirection);
 	
 	area->drawGrid();
 	area->drawObstacleDebug();
@@ -71,5 +71,5 @@ void	Game::movePlayerLeft() {
 }
 
 void	Game::orientatePlayer() {
-	this->player->setOrientation(WEST);
+	this->player->setOrientation(Orientation::WEST);
 }
