@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 10:16:46 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 11:05:12 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void    Player::draw(float gameClock) {
             angle = 180.f; break;
         case Orientation::SOUTH:
             xScaled = this->x * scalingRate + scalingRate * 0.5f;
-            yScaled = - gameClock * scalingRate + scalingRate * 0.5f;
+            yScaled = gameClock * scalingRate + scalingRate * 0.5f;
             angle = 0.f; break;
         case Orientation::WEST:
             xScaled = gameClock * scalingRate + scalingRate * 0.5f;
@@ -96,7 +96,7 @@ void    Player::draw(float gameClock) {
             angle = 90.f; break;
         case Orientation::EAST:
             xScaled = gameClock * scalingRate + scalingRate * 0.5f;
-            yScaled = - this->y * scalingRate + scalingRate * 0.5f;
+            yScaled = this->y * scalingRate + scalingRate * 0.5f;
             angle = -90.f; break;
     }
     model = glm::translate(model, glm::vec3(xScaled, yScaled, 0.f));
@@ -106,7 +106,7 @@ void    Player::draw(float gameClock) {
     
 	this->shader->setModel(model);
     this->shader->setView();
-    // this->shader->setPerspective(cameraX, playerY);
+    // this->shader->setCamera(cameraX, playerY);
     this->model->draw(this->shader);
 }
 
@@ -126,20 +126,20 @@ void    Player::drawDebug(float gameClock) {
             yScaled = gameClock; break;
         case Orientation::SOUTH:
             xScaled = static_cast<float>(this->x);
-            yScaled = - gameClock; break;
+            yScaled = gameClock; break;
         case Orientation::WEST:
             xScaled = gameClock;
             yScaled = static_cast<float>(this->y); break;
         case Orientation::EAST:
             xScaled = gameClock;
-            yScaled = - static_cast<float>(this->y); break;
+            yScaled = static_cast<float>(this->y); break;
     }
 
     model = glm::translate(model, glm::vec3(xScaled, yScaled, 0.01f));
     // model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
     this->debugShader->setModel(model);
     this->debugShader->setView();
-    // this->debugShader->setPerspective(cameraX, playerY);
+    // this->debugShader->setCamera(cameraX, playerY);
     glUniform1i(glGetUniformLocation(debugShader->getProgramID(), "playerState"), this->state);    
 
     glBindVertexArray(this->debugVao);

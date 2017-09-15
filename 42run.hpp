@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   42run.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibautpierron <thibautpierron@student.    +#+  +:+       +#+        */
+/*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:23:17 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/11 23:12:20 by thibautpier      ###   ########.fr       */
+/*   Updated: 2017/09/15 11:22:17 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <SDL2/SDL.h>
 # include <iostream>
 # include "classes/game/Game.class.hpp"
+# include "./constants/constants.hpp"
 
 
 SDL_Window	*initSDL(SDL_GLContext ctx);

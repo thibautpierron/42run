@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 09:20:37 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 10:35:45 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void    Area::drawGrid() {
 	////
 	this->gridShader->setModel(model);
 	this->gridShader->setView();
-	// this->gridShader->setPerspective(playerX, playerY);
+	// this->gridShader->setCamera(playerX, playerY);
 
     glBindVertexArray(this->vao);
 	glDrawElements(GL_LINES, indices.size(), GL_UNSIGNED_INT, 0);
@@ -178,7 +178,7 @@ void	Area::drawObstacleDebug() {
 	////
 	this->obstacleDebugShader->setModel(model);
 	this->gridShader->setView();
-	// this->obstacleDebugShader->setPerspective(cameraX, playerY);
+	// this->obstacleDebugShader->setCamera(cameraX, playerY);
 
     glBindVertexArray(this->obstacleDebugVao);
 	glDrawArrays(GL_POINTS, 0, obstacles.size());

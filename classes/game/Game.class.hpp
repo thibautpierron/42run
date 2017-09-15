@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/15 09:20:39 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 11:15:12 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ class Game {
 		void	render(float gameTime);
 		Player	*getPlayer();
 		void	orientatePlayer();
+		void	orientatePlayer(Orientation::Enum);
 		void	movePlayerRight();
 		void	movePlayerLeft();
 		
@@ -37,6 +38,7 @@ class Game {
 		Player	*player;
 		std::vector<glm::vec2> obstacles;
 		Orientation::Enum	movementDirection;
+		float	gameClockRender;
 };
 
 #endif

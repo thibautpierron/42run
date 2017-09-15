@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 14:11:27 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 10:04:48 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 11:14:04 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void    Shader::use() const {
     glUseProgram(this->programID);
 }
 
-void    Shader::setPerspective(float targetX, float targetY, Orientation::Enum orientation) {
+void    Shader::setCamera(float targetX, float gameClock, Orientation::Enum orientation) {
     float posX;
     float posY;
     float lookX;
@@ -142,32 +142,37 @@ void    Shader::setPerspective(float targetX, float targetY, Orientation::Enum o
     switch(orientation) {
         case Orientation::NORTH:
             posX = targetX;
-            posY = targetY - 5.f;
+            posY = gameClock - 5.f;
             lookX = targetX;
-            lookY = targetY + 5.f;
+            lookY = gameClock + 5.f;
             break;
         case Orientation::SOUTH:
             posX = targetX;
-            posY = targetY + 5.f;
+            posY = gameClock + 5.f;
             lookX = targetX;
-            lookY = targetY - 5.f;
+            lookY = gameClock - 5.f;
             break;
         case Orientation::EAST:
-            posX = targetY + 5.f;
+            // posX = targetX;
+            // posY = gameClock - 5.f;
+            // lookX = targetX;
+            // lookY = gameClock + 5.f;
+            // break;
+            posX = gameClock + 5.f;
             posY = targetX;
-            lookX = targetY - 5.f;
+            lookX = gameClock - 5.f;
             lookY = targetX;
             break;
         case Orientation::WEST:
-            posX = targetY - 5.f;
+            posX = gameClock - 5.f;
             posY = targetX;
-            lookX = targetY + 5.f;
+            lookX = gameClock + 5.f;
             lookY = targetX;
             break;
     }
     
     Shader::camera = glm::lookAt(
-        glm::vec3(posX, posY, 2.f),
+        glm::vec3(posX, posY, 60.f),
         glm::vec3(lookX, lookY, 0.f),
         glm::vec3(0.f, 0.f, 1.f)
     );

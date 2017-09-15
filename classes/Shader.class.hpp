@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 14:11:32 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 09:26:03 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 10:35:40 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ class Shader {
         void    setFloat(const std::string &name, float value) const;
         void    setInt(const std::string &name, float value) const;
         GLuint  getProgramID() const;
-        static void    setPerspective(float, float, Orientation::Enum);
+        static void    setCamera(float, float, Orientation::Enum);
         void    setView();
         
         Shader();

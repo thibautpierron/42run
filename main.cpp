@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:25:21 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/14 11:56:37 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 10:59:26 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,28 +36,25 @@ int     main() {
 
     Game game;
     float gameSpeed = 2.f / 60.f;
-    float gameTime = 0.f;
-    float renderTime = 0.f;
+    float gameTick = 0.f;
 
 
 	while (!exitLoop) {
         start = std::chrono::high_resolution_clock::now();
-        if(gameTime > 1.f)
-            gameTime = 0.f;
+        if(gameTick > 1.f)
+            gameTick = 0.f;
         SDL_PollEvent(&events);
         eventManager(&events, &exitLoop, &game);
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        game.compute(gameTime);
-        game.render(renderTime);
-
+        game.compute(gameTick);
+        game.render(gameSpeed);
         
         SDL_GL_SwapWindow(win);
         end = std::chrono::high_resolution_clock::now();
         windowTitleUpdate(win, std::chrono::duration_cast<std::chrono::microseconds>( end - start ).count());
-        gameTime += gameSpeed;
-        renderTime += gameSpeed;
+        gameTick += gameSpeed;
     }
     
     SDL_GL_DeleteContext(ctx);
