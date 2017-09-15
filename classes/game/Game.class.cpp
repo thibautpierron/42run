@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/15 14:49:13 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 15:07:01 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ Game::Game() {
 	// this->area2 = new Area(0.f, 25.f, Orientation::WEST);
 	this->areas.push_back(new Area(0.f, 0.f, Orientation::NORTH));
 	// this->areas.push_back(new Area(0.f, 25.f, Orientation::WEST));
-	addArea(Orientation::EAST);
+	addArea(Orientation::WEST);
 	addArea(Orientation::SOUTH);
-	addArea(Orientation::EAST);
+	// addArea(Orientation::WEST);
     this->obstacles = this->areas.front()->getObstacles();
     this->player = new Player(0, this->areas.front()->getLineNbr());
 	this->movementDirection = Orientation::NORTH;
@@ -51,7 +51,7 @@ void	Game::render(float gameSpeed) {
 	
 	for(unsigned int i = 0; i < this->areas.size(); i++) {
 		this->areas[i]->drawGrid();
-		// this->areas[i]->drawObstacleDebug();
+		this->areas[i]->drawObstacleDebug();
 	}
 
 	player->draw(gameClockRender);

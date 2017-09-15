@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 14:31:52 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 15:06:56 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,20 +174,20 @@ void	Area::drawObstacleDebug() {
 void	Area::generateObstacles() {
 	switch(orientation) {
 		case Orientation::NORTH:
-			for (unsigned int i = 1; i < this->length; i++) {
+			for (unsigned int i = 0; i < this->length; i++) {
 				this->obstacles.push_back(glm::vec2(static_cast<float>(rand() % 5) + this->startX, static_cast<float>(i) + this->startY));
 			} break;
 		case Orientation::SOUTH:
-			for (unsigned int i = 1; i < this->length; i++) {
-				this->obstacles.push_back(glm::vec2(static_cast<float>(rand() % 5) + this->startX, static_cast<float>(i) + this->startY));
+			for (unsigned int i = 0; i < this->length; i++) {
+				this->obstacles.push_back(glm::vec2(this->startX - static_cast<float>(rand() % 5) - 1, this->startY - static_cast<float>(i) - 1));
 			} break;
 		case Orientation::WEST:
-			for (unsigned int i = 1; i < this->length; i++) {
-				this->obstacles.push_back(glm::vec2(this->startX - static_cast<float>(i), static_cast<float>(rand() % 5) + this->startY));
+			for (unsigned int i = 0; i < this->length; i++) {
+				this->obstacles.push_back(glm::vec2(this->startX - static_cast<float>(i) - 1, static_cast<float>(rand() % 5) + this->startY));
 			} break;
 		case Orientation::EAST:
-			for (unsigned int i = 1; i < this->length; i++) {
-				this->obstacles.push_back(glm::vec2(this->startX + static_cast<float>(i), static_cast<float>(rand() % 5) + this->startY));
+			for (unsigned int i = 0; i < this->length; i++) {
+				this->obstacles.push_back(glm::vec2(this->startX + static_cast<float>(i),  this->startY - static_cast<float>(rand() % 5) - 1));
 			} break;
 	}
 }
