@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 14:17:33 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 14:31:52 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void    Area::setupGrid() {
 
 		case Orientation::SOUTH:
 			for(float i = 0.f; i <= this->length; i++) {
-				vertices.push_back(glm::vec3(this->startX, i - this->startY, 0.f));
-				vertices.push_back(glm::vec3(static_cast<float>(this->lineNbr) - startX, i - this->startY, 0.f));
+				vertices.push_back(glm::vec3(this->startX, this->startY - i, 0.f));
+				vertices.push_back(glm::vec3(this->startX - static_cast<float>(this->lineNbr), this->startY - i, 0.f));
 			} break;
 		case Orientation::WEST:
 			for(float i = 0.f; i <= this->length; i++) {
@@ -78,8 +78,8 @@ void    Area::setupGrid() {
 			} break;
 		case Orientation::SOUTH:
 			for(float i = 1.f; i < this->lineNbr; i++) {
-				vertices.push_back(glm::vec3(i - this->startX, this->startY, 0.f));
-				vertices.push_back(glm::vec3(i - this->startX, static_cast<float>(this->length) - this->startY, 0.f));
+				vertices.push_back(glm::vec3(this->startX - i, this->startY, 0.f));
+				vertices.push_back(glm::vec3(this->startX - i, this->startY - static_cast<float>(this->length), 0.f));
 				indices.push_back(this->vertices.size() - 2);
 				indices.push_back(this->vertices.size() - 1);
 			} break;
