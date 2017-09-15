@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 13:30:15 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 14:17:33 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ void    Area::setupGrid() {
 				vertices.push_back(glm::vec3(static_cast<float>(this->lineNbr) - startX, i - this->startY, 0.f));
 			} break;
 		case Orientation::WEST:
-			for(float i = this->length * -1.f; i <= 0.f; i++) {
-				vertices.push_back(glm::vec3(i - this->startX, this->startY, 0.f));
-				vertices.push_back(glm::vec3(i - this->startX, static_cast<float>(this->lineNbr) + this->startY, 0.f));
+			for(float i = 0.f; i <= this->length; i++) {
+				vertices.push_back(glm::vec3(this->startX - i, this->startY, 0.f));
+				vertices.push_back(glm::vec3(this->startX - i, static_cast<float>(this->lineNbr) + this->startY, 0.f));
 			} break;
 		case Orientation::EAST:
 			for(float i = 0.f; i <= this->length; i++) {
-				vertices.push_back(glm::vec3(i - this->startX, this->startY, 0.f));
-				vertices.push_back(glm::vec3(i - this->startX, static_cast<float>(this->lineNbr) + this->startY, 0.f));
+				vertices.push_back(glm::vec3(this->startX + i, this->startY, 0.f));
+				vertices.push_back(glm::vec3(this->startX + i, this->startY - static_cast<float>(this->lineNbr), 0.f));
 			} break;
 	}
 
@@ -85,8 +85,8 @@ void    Area::setupGrid() {
 			} break;
 		case Orientation::EAST:
 			for(float i = 1.f; i < this->lineNbr; i++) {
-				vertices.push_back(glm::vec3(this->startX, i + this->startY, 0.f));
-				vertices.push_back(glm::vec3(static_cast<float>(this->length) + this->startX, i + this->startY, 0.f));
+				vertices.push_back(glm::vec3(this->startX, this->startY - i, 0.f));
+				vertices.push_back(glm::vec3(static_cast<float>(this->length) + this->startX, this->startY - i, 0.f));
 				indices.push_back(this->vertices.size() - 2);
 				indices.push_back(this->vertices.size() - 1);
 			} break;
@@ -208,12 +208,12 @@ Orientation::Enum	Area::getOrientation() const {
 	return this->orientation;
 }
 
-float		Area::getStartX() const {
+float		Area::getEndX() const {
 	switch(this->orientation) {
 		case Orientation::NORTH:
-			return this->startX; break;
+			return this->startX + this->lineNbr; break;
 		case Orientation::SOUTH:
-			return this->startX; break;
+			return this->startX - this->lineNbr; break;
 		case Orientation::WEST:
 			return this->startX - this->length; break;
 		case Orientation::EAST:
@@ -221,15 +221,15 @@ float		Area::getStartX() const {
 	}
 }
 
-float		Area::getStartY() const {
+float		Area::getEndY() const {
 	switch(this->orientation) {
 		case Orientation::NORTH:
 			return this->startY + this->length; break;
 		case Orientation::SOUTH:
 			return this->startY - this->length; break;
 		case Orientation::WEST:
-			return this->startY; break;
+			return this->startY + this->lineNbr; break;
 		case Orientation::EAST:
-			return this->startY; break;
+			return this->startY - this->lineNbr; break;
 	}
 }

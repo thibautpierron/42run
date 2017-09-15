@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/15 13:27:36 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 14:24:07 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ Game::Game() {
 	// this->area2 = new Area(0.f, 25.f, Orientation::WEST);
 	this->areas.push_back(new Area(0.f, 0.f, Orientation::NORTH));
 	// this->areas.push_back(new Area(0.f, 25.f, Orientation::WEST));
-	addAreas(Orientation::WEST);
 	addAreas(Orientation::NORTH);
+	// addAreas(Orientation::NORTH);
     this->obstacles = this->areas.front()->getObstacles();
     this->player = new Player(0, this->areas.front()->getLineNbr());
 	this->movementDirection = Orientation::NORTH;
@@ -50,14 +50,8 @@ void	Game::render(float gameSpeed) {
 	
 	for(unsigned int i = 0; i < this->areas.size(); i++) {
 		this->areas[i]->drawGrid();
-		this->areas[i]->drawObstacleDebug();
+		// this->areas[i]->drawObstacleDebug();
 	}
-
-	// this->areas[0]->drawGrid();
-	// this->areas[0]->drawObstacleDebug();
-
-	// this->areas[1]->drawGrid();
-	// this->areas[1]->drawObstacleDebug();
 
 	player->draw(gameClockRender);
 	player->drawDebug(gameClockRender);
@@ -100,17 +94,23 @@ void	Game::orientatePlayer(Orientation::Enum orientation) {
 
 void	Game::addAreas(Orientation::Enum nextOrientation) {
 	Orientation::Enum lastOrientation = this->areas.back()->getOrientation();	
-	float x = this->areas.back()->getStartX();
-	float y = this->areas.back()->getStartY();
-std::cout << x << " "<< y << std::endl;
+	float x = this->areas.back()->getEndX();
+	float y = this->areas.back()->getEndY();
+	// std::cout << x << " " << y << std::endl;
 	switch(lastOrientation) {
 		case Orientation::NORTH:
-			this->areas.push_back(new Area(x, y - 5, nextOrientation)); break;
+			if (nextOrientation == Orientation::EAST)
+				this->areas.push_back(new Area(x + 5, y, nextOrientation));
+			else if (nextOrientation == Orientation::WEST)
+				this->areas.push_back(new Area(x - 5, y - 5, nextOrientation));
+			else
+				this->areas.push_back(new Area(x - 5, y, nextOrientation));
+			break;
 		case Orientation::SOUTH:
-			this->areas.push_back(new Area(x, y + 5, nextOrientation)); break;
+			this->areas.push_back(new Area(x, y + 10, nextOrientation)); break;
 		case Orientation::WEST:
-			this->areas.push_back(new Area(x - 5, y, nextOrientation)); break;
+			this->areas.push_back(new Area(x - 10, y, nextOrientation)); break;
 		case Orientation::EAST:
-			this->areas.push_back(new Area(x + 5, y, nextOrientation)); break;
+			this->areas.push_back(new Area(x + 10, y, nextOrientation)); break;
 	}
 }
