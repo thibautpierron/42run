@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/15 09:24:36 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 10:19:27 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ void	Game::movePlayerLeft() {
 }
 
 void	Game::orientatePlayer() {
+	this->movementDirection = Orientation::WEST;
 	this->player->setOrientation(Orientation::WEST);
 }

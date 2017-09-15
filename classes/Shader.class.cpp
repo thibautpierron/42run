@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 14:11:27 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 09:22:46 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 10:04:48 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,21 +148,21 @@ void    Shader::setPerspective(float targetX, float targetY, Orientation::Enum o
             break;
         case Orientation::SOUTH:
             posX = targetX;
-            posY = targetY - 5.f;
+            posY = targetY + 5.f;
             lookX = targetX;
-            lookY = targetY + 5.f;
+            lookY = targetY - 5.f;
             break;
         case Orientation::EAST:
-            posX = targetX;
-            posY = targetY - 5.f;
-            lookX = targetX;
-            lookY = targetY + 5.f;
+            posX = targetY + 5.f;
+            posY = targetX;
+            lookX = targetY - 5.f;
+            lookY = targetX;
             break;
         case Orientation::WEST:
-            posX = targetX;
-            posY = targetY - 5.f;
-            lookX = targetX;
-            lookY = targetY + 5.f;
+            posX = targetY - 5.f;
+            posY = targetX;
+            lookX = targetY + 5.f;
+            lookY = targetX;
             break;
     }
     

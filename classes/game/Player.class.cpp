@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 09:25:02 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 10:16:46 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ Player::~Player() {
     delete this->shader;
     delete this->debugShader;
     delete this->model;
-    // std::cout << "Player destroyed" << std::endl;
 }
 
 void    Player::setAreaLineNbr(unsigned int n) {
@@ -46,20 +45,18 @@ void    Player::moveRight() {
 }
 
 void    Player::goAhead() {
-        // std::cout << "YEP" << std::endl;
-        switch(this->orientation) {
-            case Orientation::NORTH: this->y++; break;
-            case Orientation::SOUTH: this->y--; break;
-            case Orientation::WEST: this->x--; break;
-            case Orientation::EAST: this->x++; break;
-        }
+    switch(this->orientation) {
+        case Orientation::NORTH: this->y++; break;
+        case Orientation::SOUTH: this->y--; break;
+        case Orientation::WEST: this->x++; break;
+        case Orientation::EAST: this->x--; break;
+    }
 }
 
 void     Player::setupDebug() {
 
     std::vector<glm::vec2> crd;
     crd.push_back(glm::vec2(this->x, this->y));
-    // crd[0].x -= (5 / 2) + 0.5f;
 
 	glGenVertexArrays(1, &this->debugVao);
 	glGenBuffers(1, &this->debugVbo);
@@ -74,16 +71,36 @@ void     Player::setupDebug() {
 	glBindVertexArray(0);
 }
 
-void    Player::draw(float playerY) {
+void    Player::draw(float gameClock) {
     float scalingRate = 5.f;
 
     glm::mat4 model;
     model = glm::scale(model, glm::vec3(1.f / scalingRate, 1.f / scalingRate, 1.f / scalingRate));
 
-    float xScaled = this->x * scalingRate + scalingRate * 0.5f;
-    float yScaled = playerY * scalingRate + scalingRate * 0.5f;
+    float xScaled;
+    float yScaled;
+    float angle;
+
+    switch (this->orientation) {
+        case Orientation::NORTH:
+            xScaled = this->x * scalingRate + scalingRate * 0.5f;
+            yScaled = gameClock * scalingRate + scalingRate * 0.5f;
+            angle = 180.f; break;
+        case Orientation::SOUTH:
+            xScaled = this->x * scalingRate + scalingRate * 0.5f;
+            yScaled = - gameClock * scalingRate + scalingRate * 0.5f;
+            angle = 0.f; break;
+        case Orientation::WEST:
+            xScaled = gameClock * scalingRate + scalingRate * 0.5f;
+            yScaled = this->y * scalingRate + scalingRate * 0.5f;
+            angle = 90.f; break;
+        case Orientation::EAST:
+            xScaled = gameClock * scalingRate + scalingRate * 0.5f;
+            yScaled = - this->y * scalingRate + scalingRate * 0.5f;
+            angle = -90.f; break;
+    }
     model = glm::translate(model, glm::vec3(xScaled, yScaled, 0.f));
-    model = glm::rotate(model, glm::radians(180.f), glm::vec3(0.f, 0.f, 1.f));
+    model = glm::rotate(model, glm::radians(angle), glm::vec3(0.f, 0.f, 1.f));
     
     this->shader->use();
     
@@ -93,14 +110,32 @@ void    Player::draw(float playerY) {
     this->model->draw(this->shader);
 }
 
-void    Player::drawDebug(float playerY) {
+void    Player::drawDebug(float gameClock) {
     this->debugShader->use();
     
     // std::cout << "Player: x: " << this->x << " y: " << this->y << std::endl;
 
     glm::mat4 model = glm::mat4();
+
+    float xScaled;
+    float yScaled;
     // model = glm::rotate(model, -90.f, glm::vec3(1.f, 0.f, 0.f));
-    model = glm::translate(model, glm::vec3(this->x, playerY, 0.01f));
+    switch (this->orientation) {
+        case Orientation::NORTH:
+            xScaled = static_cast<float>(this->x);
+            yScaled = gameClock; break;
+        case Orientation::SOUTH:
+            xScaled = static_cast<float>(this->x);
+            yScaled = - gameClock; break;
+        case Orientation::WEST:
+            xScaled = gameClock;
+            yScaled = static_cast<float>(this->y); break;
+        case Orientation::EAST:
+            xScaled = gameClock;
+            yScaled = - static_cast<float>(this->y); break;
+    }
+
+    model = glm::translate(model, glm::vec3(xScaled, yScaled, 0.01f));
     // model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
     this->debugShader->setModel(model);
     this->debugShader->setView();
