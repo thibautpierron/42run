@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/15 15:52:54 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 16:07:14 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	Game::compute(float gameTick) {
 		player->goAhead();
 
 	checkCollision();
+	manageAreas();
 }
 
 void	Game::render(float gameSpeed) {
@@ -150,5 +151,10 @@ void	Game::initAreas() {
 }
 
 void	Game::manageAreas() {
-
+	// int px = this->player->getX();
+	int py = this->player->getY();
+	if (py > 10) {
+		this->areas.pop_front();
+		addArea(Orientation::NORTH);
+	}
 }
