@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 10:35:45 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 11:43:07 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,11 @@ void    Area::setupGrid() {
 			} break;
 		case Orientation::WEST:
 			for(float i = this->length * -1.f; i <= 0.f; i++) {
-				// std::cout << i + this->startX << " : " << this->startY << std::endl;
 				vertices.push_back(glm::vec3(i - this->startX, this->startY, 0.f));
 				vertices.push_back(glm::vec3(i - this->startX, static_cast<float>(this->lineNbr) + this->startY, 0.f));
 			} break;
 		case Orientation::EAST:
 			for(float i = 0.f; i <= this->length; i++) {
-				// std::cout << i - this->startX << " : " << this->startY << std::endl;
 				vertices.push_back(glm::vec3(i - this->startX, this->startY, 0.f));
 				vertices.push_back(glm::vec3(i - this->startX, static_cast<float>(this->lineNbr) + this->startY, 0.f));
 			} break;
@@ -150,17 +148,11 @@ void	Area::setupObstacleDebug() {
 }
 
 void    Area::drawGrid() {
-	gridShader->use();
-
 	glm::mat4 model = glm::mat4();
-	//////
-	// model = glm::rotate(model,-90.f, glm::vec3(1.f, 0.f, 0.f));
-	// model = glm::translate(model, glm::vec3(this->xOffset, -progress + this->yOffset, 0.f));
-	// model = glm::rotate(model,glm::radians(this->orientationOffset), glm::vec3(0.f, 0.f, 1.f));
-	////
+
+	this->gridShader->use();
 	this->gridShader->setModel(model);
 	this->gridShader->setView();
-	// this->gridShader->setCamera(playerX, playerY);
 
     glBindVertexArray(this->vao);
 	glDrawElements(GL_LINES, indices.size(), GL_UNSIGNED_INT, 0);
@@ -168,17 +160,11 @@ void    Area::drawGrid() {
 }
 
 void	Area::drawObstacleDebug() {
-	this->obstacleDebugShader->use();
-
 	glm::mat4 model = glm::mat4();
-	//////
-	// model = glm::rotate(model,-90.f, glm::vec3(1.f, 0.f, 0.f));
-	// model = glm::translate(model, glm::vec3(this->xOffset, -progress + this->yOffset, 0.f));
-	// model = glm::rotate(model,glm::radians(this->orientationOffset), glm::vec3(0.f, 0.f, 1.f));
-	////
+
+	this->obstacleDebugShader->use();
 	this->obstacleDebugShader->setModel(model);
 	this->gridShader->setView();
-	// this->obstacleDebugShader->setCamera(cameraX, playerY);
 
     glBindVertexArray(this->obstacleDebugVao);
 	glDrawArrays(GL_POINTS, 0, obstacles.size());
@@ -217,18 +203,3 @@ unsigned int 	Area::getLength() const {
 std::vector<glm::vec2> Area::getObstacles() {
 	return this->obstacles;
 }
-
-// void	Area::orientate(Area *area, Orientation::Enum orientation) {
-// 	switch (orientation) {
-// 		case Orientation::EAST:
-// 			this->orientationOffset = -90.f;
-// 			this->xOffset = area->getLineNbr() / 2 + (area->getLineNbr() / 2) - 1.5;
-// 			this->yOffset = area->getLength() - this->lineNbr + 2.5; break;
-// 		case Orientation::WEST:
-// 			this->orientationOffset = 90.f;
-// 			this->xOffset = area->getLineNbr() / 2 - (area->getLineNbr() / 2) - 1.5;
-// 			this->yOffset = area->getLength() - this->lineNbr + 2.5; break;
-// 		case Orientation::NORTH: break;
-// 		case Orientation::SOUTH: break;
-// 	}
-// }

@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 11:34:22 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/15 11:41:22 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,6 @@ void     Player::setupDebug() {
 
 void    Player::draw(float gameClock) {
     float scalingRate = 5.f;
-
-    glm::mat4 model;
-    model = glm::scale(model, glm::vec3(1.f / scalingRate, 1.f / scalingRate, 1.f / scalingRate));
-
     float xScaled;
     float yScaled;
     float angle;
@@ -99,27 +95,23 @@ void    Player::draw(float gameClock) {
             yScaled = this->y * scalingRate + scalingRate * 0.5f;
             angle = -90.f; break;
     }
+
+    glm::mat4 model;
+    model = glm::scale(model, glm::vec3(1.f / scalingRate, 1.f / scalingRate, 1.f / scalingRate));
     model = glm::translate(model, glm::vec3(xScaled, yScaled, 0.f));
     model = glm::rotate(model, glm::radians(angle), glm::vec3(0.f, 0.f, 1.f));
     
     this->shader->use();
-    
 	this->shader->setModel(model);
     this->shader->setView();
-    // this->shader->setCamera(cameraX, playerY);
     this->model->draw(this->shader);
 }
 
 void    Player::drawDebug(float gameClock) {
-    this->debugShader->use();
-    
     // std::cout << "Player: x: " << this->x << " y: " << this->y << std::endl;
-
-    glm::mat4 model = glm::mat4();
-
     float xScaled;
     float yScaled;
-    // model = glm::rotate(model, -90.f, glm::vec3(1.f, 0.f, 0.f));
+
     switch (this->orientation) {
         case Orientation::NORTH:
             xScaled = static_cast<float>(this->x);
@@ -135,11 +127,13 @@ void    Player::drawDebug(float gameClock) {
             yScaled = static_cast<float>(this->y); break;
     }
 
+    glm::mat4 model = glm::mat4();
     model = glm::translate(model, glm::vec3(xScaled, yScaled, 0.01f));
     // model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+    
+    this->debugShader->use();
     this->debugShader->setModel(model);
     this->debugShader->setView();
-    // this->debugShader->setCamera(cameraX, playerY);
     glUniform1i(glGetUniformLocation(debugShader->getProgramID(), "playerState"), this->state);    
 
     glBindVertexArray(this->debugVao);
