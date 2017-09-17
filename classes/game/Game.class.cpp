@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   Game.class.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibautpierron <thibautpierron@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/15 16:07:14 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/17 17:44:12 by thibautpier      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./Game.class.hpp"
 
 Game::Game() {
-
 	initAreas();
     this->obstacles = this->areas.front()->getObstacles();
     this->player = new Player(0, this->areas.front()->getLineNbr());
 	this->movementDirection = Orientation::NORTH;
 	this->gameClockRender = 0.f;
+	this->areasUpdated = false;
 }
 
 Game::~Game() {
@@ -138,23 +138,43 @@ void	Game::initAreas() {
 	this->areas.push_back(new Area(0.f, 0.f, Orientation::NORTH));
 	while(randOrientation == Orientation::SOUTH) {
 		randOrientation = static_cast<Orientation::Enum>(rand() % 4);
-		std::cout << "First: " << randOrientation << std::endl;
+		// std::cout << "First: " << randOrientation << std::endl;
 	}
 	addArea(randOrientation);
 
 	randOrientation2 = static_cast<Orientation::Enum>((randOrientation + 2) % 4);
 	while(randOrientation2 == ((randOrientation + 2) % 4)) {
 		randOrientation2 = static_cast<Orientation::Enum>(rand() % 4);
-		std::cout << "Seconde: " << randOrientation2 << std::endl;
+		// std::cout << "Seconde: " << randOrientation2 << std::endl;
 	}
 	addArea(randOrientation2);
 }
 
 void	Game::manageAreas() {
-	// int px = this->player->getX();
-	int py = this->player->getY();
-	if (py > 10) {
-		this->areas.pop_front();
-		addArea(Orientation::NORTH);
+
+	//	MISS OLD AREAS SUPPRESSION
+	
+	if (this->areasUpdated)
+		return;
+	switch (this->movementDirection) {
+		case Orientation::NORTH:
+			if (this->player->getY() > this->areas[0]->getEndY() - 20) {
+				addArea(getRandOrientationDifferentFrom(SOUTH));
+				this->areasUpdated = true;
+			} break;
+		case Orientation::SOUTH:
+			break;
+		case Orientation::EAST:
+			break;
+		case Orientation::WEST:
+			break;
 	}
+}
+
+Orientation::Enum	Game::getRandOrientationDifferentFrom(Orientation::Enum orientation) const {
+	Orientation::Enum randOrientation = orientation;
+	while(randOrientation == orientation) {
+		randOrientation = static_cast<Orientation::Enum>(rand() % 4);
+	}
+	return randOrientation
 }

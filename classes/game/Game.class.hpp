@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Game.class.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibautpierron <thibautpierron@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/15 15:10:15 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/17 17:41:37 by thibautpier      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,15 @@ class Game {
 		void	initAreas();
 		void	checkCollision();
 		void	addArea(Orientation::Enum);
+		void	delArea();
 		void	manageAreas();
+		Orientation::Enum	getRandOrientationDifferentFrom(Orientation::Enum) const;
 		
 		Player	*player;
 		std::vector<glm::vec2> obstacles;
 		Orientation::Enum	movementDirection;
 		float	gameClockRender;
+		bool	areasUpdated;
 
 		std::deque<Area*>	areas;
 };
