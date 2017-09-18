@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 14:11:27 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/18 14:00:23 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 15:19:21 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,46 +133,8 @@ void    Shader::use() const {
     glUseProgram(this->programID);
 }
 
-void    Shader::setCamera(float targetX, float gameClock, Orientation::Enum orientation) {
-    float posX;
-    float posY;
-    float lookX;
-    float lookY;
-    float horizontalOffset = 5.f;
-    float cameraHeight = 5.f;
-
-    switch(orientation) {
-        case Orientation::NORTH:
-            posX = targetX;
-            posY = gameClock - horizontalOffset;
-            lookX = targetX;
-            lookY = gameClock + horizontalOffset;
-            break;
-        case Orientation::SOUTH:
-            posX = targetX;
-            posY = gameClock + horizontalOffset;
-            lookX = targetX;
-            lookY = gameClock - horizontalOffset;
-            break;
-        case Orientation::WEST:
-            posX = gameClock + horizontalOffset;
-            posY = targetX;
-            lookX = gameClock - horizontalOffset;
-            lookY = targetX;
-            break;
-        case Orientation::EAST:
-            posX = gameClock - horizontalOffset;
-            posY = targetX;
-            lookX = gameClock + horizontalOffset;
-            lookY = targetX;
-            break;
-    }
-    
-    Shader::camera = glm::lookAt(
-        glm::vec3(posX, posY, cameraHeight),
-        glm::vec3(lookX, lookY, 0.f),
-        glm::vec3(0.f, 0.f, 1.f)
-    );
+void    Shader::setCamera(glm::mat4 cameraMat) {
+    Shader::camera = cameraMat;
 }
 
 void    Shader::setView() {

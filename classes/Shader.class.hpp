@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 14:11:32 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 10:35:40 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 15:20:23 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ class Shader {
         Shader(std::string vertexSrc, std::string geometrySrc, std::string fragmentSrc);
         ~Shader();
         
-        void    use() const;
-        void    setModel(glm::mat4 model) const;
-        void    setFloat(const std::string &name, float value) const;
-        void    setInt(const std::string &name, float value) const;
-        GLuint  getProgramID() const;
-        static void    setCamera(float, float, Orientation::Enum);
-        void    setView();
+        void            use() const;
+        void            setModel(glm::mat4 model) const;
+        void            setFloat(const std::string &name, float value) const;
+        void            setInt(const std::string &name, float value) const;
+        GLuint          getProgramID() const;
+        static void     setCamera(glm::mat4);
+        void            setView();
         
         Shader();
     private:
