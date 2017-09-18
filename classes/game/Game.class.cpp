@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/18 13:47:26 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 14:08:13 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ Game::Game() {
 
 Game::~Game() {
 	delete this->player;
-	// delete this->area;
-	// delete this->area2;
 }
 
 void	Game::compute(float gameTick) {

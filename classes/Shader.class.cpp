@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 14:11:27 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/18 13:47:54 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 14:00:23 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ void    Shader::setCamera(float targetX, float gameClock, Orientation::Enum orie
     float lookX;
     float lookY;
     float horizontalOffset = 5.f;
+    float cameraHeight = 5.f;
 
     switch(orientation) {
         case Orientation::NORTH:
@@ -168,7 +169,7 @@ void    Shader::setCamera(float targetX, float gameClock, Orientation::Enum orie
     }
     
     Shader::camera = glm::lookAt(
-        glm::vec3(posX, posY, 5.f),
+        glm::vec3(posX, posY, cameraHeight),
         glm::vec3(lookX, lookY, 0.f),
         glm::vec3(0.f, 0.f, 1.f)
     );

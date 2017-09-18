@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/18 13:45:50 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 13:57:14 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,32 +23,32 @@ class Game {
 	public:
 		Game();
 		~Game();
-		void	compute(float gameTime);
-		void	render(float gameTime);
-		Player	*getPlayer();
-		void	orientatePlayer();
-		void	orientatePlayer(Orientation::Enum);
-		void	movePlayerRight();
-		void	movePlayerLeft();
-		void	setCamera();
+		void				compute(float gameTime);
+		void				render(float gameTime);
+		Player				*getPlayer();
+		void				orientatePlayer();
+		void				orientatePlayer(Orientation::Enum);
+		void				movePlayerRight();
+		void				movePlayerLeft();
+		void				setCamera();
 		
 	private:
-		void	initAreas();
-		void	checkCollision();
-		void	addArea(Orientation::Enum);
-		void	delArea();
-		void	manageAreas();
-		bool	playerCanTurn();
+		void				initAreas();
+		void				checkCollision();
+		void				addArea(Orientation::Enum);
+		void				delArea();
+		void				manageAreas();
+		bool				playerCanTurn();
 		Orientation::Enum	getRandOrientationDifferentFrom(Orientation::Enum) const;
 		
 		Player	*player;
-		std::vector<glm::vec2> obstacles;
-		Orientation::Enum	movementDirection;
-		float	gameClockRender;
-		bool	areasUpdated;
+		std::vector<glm::vec2>	obstacles;
+		Orientation::Enum		movementDirection;
+		float					gameClockRender;
+		bool					areasUpdated;
 
-		std::deque<Area*>	areas;
-		unsigned int		currentAreaInd;
+		std::deque<Area*>		areas;
+		unsigned int			currentAreaInd;
 };
 
 #endif

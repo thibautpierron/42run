@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 09:56:41 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 13:36:15 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 14:05:01 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ class Area {
         Area(float x, float y, Orientation::Enum orientation);
         ~Area();
         
-        void                    drawGrid();
-        void                    drawObstacleDebug();
+        void                    drawGrid() const;
+        void                    drawObstacleDebug() const;
         unsigned int	        getLineNbr() const;
         unsigned int            getLength() const;
         float                   getEndX() const;
@@ -40,11 +40,11 @@ class Area {
         void    setupObstacleDebug();
         void    generateObstacles();
 
-        unsigned int length;
-        unsigned int lineNbr;
-        float          startX;
-        float          startY;
-        Orientation::Enum orientation;
+        unsigned int		length;
+        unsigned int		lineNbr;
+        float				startX;
+        float				startY;
+        Orientation::Enum	orientation;
 
         std::vector<unsigned int>	indices;
         std::vector<glm::vec3>		vertices;

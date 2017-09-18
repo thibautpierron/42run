@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 15:06:56 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 14:04:56 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,17 +99,6 @@ void    Area::setupGrid() {
 			} break;
 	}
 
-	// for(float i = 1.f; i < this->lineNbr; i++) {
-	// 	vertices.push_back(glm::vec3(i + startX, 0.f + startY, 0.f));
-	// 	vertices.push_back(glm::vec3(i + startX, static_cast<float>(this->length) + startY, 0.f));
-	// 	indices.push_back(this->vertices.size() - 2);
-	// 	indices.push_back(this->vertices.size() - 1);
-	// }
-
-	// for (unsigned int i = 0; i < vertices.size(); i++) {
-	// 	vertices[i].x -= (this->lineNbr / 2) + 0.5f;
-	// }
-
     glGenVertexArrays(1, &this->vao);
 	glGenBuffers(1, &this->vbo);
 	glGenBuffers(1, &this->ebo);
@@ -130,10 +119,6 @@ void    Area::setupGrid() {
 void	Area::setupObstacleDebug() {
 	std::vector<glm::vec2>      data = this->obstacles;
 
-	// for (unsigned int i = 0; i < data.size(); i++) {
-	// 	data[i].x -= (this->lineNbr / 2) + 0.5f;
-	// }
-
 	glGenVertexArrays(1, &this->obstacleDebugVao);
 	glGenBuffers(1, &this->obstacleDebugVbo);
 
@@ -147,7 +132,7 @@ void	Area::setupObstacleDebug() {
 	glBindVertexArray(0);
 }
 
-void    Area::drawGrid() {
+void    Area::drawGrid() const {
 	glm::mat4 model = glm::mat4();
 
 	this->gridShader->use();
@@ -159,7 +144,7 @@ void    Area::drawGrid() {
 	glBindVertexArray(0);
 }
 
-void	Area::drawObstacleDebug() {
+void	Area::drawObstacleDebug() const {
 	glm::mat4 model = glm::mat4();
 
 	this->obstacleDebugShader->use();

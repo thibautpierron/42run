@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/18 12:47:13 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 14:03:46 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void     Player::setupDebug() {
 	glBindVertexArray(0);
 }
 
-void    Player::draw(float gameClock) {
+void    Player::draw(float gameClock) const {
     float scalingRate = 5.f;
     float xScaled;
     float yScaled;
@@ -102,7 +102,7 @@ void    Player::draw(float gameClock) {
     this->model->draw(this->shader);
 }
 
-void    Player::drawDebug(float gameClock) {
+void    Player::drawDebug(float gameClock) const {
     // std::cout << "Player: x: " << this->x << " y: " << this->y << std::endl;
     float xScaled;
     float yScaled;
@@ -140,7 +140,7 @@ void    Player::setState(unsigned int newState) {
     this->state = newState;
 }
 
-glm::vec2   Player::getPosition() {
+glm::vec2   Player::getPosition() const {
     return glm::vec2(static_cast<float>(this->x), static_cast<float>(this->y));
 }
 
