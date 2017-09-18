@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:23:51 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 09:20:41 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 12:46:38 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ class Player {
         Player(unsigned int x, unsigned int areaLineNbr);
         ~Player();
         
-        void    moveLeft();
-        void    moveRight();
+        void    move(float, float);
         void    goAhead();
         void    setAreaLineNbr(unsigned int);
         void    setState(unsigned int);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Game.class.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibautpierron <thibautpierron@student.    +#+  +:+       +#+        */
+/*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/17 17:41:37 by thibautpier      ###   ########.fr       */
+/*   Updated: 2017/09/18 10:52:37 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ class Game {
 		void	orientatePlayer(Orientation::Enum);
 		void	movePlayerRight();
 		void	movePlayerLeft();
+		void	setCamera();
 		
-		// Area	*area;
-		// Area	*area2;
 	private:
 		void	initAreas();
 		void	checkCollision();
 		void	addArea(Orientation::Enum);
 		void	delArea();
 		void	manageAreas();
+		bool	playerCanTurn() const;
 		Orientation::Enum	getRandOrientationDifferentFrom(Orientation::Enum) const;
 		
 		Player	*player;
@@ -48,6 +48,7 @@ class Game {
 		bool	areasUpdated;
 
 		std::deque<Area*>	areas;
+		unsigned int		currentAreaInd;
 };
 
 #endif

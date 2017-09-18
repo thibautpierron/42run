@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Game.class.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibautpierron <thibautpierron@student.    +#+  +:+       +#+        */
+/*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/17 17:44:12 by thibautpier      ###   ########.fr       */
+/*   Updated: 2017/09/18 13:00:37 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ Game::Game() {
 	this->movementDirection = Orientation::NORTH;
 	this->gameClockRender = 0.f;
 	this->areasUpdated = false;
+	this->currentAreaInd = 0;
 }
 
 Game::~Game() {
@@ -35,16 +36,34 @@ void	Game::compute(float gameTick) {
 	manageAreas();
 }
 
+void	Game::setCamera() {
+
+	float cameraX = this->areas[this->currentAreaInd]->getLineNbr() * 0.5f;
+	switch(this->movementDirection) {
+		case Orientation::NORTH:
+			cameraX += this->areas[this->currentAreaInd]->getEndX() - 5; break;
+		case Orientation::SOUTH:
+			cameraX += this->areas[this->currentAreaInd]->getEndX(); break;
+		case Orientation::EAST:
+			cameraX += this->areas[this->currentAreaInd]->getEndY(); break;
+		case Orientation::WEST:
+			cameraX += this->areas[this->currentAreaInd]->getEndY() - 5; break;
+	}
+
+	// std::cout << cameraX << std::endl;
+
+	Shader::setCamera(cameraX, gameClockRender, this->movementDirection);
+}
+
 void	Game::render(float gameSpeed) {
 
 	if(this->movementDirection == Orientation::NORTH || this->movementDirection == Orientation::EAST)
-		gameClockRender += gameSpeed;
+		this->gameClockRender += gameSpeed;
 	else
-		gameClockRender -= gameSpeed;
-	float cameraX = this->areas.front()->getLineNbr() * 0.5f;
+		this->gameClockRender -= gameSpeed;
 
-	Shader::setCamera(cameraX, gameClockRender, this->movementDirection);
-	
+	this->setCamera();
+
 	for(unsigned int i = 0; i < this->areas.size(); i++) {
 		this->areas[i]->drawGrid();
 		this->areas[i]->drawObstacleDebug();
@@ -69,19 +88,86 @@ void	Game::checkCollision() {
 }
 
 void	Game::movePlayerRight() {
-	this->player->moveRight();
+	// std::cout << "x: " << this->player->getX() << " y: " << this->player->getY() << std::endl;
+	// std::cout << "area ID: " << currentAreaInd << std::endl;
+	switch (this->movementDirection) {
+		case Orientation::NORTH:
+			// std::cout << "NORTH" << std::endl;
+			if (this->player->getX() < this->areas[currentAreaInd]->getEndX() - 1)
+				this->player->move(1.0f, 0.f);
+			break;
+		case Orientation::SOUTH:
+			// std::cout << "SOUTH" << std::endl;
+			if (this->player->getX() > this->areas[currentAreaInd]->getEndX())
+				this->player->move(-1.f, 0.f);
+			break;
+		case Orientation::EAST:
+			// std::cout << "EAST" << std::endl;
+			if (this->player->getY() > this->areas[currentAreaInd]->getEndY())
+				this->player->move(0.f, -1.f);
+			break;
+		case Orientation::WEST:
+			// std::cout << "WEST" << std::endl;
+			if (this->player->getY() < this->areas[currentAreaInd]->getEndY() - 1)
+				this->player->move(0.f, 1.f);
+			break;
+	}
 }
 
 void	Game::movePlayerLeft() {
-	this->player->moveLeft();
+	// std::cout << "x: " << this->player->getX() << " y: " << this->player->getY() << std::endl;
+	switch (this->movementDirection) {
+		case Orientation::NORTH:
+			if (this->player->getX() > this->areas[currentAreaInd]->getEndX() - 5)
+				this->player->move(-1.f, 0.f);
+			break;
+		case Orientation::SOUTH:
+			if (this->player->getX() < this->areas[currentAreaInd]->getEndX() + 4)
+				this->player->move(1.f, 0.f);
+			break;
+		case Orientation::EAST:
+			if (this->player->getY() < this->areas[currentAreaInd]->getEndY() + 4)
+				this->player->move(0.f, 1.f);
+			break;
+		case Orientation::WEST:
+			if (this->player->getY() > this->areas[currentAreaInd]->getEndY() - 5)
+				this->player->move(0.f, -1.f);
+			break;
+	}
+}
+
+bool	Game::playerCanTurn() const {
+	switch (this->movementDirection) {
+		case Orientation::NORTH:
+			if (this->player->getY() > this->areas[this->currentAreaInd + 1]->getEndY() - 5)
+				return true; break;
+		case Orientation::SOUTH:
+			if (this->player->getY() < this->areas[this->currentAreaInd + 1]->getEndY() + 5)
+				return true; break;
+		case Orientation::EAST:
+			if (this->player->getX() > this->areas[this->currentAreaInd + 1]->getEndX() - 5)
+				return true; break;
+		case Orientation::WEST:
+			if (this->player->getX() < this->areas[this->currentAreaInd + 1]->getEndX() + 5)
+				return true; break;
+	}
+	return false;
 }
 
 void	Game::orientatePlayer() {
-	
-	Orientation::Enum nextOrientation = this->areas[1]->getOrientation();
-	
+	if (!playerCanTurn())
+		return;
+	Orientation::Enum nextOrientation = this->areas[this->currentAreaInd + 1]->getOrientation();
+
+	if (this->movementDirection == Orientation::NORTH || this->movementDirection == Orientation::SOUTH)
+		this->gameClockRender = static_cast<float>(this->player->getX());
+	else
+		this->gameClockRender = static_cast<float>(this->player->getY());
+
 	this->movementDirection = nextOrientation;
 	this->player->setOrientation(nextOrientation);
+	this->currentAreaInd++;
+	this->areasUpdated = false;
 }
 
 void	Game::orientatePlayer(Orientation::Enum orientation) {
@@ -132,22 +218,23 @@ void	Game::addArea(Orientation::Enum nextOrientation) {
 }
 
 void	Game::initAreas() {
-	Orientation::Enum randOrientation = Orientation::SOUTH;
-	Orientation::Enum randOrientation2;
+	// Orientation::Enum randOrientation = Orientation::SOUTH;
+	// Orientation::Enum randOrientation2;
 	
 	this->areas.push_back(new Area(0.f, 0.f, Orientation::NORTH));
-	while(randOrientation == Orientation::SOUTH) {
-		randOrientation = static_cast<Orientation::Enum>(rand() % 4);
-		// std::cout << "First: " << randOrientation << std::endl;
-	}
+	// while(randOrientation == Orientation::SOUTH) {
+	// 	randOrientation = static_cast<Orientation::Enum>(rand() % 4);
+	// 	// std::cout << "First: " << randOrientation << std::endl;
+	// }
+	Orientation::Enum randOrientation = getRandOrientationDifferentFrom(Orientation::SOUTH);
 	addArea(randOrientation);
 
-	randOrientation2 = static_cast<Orientation::Enum>((randOrientation + 2) % 4);
-	while(randOrientation2 == ((randOrientation + 2) % 4)) {
-		randOrientation2 = static_cast<Orientation::Enum>(rand() % 4);
-		// std::cout << "Seconde: " << randOrientation2 << std::endl;
-	}
-	addArea(randOrientation2);
+	// randOrientation2 = static_cast<Orientation::Enum>((randOrientation + 2) % 4);
+	// while(randOrientation2 == ((randOrientation + 2) % 4)) {
+	// 	randOrientation2 = static_cast<Orientation::Enum>(rand() % 4);
+	// 	// std::cout << "Seconde: " << randOrientation2 << std::endl;
+	// }
+	addArea(getRandOrientationDifferentFrom(static_cast<Orientation::Enum>((randOrientation + 2) % 4)));
 }
 
 void	Game::manageAreas() {
@@ -156,18 +243,28 @@ void	Game::manageAreas() {
 	
 	if (this->areasUpdated)
 		return;
+	Orientation::Enum lastOrientationInv = static_cast<Orientation::Enum>((this->areas.back()->getOrientation() + 2) % 4);
 	switch (this->movementDirection) {
 		case Orientation::NORTH:
 			if (this->player->getY() > this->areas[0]->getEndY() - 20) {
-				addArea(getRandOrientationDifferentFrom(SOUTH));
+				addArea(getRandOrientationDifferentFrom(lastOrientationInv));
 				this->areasUpdated = true;
 			} break;
 		case Orientation::SOUTH:
-			break;
+			if (this->player->getY() < this->areas[0]->getEndY() + 20) {
+				addArea(getRandOrientationDifferentFrom(lastOrientationInv));
+				this->areasUpdated = true;
+			} break;
 		case Orientation::EAST:
-			break;
+			if (this->player->getX() > this->areas[0]->getEndX() - 20) {
+				addArea(getRandOrientationDifferentFrom(lastOrientationInv));
+				this->areasUpdated = true;
+			} break;
 		case Orientation::WEST:
-			break;
+			if (this->player->getX() < this->areas[0]->getEndX() + 20) {
+				addArea(getRandOrientationDifferentFrom(lastOrientationInv));
+				this->areasUpdated = true;
+			} break;
 	}
 }
 
@@ -176,5 +273,5 @@ Orientation::Enum	Game::getRandOrientationDifferentFrom(Orientation::Enum orient
 	while(randOrientation == orientation) {
 		randOrientation = static_cast<Orientation::Enum>(rand() % 4);
 	}
-	return randOrientation
+	return randOrientation;
 }

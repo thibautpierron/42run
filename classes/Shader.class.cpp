@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 14:11:27 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 13:15:59 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 13:00:46 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,36 +138,37 @@ void    Shader::setCamera(float targetX, float gameClock, Orientation::Enum orie
     float posY;
     float lookX;
     float lookY;
+    float horizontalOffset = 5.f;
 
     switch(orientation) {
         case Orientation::NORTH:
             posX = targetX;
-            posY = gameClock - 5.f;
+            posY = gameClock - horizontalOffset;
             lookX = targetX;
-            lookY = gameClock + 5.f;
+            lookY = gameClock + horizontalOffset;
             break;
         case Orientation::SOUTH:
             posX = targetX;
-            posY = gameClock + 5.f;
+            posY = gameClock + horizontalOffset;
             lookX = targetX;
-            lookY = gameClock - 5.f;
+            lookY = gameClock - horizontalOffset;
             break;
         case Orientation::WEST:
-            posX = gameClock + 5.f;
+            posX = gameClock + horizontalOffset;
             posY = targetX;
-            lookX = gameClock - 5.f;
+            lookX = gameClock - horizontalOffset;
             lookY = targetX;
             break;
         case Orientation::EAST:
-            posX = gameClock - 5.f;
+            posX = gameClock - horizontalOffset;
             posY = targetX;
-            lookX = gameClock + 5.f;
+            lookX = gameClock + horizontalOffset;
             lookY = targetX;
             break;
     }
     
     Shader::camera = glm::lookAt(
-        glm::vec3(posX, posY, 90.f),
+        glm::vec3(posX, posY, 5.f),
         glm::vec3(lookX, lookY, 0.f),
         glm::vec3(0.f, 0.f, 1.f)
     );

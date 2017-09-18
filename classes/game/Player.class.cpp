@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/15 11:41:22 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 12:47:13 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,9 @@ void    Player::setAreaLineNbr(unsigned int n) {
     this->areaLineNbr = n;
 }
 
-void    Player::moveLeft() {
-    if (this->x > 0)
-        this->x -= 1;
-}
-
-void    Player::moveRight() {
-    if (this->x < static_cast<int>(this->areaLineNbr - 1))
-        this->x += 1;
+void    Player::move(float x, float y) {
+        this->x += x;
+        this->y += y;
 }
 
 void    Player::goAhead() {

@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:25:21 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/15 12:43:28 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 11:18:38 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int     main() {
     glInit();
 
     Game game;
-    float gameSpeed = 2.f / 60.f;
+    float gameSpeed = 5.f / 60.f;
     float gameTick = 0.f;
 
 
