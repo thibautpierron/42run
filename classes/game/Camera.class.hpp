@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/18 15:01:19 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/18 15:15:16 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 15:41:44 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,14 @@ class Camera {
 		Camera();
 
 		glm::mat4	getMatrix() const;
-		void		setCamera(float, float, Orientation::Enum);
+		void		setOrientation(Orientation::Enum);
+		void		setCamera(float, float);
 
 	private:
-		glm::mat4	matrix;
+		glm::mat4			matrix;
+		float				distance;
+		float				height;
+		Orientation::Enum	orientation;
 };
 
 #endif

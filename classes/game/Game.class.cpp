@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/18 15:15:29 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 15:42:28 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ Game::Game() {
     this->obstacles = this->areas.front()->getObstacles();
     this->player = new Player(0, this->areas.front()->getLineNbr());
 	this->camera = Camera();
+	this->camera.setOrientation(Orientation::NORTH);
 	this->movementDirection = Orientation::NORTH;
 	this->gameClockRender = 0.f;
 	this->areasUpdated = false;
@@ -52,7 +53,7 @@ void	Game::setCamera() {
 
 	// std::cout << cameraX << std::endl;
 
-	this->camera.setCamera(cameraX, gameClockRender, this->movementDirection);
+	this->camera.setCamera(cameraX, gameClockRender);
 	Shader::setCamera(this->camera.getMatrix());
 }
 
@@ -187,6 +188,7 @@ void	Game::orientatePlayer() {
 
 	this->movementDirection = nextOrientation;
 	this->player->setOrientation(nextOrientation);
+	this->camera.setOrientation(nextOrientation);
 	this->currentAreaInd++;
 	this->areasUpdated = false;
 	// std::cout << this->player->getX() << " : " << this->player->getY() << std::endl;
