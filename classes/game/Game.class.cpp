@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/18 13:00:37 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 13:11:11 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,28 +218,17 @@ void	Game::addArea(Orientation::Enum nextOrientation) {
 }
 
 void	Game::initAreas() {
-	// Orientation::Enum randOrientation = Orientation::SOUTH;
-	// Orientation::Enum randOrientation2;
 	
 	this->areas.push_back(new Area(0.f, 0.f, Orientation::NORTH));
-	// while(randOrientation == Orientation::SOUTH) {
-	// 	randOrientation = static_cast<Orientation::Enum>(rand() % 4);
-	// 	// std::cout << "First: " << randOrientation << std::endl;
-	// }
+
 	Orientation::Enum randOrientation = getRandOrientationDifferentFrom(Orientation::SOUTH);
 	addArea(randOrientation);
-
-	// randOrientation2 = static_cast<Orientation::Enum>((randOrientation + 2) % 4);
-	// while(randOrientation2 == ((randOrientation + 2) % 4)) {
-	// 	randOrientation2 = static_cast<Orientation::Enum>(rand() % 4);
-	// 	// std::cout << "Seconde: " << randOrientation2 << std::endl;
-	// }
 	addArea(getRandOrientationDifferentFrom(static_cast<Orientation::Enum>((randOrientation + 2) % 4)));
 }
 
 void	Game::manageAreas() {
 
-	//	MISS OLD AREAS SUPPRESSION
+	delArea();
 	
 	if (this->areasUpdated)
 		return;
@@ -274,4 +263,14 @@ Orientation::Enum	Game::getRandOrientationDifferentFrom(Orientation::Enum orient
 		randOrientation = static_cast<Orientation::Enum>(rand() % 4);
 	}
 	return randOrientation;
+}
+
+void	Game::delArea() {
+	std::cout << this->areas.size() << std::endl;
+	
+	if (this->areas.size() <= 5)
+		return;
+
+	this->currentAreaInd--;
+	this->areas.pop_front();
 }
