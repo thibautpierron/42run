@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/18 13:11:11 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 13:47:26 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ Game::~Game() {
 }
 
 void	Game::compute(float gameTick) {
+	
 	if (gameTick == 0)
 		player->goAhead();
 
@@ -136,27 +137,47 @@ void	Game::movePlayerLeft() {
 	}
 }
 
-bool	Game::playerCanTurn() const {
+bool	Game::playerCanTurn() {
+	if (this->movementDirection == this->areas[this->currentAreaInd + 1]->getOrientation()) {
+		switch(this->movementDirection) {
+			case Orientation::NORTH:
+				if (this->player->getY() > this->areas[this->currentAreaInd]->getEndY())
+					this->currentAreaInd++; break;
+			case Orientation::SOUTH:
+				if (this->player->getY() < this->areas[this->currentAreaInd]->getEndY())
+					this->currentAreaInd++; break;
+			case Orientation::EAST:
+				if (this->player->getX() > this->areas[this->currentAreaInd]->getEndX())
+					this->currentAreaInd++; break;
+			case Orientation::WEST:
+				if (this->player->getX() < this->areas[this->currentAreaInd]->getEndX())
+					this->currentAreaInd++; break;
+		}
+		return false;
+	}
 	switch (this->movementDirection) {
 		case Orientation::NORTH:
-			if (this->player->getY() > this->areas[this->currentAreaInd + 1]->getEndY() - 5)
+			if (this->player->getY() >= this->areas[this->currentAreaInd]->getEndY() - 5)
 				return true; break;
 		case Orientation::SOUTH:
-			if (this->player->getY() < this->areas[this->currentAreaInd + 1]->getEndY() + 5)
+			if (this->player->getY() < this->areas[this->currentAreaInd]->getEndY() + 5)
 				return true; break;
 		case Orientation::EAST:
-			if (this->player->getX() > this->areas[this->currentAreaInd + 1]->getEndX() - 5)
+			if (this->player->getX() >= this->areas[this->currentAreaInd]->getEndX() - 5)
 				return true; break;
 		case Orientation::WEST:
-			if (this->player->getX() < this->areas[this->currentAreaInd + 1]->getEndX() + 5)
+			if (this->player->getX() < this->areas[this->currentAreaInd]->getEndX() + 5)
 				return true; break;
 	}
 	return false;
 }
 
 void	Game::orientatePlayer() {
+	// std::cout << "space PRESSED" << std::endl;
 	if (!playerCanTurn())
 		return;
+	// std::cout << "Player can turn" << std::endl;
+	// std::cout << this->player->getX() << " : " << this->player->getY() << std::endl;
 	Orientation::Enum nextOrientation = this->areas[this->currentAreaInd + 1]->getOrientation();
 
 	if (this->movementDirection == Orientation::NORTH || this->movementDirection == Orientation::SOUTH)
@@ -168,6 +189,7 @@ void	Game::orientatePlayer() {
 	this->player->setOrientation(nextOrientation);
 	this->currentAreaInd++;
 	this->areasUpdated = false;
+	// std::cout << this->player->getX() << " : " << this->player->getY() << std::endl;
 }
 
 void	Game::orientatePlayer(Orientation::Enum orientation) {
@@ -266,7 +288,7 @@ Orientation::Enum	Game::getRandOrientationDifferentFrom(Orientation::Enum orient
 }
 
 void	Game::delArea() {
-	std::cout << this->areas.size() << std::endl;
+	// std::cout << this->areas.size() << std::endl;
 	
 	if (this->areas.size() <= 5)
 		return;

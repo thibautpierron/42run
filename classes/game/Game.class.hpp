@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/18 10:52:37 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 13:45:50 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ class Game {
 		void	addArea(Orientation::Enum);
 		void	delArea();
 		void	manageAreas();
-		bool	playerCanTurn() const;
+		bool	playerCanTurn();
 		Orientation::Enum	getRandOrientationDifferentFrom(Orientation::Enum) const;
 		
 		Player	*player;

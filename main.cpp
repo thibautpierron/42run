@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:25:21 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/18 11:18:38 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/18 13:33:30 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ int     main() {
     glInit();
 
     Game game;
-    float gameSpeed = 5.f / 60.f;
+    float gameSpeed = 6.f / 60.f;
     float gameTick = 0.f;
 
 
 	while (!exitLoop) {
         start = std::chrono::high_resolution_clock::now();
-        if(gameTick > 1.f)
+        if(gameTick >= 1.f)
             gameTick = 0.f;
         SDL_PollEvent(&events);
         eventManager(&events, &exitLoop, &game);
