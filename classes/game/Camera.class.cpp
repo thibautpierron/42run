@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/18 15:05:13 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/19 13:39:38 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/19 14:30:02 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ Camera::Camera() {
 	this->lookingDistance = 5.f;
 	this->positionDistance = 5.f;
 	this->height = 2.f;
-    this->animationStarted = false;
+    this->animationRotationStarted = false;
+    this->animationGetCloserStarted = false;
 }
 
 void    Camera::setCamera(float targetX, float gameClock) {
@@ -52,8 +53,10 @@ void    Camera::setCamera(float targetX, float gameClock) {
             break;
     }
     
-    if (this->animationStarted)
-        computeAnimation(posX, posY, lookX, lookY);
+    if (this->animationRotationStarted)
+        computeRotationAnimation(posX, posY, lookX, lookY);
+    else if (this->animationGetCloserStarted)
+        computeGetCloserAnimation();
     else {
         this->matrix = glm::lookAt(
             glm::vec3(posX, posY, this->height),
@@ -72,12 +75,12 @@ void		Camera::setOrientation(Orientation::Enum orientation) {
 }
 
 void        Camera::startRotationAnimation(float distance, float gameSpeed, Orientation::Enum way) {
-    this->animationStarted = true;
+    this->animationRotationStarted = true;
     this->animationStep = 90.f / (distance / gameSpeed);
     this->animationWay = way;
 }
 
-void        Camera::computeAnimation(float posX, float posY, float lookX, float lookY) {
+void        Camera::computeRotationAnimation(float posX, float posY, float lookX, float lookY) {
     static float step = 0.f;
 
     float stepRad = glm::radians(step - 90);
@@ -101,14 +104,22 @@ void        Camera::computeAnimation(float posX, float posY, float lookX, float 
         step -= this->animationStep;
 
     if (step >= 90.f || step <= -90.f) {
-        this->animationStarted = false;
+        this->animationRotationStarted = false;
     }
-
 
 std::cout << step << std::endl;
         
 }
 
+void    Camera::startGetCloserAnimation() {
+    this->animationRotationStarted = false;
+    this->animationGetCloserStarted = true;
+}
+
+void    Camera::computeGetCloserAnimation() {}
+
 bool    Camera::getAnimationState() const {
-    return this->animationStarted;
+    if(this->animationRotationStarted || this->animationGetCloserStarted)
+        return true;
+    return false;
 }

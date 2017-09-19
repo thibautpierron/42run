@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/18 15:01:19 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/19 13:26:27 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/19 14:28:08 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ class Camera {
 		void		setOrientation(Orientation::Enum);
 		void		setCamera(float, float);
 		void		startRotationAnimation(float distance, float gameSpeed, Orientation::Enum way);
+		void		startGetCloserAnimation();
 		bool		getAnimationState() const;
 
 	private:
-		void				computeAnimation(float, float, float, float);
+		void				computeRotationAnimation(float, float, float, float);
+		void				computeGetCloserAnimation();
 
 		glm::mat4			matrix;
 		float				lookingDistance;
@@ -37,7 +39,8 @@ class Camera {
 		float				height;
 		Orientation::Enum	orientation;
 
-		bool				animationStarted;
+		bool				animationRotationStarted;
+		bool				animationGetCloserStarted;
 		Orientation::Enum	animationWay;
 		float				animationStep;
 };
