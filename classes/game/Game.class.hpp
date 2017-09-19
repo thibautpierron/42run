@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/18 15:14:21 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/19 11:03:57 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ class Game {
 	
 	public:
 		Game();
+		Game(float);
 		~Game();
 		void				compute(float gameTime);
 		void				render(float gameTime);
@@ -44,6 +45,7 @@ class Game {
 		
 		Player	*player;
 		Camera	camera;
+		float	gameSpeed;
 		std::vector<glm::vec2>	obstacles;
 		Orientation::Enum		movementDirection;
 		float					gameClockRender;

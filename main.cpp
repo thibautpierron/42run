@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:25:21 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/18 13:33:30 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/19 10:56:03 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int     main() {
     win = initSDL(&ctx);
     glInit();
 
-    Game game;
     float gameSpeed = 6.f / 60.f;
     float gameTick = 0.f;
+    Game game(gameSpeed);
 
 
 	while (!exitLoop) {

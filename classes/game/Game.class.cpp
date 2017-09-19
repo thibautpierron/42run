@@ -6,13 +6,13 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/18 15:42:28 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/19 11:03:36 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./Game.class.hpp"
 
-Game::Game() {
+Game::Game(float gameSpeed) : gameSpeed(gameSpeed) {
 	initAreas();
     this->obstacles = this->areas.front()->getObstacles();
     this->player = new Player(0, this->areas.front()->getLineNbr());
@@ -51,9 +51,10 @@ void	Game::setCamera() {
 			cameraX += this->areas[this->currentAreaInd]->getEndY() - 5; break;
 	}
 
-	// std::cout << cameraX << std::endl;
+	if (this->areas[this->currentAreaInd]->getEndY() - this->player->getY() < 15)
+		this->camera.startRotationAnimation(15, this->gameSpeed, this->areas[this->currentAreaInd + 1]->getOrientation());
 
-	this->camera.setCamera(cameraX, gameClockRender);
+	this->camera.setCamera(cameraX, this->gameClockRender);
 	Shader::setCamera(this->camera.getMatrix());
 }
 
