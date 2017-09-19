@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/19 13:46:27 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/19 15:31:44 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ void	Game::setCamera() {
 			cameraX += this->areas[this->currentAreaInd]->getEndY() - 5; break;
 	}
 
-	if (this->areas[this->currentAreaInd]->getEndY() - this->player->getY() < 15 && 
+	if ( this->movementDirection == Orientation::NORTH &&
+		this->areas[this->currentAreaInd]->getEndY() - this->player->getY() < 15 && 
 		this->areas[this->currentAreaInd]->getEndY() - this->player->getY() > 0 && 
 		this->camera.getAnimationState() == false) {
-			        std::cout << "PUTE" << std::endl;
 		this->camera.startRotationAnimation(15 - 2.5, this->gameSpeed, this->areas[this->currentAreaInd + 1]->getOrientation());
 		}
 
@@ -196,6 +196,7 @@ void	Game::orientatePlayer() {
 	this->camera.setOrientation(nextOrientation);
 	this->currentAreaInd++;
 	this->areasUpdated = false;
+	this->camera.startGetCloserAnimation();
 	// std::cout << this->player->getX() << " : " << this->player->getY() << std::endl;
 }
 

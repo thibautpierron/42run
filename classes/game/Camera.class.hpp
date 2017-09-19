@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/18 15:01:19 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/19 14:28:08 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/19 14:42:31 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../constants/constants.hpp"
 # include "../libs/glm/gtc/matrix_transform.hpp"
 # include "../libs/glm/gtx/rotate_vector.hpp"
+# include "../libs/glm/gtx/matrix_interpolation.hpp"
 # include <iostream>
 
 class Camera {
@@ -31,7 +32,7 @@ class Camera {
 
 	private:
 		void				computeRotationAnimation(float, float, float, float);
-		void				computeGetCloserAnimation();
+		void				computeGetCloserAnimation(glm::mat4);
 
 		glm::mat4			matrix;
 		float				lookingDistance;

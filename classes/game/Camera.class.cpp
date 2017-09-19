@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/18 15:05:13 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/19 14:30:02 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/19 15:30:10 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,11 @@ void    Camera::setCamera(float targetX, float gameClock) {
     if (this->animationRotationStarted)
         computeRotationAnimation(posX, posY, lookX, lookY);
     else if (this->animationGetCloserStarted)
-        computeGetCloserAnimation();
+        computeGetCloserAnimation(glm::lookAt(
+            glm::vec3(posX, posY, this->height),
+            glm::vec3(lookX, lookY, 0.f),
+            glm::vec3(0.f, 0.f, 1.f)
+        ));
     else {
         this->matrix = glm::lookAt(
             glm::vec3(posX, posY, this->height),
@@ -81,6 +85,7 @@ void        Camera::startRotationAnimation(float distance, float gameSpeed, Orie
 }
 
 void        Camera::computeRotationAnimation(float posX, float posY, float lookX, float lookY) {
+    std::cout << "COMPUTE ROTATION ANIMATION" << std::endl;
     static float step = 0.f;
 
     float stepRad = glm::radians(step - 90);
@@ -105,10 +110,7 @@ void        Camera::computeRotationAnimation(float posX, float posY, float lookX
 
     if (step >= 90.f || step <= -90.f) {
         this->animationRotationStarted = false;
-    }
-
-std::cout << step << std::endl;
-        
+    }   
 }
 
 void    Camera::startGetCloserAnimation() {
@@ -116,7 +118,18 @@ void    Camera::startGetCloserAnimation() {
     this->animationGetCloserStarted = true;
 }
 
-void    Camera::computeGetCloserAnimation() {}
+void    Camera::computeGetCloserAnimation(glm::mat4 targetMat) {
+    std::cout << "COMPUTE GET CLOSER ANIMATION" << std::endl;
+    static glm::mat4 prevMat = this->matrix;
+    static float step = 0.f;
+
+    this->matrix = glm::interpolate(prevMat, targetMat, step);
+    step += 0.02f;
+    if (step >= 1.f) {
+        step = 0.f;
+        this->animationGetCloserStarted = false;
+    }
+}
 
 bool    Camera::getAnimationState() const {
     if(this->animationRotationStarted || this->animationGetCloserStarted)
