@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/19 11:03:36 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/19 13:46:27 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	Game::compute(float gameTick) {
 	if (gameTick == 0)
 		player->goAhead();
 
-	checkCollision();
+	checkObstaclesCollision();
 	manageAreas();
 }
 
@@ -51,8 +51,12 @@ void	Game::setCamera() {
 			cameraX += this->areas[this->currentAreaInd]->getEndY() - 5; break;
 	}
 
-	if (this->areas[this->currentAreaInd]->getEndY() - this->player->getY() < 15)
-		this->camera.startRotationAnimation(15, this->gameSpeed, this->areas[this->currentAreaInd + 1]->getOrientation());
+	if (this->areas[this->currentAreaInd]->getEndY() - this->player->getY() < 15 && 
+		this->areas[this->currentAreaInd]->getEndY() - this->player->getY() > 0 && 
+		this->camera.getAnimationState() == false) {
+			        std::cout << "PUTE" << std::endl;
+		this->camera.startRotationAnimation(15 - 2.5, this->gameSpeed, this->areas[this->currentAreaInd + 1]->getOrientation());
+		}
 
 	this->camera.setCamera(cameraX, this->gameClockRender);
 	Shader::setCamera(this->camera.getMatrix());
@@ -77,7 +81,7 @@ void	Game::render(float gameSpeed) {
 
 }
 
-void	Game::checkCollision() {
+void	Game::checkObstaclesCollision() {
 	glm::vec2 playerPosition = this->player->getPosition();
 	for (unsigned int i = 0; i < obstacles.size(); i++) {
         if (obstacles[i].x == playerPosition.x && 

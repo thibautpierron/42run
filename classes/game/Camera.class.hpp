@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/18 15:01:19 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/19 11:11:31 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/19 13:26:27 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "../constants/constants.hpp"
 # include "../libs/glm/gtc/matrix_transform.hpp"
+# include "../libs/glm/gtx/rotate_vector.hpp"
+# include <iostream>
 
 class Camera {
 	public:
@@ -24,6 +26,7 @@ class Camera {
 		void		setOrientation(Orientation::Enum);
 		void		setCamera(float, float);
 		void		startRotationAnimation(float distance, float gameSpeed, Orientation::Enum way);
+		bool		getAnimationState() const;
 
 	private:
 		void				computeAnimation(float, float, float, float);

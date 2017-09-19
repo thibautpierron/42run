@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/18 15:05:13 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/19 11:11:17 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/19 13:39:38 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,42 @@ void		Camera::setOrientation(Orientation::Enum orientation) {
 
 void        Camera::startRotationAnimation(float distance, float gameSpeed, Orientation::Enum way) {
     this->animationStarted = true;
-    this->animationStep = distance / gameSpeed;
+    this->animationStep = 90.f / (distance / gameSpeed);
     this->animationWay = way;
 }
 
 void        Camera::computeAnimation(float posX, float posY, float lookX, float lookY) {
-        this->matrix = glm::lookAt(
-            glm::vec3(posX, posY, this->height),
-            glm::vec3(lookX, lookY, 0.f),
-            glm::vec3(0.f, 0.f, 1.f)
-        );
+    static float step = 0.f;
+
+    float stepRad = glm::radians(step - 90);
+    float stepRad2 = glm::radians(step + 180 - 90);
+
+    float px = 5.f * cos(stepRad) + posX;
+    float py = 5.f * sin(stepRad) + posY + 5.f;
+
+    float lx = 5.f * cos(stepRad2) + lookX;
+    float ly = 5.f * sin(stepRad2) + lookY - 5.f;
+
+    this->matrix = glm::lookAt(
+        glm::vec3(px, py, this->height),
+        glm::vec3(lx, ly, 0.f),
+        glm::vec3(0.f, 0.f, 1.f)
+    );
+
+    if (this->animationWay == Orientation::SOUTH || this->animationWay == Orientation::WEST)
+        step += this->animationStep;
+    else
+        step -= this->animationStep;
+
+    if (step >= 90.f || step <= -90.f) {
+        this->animationStarted = false;
+    }
+
+
+std::cout << step << std::endl;
+        
+}
+
+bool    Camera::getAnimationState() const {
+    return this->animationStarted;
 }
