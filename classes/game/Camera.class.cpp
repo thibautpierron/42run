@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/18 15:05:13 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/19 15:30:10 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/19 16:58:35 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ Camera::Camera() {
 	this->height = 2.f;
     this->animationRotationStarted = false;
     this->animationGetCloserStarted = false;
+    this->completeAnimationDone = true;
 }
 
 void    Camera::setCamera(float targetX, float gameClock) {
@@ -85,17 +86,54 @@ void        Camera::startRotationAnimation(float distance, float gameSpeed, Orie
 }
 
 void        Camera::computeRotationAnimation(float posX, float posY, float lookX, float lookY) {
-    std::cout << "COMPUTE ROTATION ANIMATION" << std::endl;
     static float step = 0.f;
 
-    float stepRad = glm::radians(step - 90);
-    float stepRad2 = glm::radians(step + 180 - 90);
+    if(this->completeAnimationDone) {
+        step = 0.f;
+        this->completeAnimationDone = false;
+    }
+    
+    float stepRad;
+    float stepRad2;
+    float px;
+    float py;
+    float lx;
+    float ly;
 
-    float px = 5.f * cos(stepRad) + posX;
-    float py = 5.f * sin(stepRad) + posY + 5.f;
-
-    float lx = 5.f * cos(stepRad2) + lookX;
-    float ly = 5.f * sin(stepRad2) + lookY - 5.f;
+    switch(this->orientation) {
+        case Orientation::NORTH:
+            stepRad = glm::radians(-90 + step);
+            stepRad2 = glm::radians(-270 + step);
+            px = 5.f * cos(stepRad) + posX;
+            py = 5.f * sin(stepRad) + posY + 5.f;
+            lx = 5.f * cos(stepRad2) + lookX;
+            ly = 5.f * sin(stepRad2) + lookY - 5.f;
+            break;
+        case Orientation::SOUTH:
+            stepRad = glm::radians(-270 + step);
+            stepRad2 = glm::radians(-90 + step);
+            px = 5.f * cos(stepRad) + posX;
+            py = 5.f * sin(stepRad) + posY - 5.f;
+            lx = 5.f * cos(stepRad2) + lookX;
+            ly = 5.f * sin(stepRad2) + lookY + 5.f;
+            break;
+        case Orientation::EAST:
+            stepRad = glm::radians(-180 + step);
+            stepRad2 = glm::radians(step);
+            px = 5.f * cos(stepRad) + posX + 5.f;
+            py = 5.f * sin(stepRad) + posY;
+            lx = 5.f * cos(stepRad2) + lookX - 5.f;
+            ly = 5.f * sin(stepRad2) + lookY;
+            break;
+        case Orientation::WEST:
+            stepRad = glm::radians(step);
+            stepRad2 = glm::radians(-180 + step);
+            px = 5.f * cos(stepRad) + posX - 5.f;
+            py = 5.f * sin(stepRad) + posY;
+            lx = 5.f * cos(stepRad2) + lookX + 5.f;
+            ly = 5.f * sin(stepRad2) + lookY;
+            break;
+    }
 
     this->matrix = glm::lookAt(
         glm::vec3(px, py, this->height),
@@ -103,14 +141,12 @@ void        Camera::computeRotationAnimation(float posX, float posY, float lookX
         glm::vec3(0.f, 0.f, 1.f)
     );
 
-    if (this->animationWay == Orientation::SOUTH || this->animationWay == Orientation::WEST)
-        step += this->animationStep;
-    else
-        step -= this->animationStep;
-
-    if (step >= 90.f || step <= -90.f) {
-        this->animationRotationStarted = false;
-    }   
+    switch (this->orientation) {
+        case Orientation::NORTH: this->animationWay == Orientation::EAST ? step -= this->animationStep : step += this->animationStep; break;
+        case Orientation::SOUTH: this->animationWay == Orientation::WEST ? step -= this->animationStep : step += this->animationStep; break;
+        case Orientation::WEST: this->animationWay == Orientation::NORTH ? step -= this->animationStep : step += this->animationStep; break;
+        case Orientation::EAST: this->animationWay == Orientation::SOUTH ? step -= this->animationStep : step += this->animationStep; break;
+    }
 }
 
 void    Camera::startGetCloserAnimation() {
@@ -119,15 +155,17 @@ void    Camera::startGetCloserAnimation() {
 }
 
 void    Camera::computeGetCloserAnimation(glm::mat4 targetMat) {
-    std::cout << "COMPUTE GET CLOSER ANIMATION" << std::endl;
     static glm::mat4 prevMat = this->matrix;
     static float step = 0.f;
 
+    if (step == 0.f)
+        prevMat = this->matrix;
     this->matrix = glm::interpolate(prevMat, targetMat, step);
     step += 0.02f;
     if (step >= 1.f) {
         step = 0.f;
         this->animationGetCloserStarted = false;
+        this->completeAnimationDone = true;
     }
 }
 

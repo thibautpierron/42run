@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/18 15:01:19 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/19 14:42:31 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/19 16:25:14 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ class Camera {
 
 		bool				animationRotationStarted;
 		bool				animationGetCloserStarted;
+		bool				completeAnimationDone;
 		Orientation::Enum	animationWay;
 		float				animationStep;
 };
