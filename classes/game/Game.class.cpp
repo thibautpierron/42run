@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/20 15:35:39 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/20 16:48:06 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ void	Game::render(float gameSpeed) {
 	for(unsigned int i = 0; i < this->areas.size(); i++) {
 		this->areas[i]->drawGrid();
 		this->areas[i]->drawObstacleDebug();
+		this->areas[i]->drawObstacles();
 	}
 
 	player->draw(gameClockRender);

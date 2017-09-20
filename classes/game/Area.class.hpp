@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 09:56:41 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/18 14:05:01 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/20 16:45:50 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "../../libs/glm/gtx/quaternion.hpp"
 # include "../Shader.class.hpp"
 # include "../../constants/constants.hpp"
+# include "../model/Model.class.hpp"
 
 class Area {
     public:
@@ -26,6 +27,7 @@ class Area {
         ~Area();
         
         void                    drawGrid() const;
+        void                    drawObstacles() const;
         void                    drawObstacleDebug() const;
         unsigned int	        getLineNbr() const;
         unsigned int            getLength() const;
@@ -58,6 +60,11 @@ class Area {
         Shader                  *obstacleDebugShader;
         unsigned int            obstacleDebugVao;
         unsigned int            obstacleDebugVbo;
+
+        Model                   *obstacle;
+        Shader                  *obstacleShader;
+        // unsigned int            obstacleVao;
+        // unsigned int            obstacleVbo;
 };
 
 #endif

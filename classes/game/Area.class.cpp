@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/18 14:04:56 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/20 17:06:45 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ Area::Area(float x, float y, Orientation::Enum orientation) : startX(x), startY(
 	setupObstacleDebug();
 	this->gridShader = new Shader("shaders/simple_grid.glvs", "shaders/simple_grid.glfs");
 	this->obstacleDebugShader = new Shader("shaders/simple_grid.glvs", "shaders/geometry_shader.glgs", "shaders/simple_grid.glfs");
+	this->obstacleShader = new Shader("shaders/static_model.glvs", "shaders/diffuse_texture.glfs");
+	this->obstacle = new Model("./models/obstacles/chair.dae", false);
 }
 
 Area::~Area() {
@@ -142,6 +144,42 @@ void    Area::drawGrid() const {
     glBindVertexArray(this->vao);
 	glDrawElements(GL_LINES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+}
+
+void    Area::drawObstacles() const {
+    // float scalingRate = 5.f;
+    // float xScaled;
+    // float yScaled;
+    // float angle;
+
+    // switch (this->orientation) {
+    //     case Orientation::NORTH:
+    //         xScaled = 5.f * scalingRate + scalingRate * 0.5f;
+    //         yScaled = gameClock * scalingRate + scalingRate * 0.5f;
+    //         angle = 180.f; break;
+    //     case Orientation::SOUTH:
+    //         xScaled = 5.f * scalingRate + scalingRate * 0.5f;
+    //         yScaled = gameClock * scalingRate + scalingRate * 0.5f;
+    //         angle = 0.f; break;
+    //     case Orientation::EAST:
+    //         xScaled = gameClock * scalingRate + scalingRate * 0.5f
+    //         yScaled = 5.f * scalingRate + scalingRate * 0.5f;
+    //         angle = 90.f; break;
+    //     case Orientation::WEST:
+    //         xScaled = gameClock * scalingRate + scalingRate * 0.5f;
+    //         yScaled = 5.f * scalingRate + scalingRate * 0.5f;
+    //         angle = -90.f; break;
+    // }
+
+    glm::mat4 model;
+    model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.02f));
+    model = glm::translate(model, glm::vec3(2.f, 10.f, 0.f));
+    // model = glm::rotate(model, glm::radians(angle), glm::vec3(0.f, 0.f, 1.f));
+    
+    this->obstacleShader->use();
+	this->obstacleShader->setModel(model);
+    this->obstacleShader->setView();
+    this->obstacle->draw(this->obstacleShader);
 }
 
 void	Area::drawObstacleDebug() const {
