@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/19 17:07:40 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/20 13:40:12 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ class Game {
 		void				manageAreas();
 		bool				playerCanTurn();
 		Orientation::Enum	getRandOrientationDifferentFrom(Orientation::Enum) const;
+		void				transcriptCrdToCameraRef(float *, float *, Orientation::Enum);
 		
 		Player	*player;
 		Camera	camera;
@@ -50,8 +51,8 @@ class Game {
 		std::vector<glm::vec2>	obstacles;
 		Orientation::Enum		movementDirection;
 		float					gameClockRender;
-		bool					areasUpdated;
 
+		bool					areasUpdated;
 		std::deque<Area*>		areas;
 		unsigned int			currentAreaInd;
 };
