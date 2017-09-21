@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 09:44:59 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/21 15:37:42 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/21 15:48:49 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,16 @@ AreaFactory::AreaFactory() {
 	// std::cout << "AREA FACTO CONSTRUCTOR" << std::endl;
 	this->stages.push_back(new Stage(0));
 	this->stages.push_back(new Stage(1));
-	this->currentStage = 1;
+	this->currentStage = 0;
 }
 
-Area *	AreaFactory::createArea(Area * prev) const {
+Area *	AreaFactory::createArea(Area * prev) {
+	static int areaCounter = 0;
+	if (areaCounter >= 5) {
+		this->changeStage();
+		areaCounter = 0;
+	}
+	areaCounter++;
 	Orientation::Enum lastOrientation = prev->getOrientation();	
 	Orientation::Enum nextOrientation = getNextOrientationAfter(lastOrientation);
 	float x = prev->getEndX();

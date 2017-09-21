@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/21 10:07:46 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/21 15:52:02 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ class Game {
 		void				initAreas();
 		void				checkObstaclesCollision();
 		bool				checkWallCollision();
-		// void				addArea(Orientation::Enum);
 		void				delArea();
 		void				manageAreas();
 		bool				playerCanTurn();

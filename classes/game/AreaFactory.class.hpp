@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 09:44:39 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/21 14:19:52 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/21 15:45:41 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,12 @@
 # include "./Stage.class.hpp"
 # include "../../constants/constants.hpp"
 
-// struct stage {
-// 	const int lineNbrHorizontal;
-// 	const int lineNbrVertical;
-// 	const int patternLengthHorizontal;	
-// 	const int patternLengthVertical;
-// 	Model	*scenery;
-// 	std::vector<Model*>	obstacleFull;	
-// 	std::vector<Model*>	obstacleBot;	
-// 	std::vector<Model*>	obstacleTop;	
-// };
-
 class AreaFactory {
 	public:
 		AreaFactory();
 		~AreaFactory();
 
-		Area * 	createArea(Area *) const;
+		Area * 	createArea(Area *);
 		void	changeStage();
 
 	private:
