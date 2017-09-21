@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/21 12:46:51 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/21 14:16:09 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ Game::Game(float gameSpeed) : gameSpeed(gameSpeed) {
 	this->camera = Camera();
 	this->camera.setOrientation(Orientation::NORTH);
 
-	this->areaFactory = AreaFactory();
 	initAreas();
 	this->areasUpdated = false;
 	this->currentAreaInd = 0;
@@ -71,7 +70,7 @@ void	Game::setCamera() {
 
 	switch(this->movementDirection) {
 		case Orientation::NORTH:
-			cameraX += this->areas[this->currentAreaInd]->getEndX() - 5;
+			cameraX += this->areas[this->currentAreaInd]->getEndX() - this->areas[this->currentAreaInd]->getLineNbr();
 			if (this->areas[this->currentAreaInd]->getEndY() - this->player->getY() < 15 &&
 				this->areas[this->currentAreaInd]->getEndY() - this->player->getY() > 0 &&
 				this->areas[this->currentAreaInd + 1]->getOrientation() != Orientation::NORTH &&
@@ -98,7 +97,7 @@ void	Game::setCamera() {
 			}
 			break;
 		case Orientation::WEST:
-			cameraX += this->areas[this->currentAreaInd]->getEndY() - 5;
+			cameraX += this->areas[this->currentAreaInd]->getEndY() - this->areas[this->currentAreaInd]->getLineNbr();
 			if (this->player->getX() - this->areas[this->currentAreaInd]->getEndX() < 15 &&
 				this->player->getX() - this->areas[this->currentAreaInd]->getEndX() > 0 &&
 				this->areas[this->currentAreaInd + 1]->getOrientation() != Orientation::WEST &&
@@ -207,19 +206,19 @@ void	Game::movePlayerLeft() {
 	// std::cout << "x: " << this->player->getX() << " y: " << this->player->getY() << std::endl;
 	switch (this->movementDirection) {
 		case Orientation::NORTH:
-			if (this->player->getX() > this->areas[currentAreaInd]->getEndX() - 5)
+			if (this->player->getX() > this->areas[currentAreaInd]->getEndX() - this->areas[currentAreaInd]->getLineNbr())
 				this->player->move(-1.f, 0.f);
 			break;
 		case Orientation::SOUTH:
-			if (this->player->getX() < this->areas[currentAreaInd]->getEndX() + 4)
+			if (this->player->getX() < this->areas[currentAreaInd]->getEndX() + this->areas[currentAreaInd]->getLineNbr() - 1)
 				this->player->move(1.f, 0.f);
 			break;
 		case Orientation::EAST:
-			if (this->player->getY() < this->areas[currentAreaInd]->getEndY() + 4)
+			if (this->player->getY() < this->areas[currentAreaInd]->getEndY() + this->areas[currentAreaInd]->getLineNbr() - 1)
 				this->player->move(0.f, 1.f);
 			break;
 		case Orientation::WEST:
-			if (this->player->getY() > this->areas[currentAreaInd]->getEndY() - 5)
+			if (this->player->getY() > this->areas[currentAreaInd]->getEndY() - this->areas[currentAreaInd]->getLineNbr())
 				this->player->move(0.f, -1.f);
 			break;
 	}
@@ -296,7 +295,7 @@ void	Game::orientatePlayer(Orientation::Enum orientation) {
 
 void	Game::initAreas() {
 	
-	this->areas.push_back(new Area(0.f, 0.f, 30, 5, Orientation::NORTH));
+	this->areas.push_back(new Area(0.f, 0.f, 30, 3, Orientation::NORTH));
 	this->areas.push_back(this->areaFactory.createArea(this->areas.back()));
 	this->areas.push_back(this->areaFactory.createArea(this->areas.back()));
 }

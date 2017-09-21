@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/21 12:43:58 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/21 13:41:38 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,19 +208,19 @@ void	Area::generateObstacles() {
 	switch(orientation) {
 		case Orientation::NORTH:
 			for (unsigned int i = 0; i < this->length; i++) {
-				this->obstacles.push_back(glm::vec2(static_cast<float>(rand() % 5) + this->startX, static_cast<float>(i) + this->startY));
+				this->obstacles.push_back(glm::vec2(static_cast<float>(rand() % this->lineNbr) + this->startX, static_cast<float>(i) + this->startY));
 			} break;
 		case Orientation::SOUTH:
 			for (unsigned int i = 0; i < this->length; i++) {
-				this->obstacles.push_back(glm::vec2(this->startX - static_cast<float>(rand() % 5) - 1, this->startY - static_cast<float>(i) - 1));
+				this->obstacles.push_back(glm::vec2(this->startX - static_cast<float>(rand() % this->lineNbr) - 1, this->startY - static_cast<float>(i) - 1));
 			} break;
 		case Orientation::WEST:
 			for (unsigned int i = 0; i < this->length; i++) {
-				this->obstacles.push_back(glm::vec2(this->startX - static_cast<float>(i) - 1, static_cast<float>(rand() % 5) + this->startY));
+				this->obstacles.push_back(glm::vec2(this->startX - static_cast<float>(i) - 1, static_cast<float>(rand() % this->lineNbr) + this->startY));
 			} break;
 		case Orientation::EAST:
 			for (unsigned int i = 0; i < this->length; i++) {
-				this->obstacles.push_back(glm::vec2(this->startX + static_cast<float>(i),  this->startY - static_cast<float>(rand() % 5) - 1));
+				this->obstacles.push_back(glm::vec2(this->startX + static_cast<float>(i),  this->startY - static_cast<float>(rand() % this->lineNbr) - 1));
 			} break;
 	}
 }
