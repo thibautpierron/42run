@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 09:44:59 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/21 14:22:04 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/21 15:37:42 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,34 +41,26 @@ Area *	AreaFactory::createArea(Area * prev) const {
 		case Orientation::NORTH:
 			if (nextOrientation == Orientation::EAST)
 				return new Area(x, y, nextAreaLength, nextAreaLineNbr, nextOrientation);
-			else if (nextOrientation == Orientation::WEST)
-				return new Area(x - nextAreaLineNbr, y - nextAreaLineNbr, nextAreaLength, nextAreaLineNbr, nextOrientation);
 			else
-				return new Area(x - nextAreaLineNbr, y, nextAreaLength, nextAreaLineNbr, nextOrientation);
+				return new Area(x - nextAreaLineNbr, y - nextAreaLineNbr, nextAreaLength, nextAreaLineNbr, nextOrientation);
 			break;
 		case Orientation::SOUTH:
 			if (nextOrientation == Orientation::EAST)
 				return new Area(x + nextAreaLineNbr, y + nextAreaLineNbr, nextAreaLength, nextAreaLineNbr, nextOrientation);
-			else if (nextOrientation == Orientation::WEST)
-				return new Area(x, y, nextAreaLength, nextAreaLineNbr, nextOrientation);
 			else
-				return new Area(x + nextAreaLineNbr, y, nextAreaLength, nextAreaLineNbr, nextOrientation);
+				return new Area(x, y, nextAreaLength, nextAreaLineNbr, nextOrientation);
 			break;
 		case Orientation::WEST:
 			if (nextOrientation == Orientation::NORTH)
 				return new Area(x, y, nextAreaLength, nextAreaLineNbr, nextOrientation);
-			else if (nextOrientation == Orientation::SOUTH)
-				return new Area(x + nextAreaLineNbr, y - nextAreaLineNbr, nextAreaLength, nextAreaLineNbr, nextOrientation);
 			else
-				return new Area(x, y - nextAreaLineNbr, nextAreaLength, nextAreaLineNbr, nextOrientation);
+				return new Area(x + nextAreaLineNbr, y - prev->getLineNbr(), nextAreaLength, nextAreaLineNbr, nextOrientation);
 			break;
 		case Orientation::EAST:
 			if (nextOrientation == Orientation::NORTH)
-				return new Area(x - nextAreaLineNbr, y + nextAreaLineNbr, nextAreaLength, nextAreaLineNbr, nextOrientation);
-			else if (nextOrientation == Orientation::SOUTH)
-				return new Area(x, y, nextAreaLength, nextAreaLineNbr, nextOrientation);
+				return new Area(x - nextAreaLineNbr, y + prev->getLineNbr(), nextAreaLength, nextAreaLineNbr, nextOrientation);
 			else
-				return new Area(x, y + nextAreaLineNbr, nextAreaLength, nextAreaLineNbr, nextOrientation);
+				return new Area(x, y, nextAreaLength, nextAreaLineNbr, nextOrientation);
 			break;
 	}
 }
