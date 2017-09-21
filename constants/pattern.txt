@@ -1,0 +1,19 @@
+
+# bonus: B
+# full obstacle: F
+# low obstacle: L
+# high obstacle: H
+
+:3*5
+xxx
+xxx
+xFF
+xxx
+xxx
+
+:3*5
+xFx
+xxx
+xxF
+Fxx
+xxx

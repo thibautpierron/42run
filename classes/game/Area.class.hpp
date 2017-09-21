@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 09:56:41 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/21 12:40:34 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/21 17:13:18 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ class Area {
         float                   getEndY() const;
         std::vector<glm::vec2>  getObstacles() const;
         Orientation::Enum       getOrientation() const;
+        void                    setObstacleModel(Model *);
 
     private:
         Area();

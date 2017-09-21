@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 09:44:59 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/21 15:48:49 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/21 17:19:47 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ Area *	AreaFactory::createArea(Area * prev) {
 		areaCounter = 0;
 	}
 	areaCounter++;
+	
 	Orientation::Enum lastOrientation = prev->getOrientation();	
 	Orientation::Enum nextOrientation = getNextOrientationAfter(lastOrientation);
-	float x = prev->getEndX();
-	float y = prev->getEndY();
+	float prevX = prev->getEndX();
+	float prevY = prev->getEndY();
 	int nextAreaLength = rand() % 10 + 3;
 	int nextAreaLineNbr;
 	if (nextOrientation == Orientation::NORTH || nextOrientation == Orientation::SOUTH) {
@@ -43,32 +44,40 @@ Area *	AreaFactory::createArea(Area * prev) {
 		nextAreaLineNbr = this->stages[this->currentStage]->getLineNbrHorizontal();
 	}
 
+	float areaX;
+	float areaY;
+
 	switch(lastOrientation) {
 		case Orientation::NORTH:
 			if (nextOrientation == Orientation::EAST)
-				return new Area(x, y, nextAreaLength, nextAreaLineNbr, nextOrientation);
+				{areaX = prevX; areaY = prevY;}
 			else
-				return new Area(x - nextAreaLineNbr, y - nextAreaLineNbr, nextAreaLength, nextAreaLineNbr, nextOrientation);
+				{areaX = prevX - nextAreaLineNbr; areaY = prevY - nextAreaLineNbr;}
 			break;
 		case Orientation::SOUTH:
 			if (nextOrientation == Orientation::EAST)
-				return new Area(x + nextAreaLineNbr, y + nextAreaLineNbr, nextAreaLength, nextAreaLineNbr, nextOrientation);
+				{areaX = prevX + nextAreaLineNbr; areaY =  prevY + nextAreaLineNbr;}
 			else
-				return new Area(x, y, nextAreaLength, nextAreaLineNbr, nextOrientation);
+				{areaX = prevX; areaY = prevY;}
 			break;
 		case Orientation::WEST:
 			if (nextOrientation == Orientation::NORTH)
-				return new Area(x, y, nextAreaLength, nextAreaLineNbr, nextOrientation);
+				{areaX = prevX; areaY = prevY;}
 			else
-				return new Area(x + nextAreaLineNbr, y - prev->getLineNbr(), nextAreaLength, nextAreaLineNbr, nextOrientation);
+				{areaX = prevX + nextAreaLineNbr; areaY = prevY - prev->getLineNbr();}
 			break;
 		case Orientation::EAST:
 			if (nextOrientation == Orientation::NORTH)
-				return new Area(x - nextAreaLineNbr, y + prev->getLineNbr(), nextAreaLength, nextAreaLineNbr, nextOrientation);
+				{areaX = prevX - nextAreaLineNbr; areaY = prevY + prev->getLineNbr();}
 			else
-				return new Area(x, y, nextAreaLength, nextAreaLineNbr, nextOrientation);
+				{areaX = prevX; areaY = prevY;}
 			break;
 	}
+
+	Area *area = new Area(areaX, areaY, nextAreaLength, nextAreaLineNbr, nextOrientation);
+	area->setObstacleModel(this->stages[this->currentStage]->getObstacleModel());
+
+	return area;
 }
 
 void	AreaFactory::changeStage() {

@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/21 14:16:09 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/21 15:59:15 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,29 +44,7 @@ void	Game::compute(float gameTick) {
 }
 
 void	Game::setCamera() {
-
 	float cameraX = this->areas[this->currentAreaInd]->getLineNbr() * 0.5f;
-
-	// float plx = this->player->getX();
-	// float ply = this->player->getY();
-	// float ax = this->areas[this->currentAreaInd]->getEndX();
-	// float ay = this->areas[this->currentAreaInd]->getEndY();
-
-	// float a = 0;
-	// float b = -5;
-
-	// transcriptCrdToCameraRef(&plx, &ply, this->movementDirection);
-	// transcriptCrdToCameraRef(&ax, &ay, this->movementDirection);
-	// transcriptCrdToCameraRef(&a, &b, this->movementDirection);
-	// std::cout << a << " : " << b << std::endl;
-
-	// cameraX += this->areas[this->currentAreaInd]->getEndX() + a + b;
-	// if (ay - ply < 15 &&
-	// 	ay - ply > 0 &&
-	// 	this->areas[this->currentAreaInd + 1]->getOrientation() != this->movementDirection &&
-	// 	this->camera.getAnimationState() == false) {
-	// 	this->camera.startRotationAnimation(15 - 2.5, this->gameSpeed, this->areas[this->currentAreaInd + 1]->getOrientation());
-	// }
 
 	switch(this->movementDirection) {
 		case Orientation::NORTH:
@@ -156,46 +134,24 @@ bool	Game::checkWallCollision() {
 
 	if (ply > ary)
 		return true;
-	// switch(this->movementDirection) {
-	// 	case Orientation::NORTH:
-	// 		if (this->player->getY() > this->areas[this->currentAreaInd]->getEndY())
-	// 			return true;
-	// 		break;
-	// 	case Orientation::SOUTH:
-	// 		if (this->player->getY() < this->areas[this->currentAreaInd]->getEndY())
-	// 			return true;
-	// 		break;
-	// 	case Orientation::EAST:
-	// 		if (this->player->getX() > this->areas[this->currentAreaInd]->getEndX())
-	// 			return true;
-	// 		break;
-	// 	case Orientation::WEST:
-	// 		if (this->player->getX() < this->areas[this->currentAreaInd]->getEndX())
-	// 			return true;
-	// 		break;
-	// }
 	return false;
 }
 
 void	Game::movePlayerRight() {
 	switch (this->movementDirection) {
 		case Orientation::NORTH:
-			// std::cout << "NORTH" << std::endl;
 			if (this->player->getX() < this->areas[currentAreaInd]->getEndX() - 1)
 				this->player->move(1.0f, 0.f);
 			break;
 		case Orientation::SOUTH:
-			// std::cout << "SOUTH" << std::endl;
 			if (this->player->getX() > this->areas[currentAreaInd]->getEndX())
 				this->player->move(-1.f, 0.f);
 			break;
 		case Orientation::EAST:
-			// std::cout << "EAST" << std::endl;
 			if (this->player->getY() > this->areas[currentAreaInd]->getEndY())
 				this->player->move(0.f, -1.f);
 			break;
 		case Orientation::WEST:
-			// std::cout << "WEST" << std::endl;
 			if (this->player->getY() < this->areas[currentAreaInd]->getEndY() - 1)
 				this->player->move(0.f, 1.f);
 			break;
@@ -203,7 +159,6 @@ void	Game::movePlayerRight() {
 }
 
 void	Game::movePlayerLeft() {
-	// std::cout << "x: " << this->player->getX() << " y: " << this->player->getY() << std::endl;
 	switch (this->movementDirection) {
 		case Orientation::NORTH:
 			if (this->player->getX() > this->areas[currentAreaInd]->getEndX() - this->areas[currentAreaInd]->getLineNbr())
@@ -225,23 +180,23 @@ void	Game::movePlayerLeft() {
 }
 
 bool	Game::playerCanTurn() {
-	if (this->movementDirection == this->areas[this->currentAreaInd + 1]->getOrientation()) {
-		switch(this->movementDirection) {
-			case Orientation::NORTH:
-				if (this->player->getY() > this->areas[this->currentAreaInd]->getEndY())
-					this->currentAreaInd++; break;
-			case Orientation::SOUTH:
-				if (this->player->getY() < this->areas[this->currentAreaInd]->getEndY())
-					this->currentAreaInd++; break;
-			case Orientation::EAST:
-				if (this->player->getX() > this->areas[this->currentAreaInd]->getEndX())
-					this->currentAreaInd++; break;
-			case Orientation::WEST:
-				if (this->player->getX() < this->areas[this->currentAreaInd]->getEndX())
-					this->currentAreaInd++; break;
-		}
-		return false;
-	}
+	// if (this->movementDirection == this->areas[this->currentAreaInd + 1]->getOrientation()) {
+	// 	switch(this->movementDirection) {
+	// 		case Orientation::NORTH:
+	// 			if (this->player->getY() > this->areas[this->currentAreaInd]->getEndY())
+	// 				this->currentAreaInd++; break;
+	// 		case Orientation::SOUTH:
+	// 			if (this->player->getY() < this->areas[this->currentAreaInd]->getEndY())
+	// 				this->currentAreaInd++; break;
+	// 		case Orientation::EAST:
+	// 			if (this->player->getX() > this->areas[this->currentAreaInd]->getEndX())
+	// 				this->currentAreaInd++; break;
+	// 		case Orientation::WEST:
+	// 			if (this->player->getX() < this->areas[this->currentAreaInd]->getEndX())
+	// 				this->currentAreaInd++; break;
+	// 	}
+	// 	return false;
+	// }
 	switch (this->movementDirection) {
 		case Orientation::NORTH:
 			if (this->player->getY() >= this->areas[this->currentAreaInd]->getEndY() - 5)
@@ -260,11 +215,8 @@ bool	Game::playerCanTurn() {
 }
 
 void	Game::orientatePlayer() {
-	// std::cout << "space PRESSED" << std::endl;
 	if (!playerCanTurn())
 		return;
-	// std::cout << "Player can turn" << std::endl;
-	// std::cout << this->player->getX() << " : " << this->player->getY() << std::endl;
 	Orientation::Enum nextOrientation = this->areas[this->currentAreaInd + 1]->getOrientation();
 
 	if (this->movementDirection == Orientation::NORTH || this->movementDirection == Orientation::SOUTH)
@@ -279,13 +231,9 @@ void	Game::orientatePlayer() {
 	this->areasUpdated = false;
 	this->camera.startGetCloserAnimation();
 	for (unsigned int i = 0; i < this->areas[currentAreaInd]->getObstacles().size(); i++) {
-		// std::cout << this->areas[currentAreaInd]->getObstacles()[i].x << 
-		// " : " <<
-		// this->areas[currentAreaInd]->getObstacles()[i].y << std::endl;
 		this->obstacles.push_back(this->areas[currentAreaInd]->getObstacles()[i]);
 		this->obstacles.erase(this->obstacles.begin());
 	}
-	// std::cout << this->player->getX() << " : " << this->player->getY() << std::endl;
 }
 
 void	Game::orientatePlayer(Orientation::Enum orientation) {

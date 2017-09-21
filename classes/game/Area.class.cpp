@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/21 13:41:38 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/21 17:20:49 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ Area::Area(float startX, float startY,
 											"shaders/simple_grid.glfs");
 	this->obstacleShader = new Shader("shaders/static_model.glvs",
 										"shaders/diffuse_texture.glfs");
-	this->obstacle = new Model("./models/obstacles/chair.dae", false);
+	this->obstacle = new Model("./models/cowboy/model.dae", false);
 }
 
 Area::~Area() {
@@ -47,7 +47,6 @@ void    Area::setupGrid() {
 				vertices.push_back(glm::vec3(this->startX, i + this->startY, 0.f));
 				vertices.push_back(glm::vec3(static_cast<float>(this->lineNbr) + startX, i + this->startY, 0.f));
 			} break;
-
 		case Orientation::SOUTH:
 			for(float i = 0.f; i <= this->length; i++) {
 				vertices.push_back(glm::vec3(this->startX, this->startY - i, 0.f));
@@ -64,11 +63,6 @@ void    Area::setupGrid() {
 				vertices.push_back(glm::vec3(this->startX + i, this->startY - static_cast<float>(this->lineNbr), 0.f));
 			} break;
 	}
-
-	// for(float i = 0.f; i <= this->length; i++) {
-	// 	vertices.push_back(glm::vec3(0.f + this->startX, i + startY, 0.f));
-	// 	vertices.push_back(glm::vec3(static_cast<float>(this->lineNbr) + startX, i + this->startY, 0.f));
-	// }
 	
 	for(unsigned int i = 0; i <= this->length * 2; i += 2) {
 		indices.push_back(static_cast<int>(i));
@@ -157,30 +151,6 @@ void    Area::drawGrid() const {
 }
 
 void    Area::drawObstacles() const {
-    // float scalingRate = 5.f;
-    // float xScaled;
-    // float yScaled;
-    // float angle;
-
-    // switch (this->orientation) {
-    //     case Orientation::NORTH:
-    //         xScaled = 5.f * scalingRate + scalingRate * 0.5f;
-    //         yScaled = gameClock * scalingRate + scalingRate * 0.5f;
-    //         angle = 180.f; break;
-    //     case Orientation::SOUTH:
-    //         xScaled = 5.f * scalingRate + scalingRate * 0.5f;
-    //         yScaled = gameClock * scalingRate + scalingRate * 0.5f;
-    //         angle = 0.f; break;
-    //     case Orientation::EAST:
-    //         xScaled = gameClock * scalingRate + scalingRate * 0.5f
-    //         yScaled = 5.f * scalingRate + scalingRate * 0.5f;
-    //         angle = 90.f; break;
-    //     case Orientation::WEST:
-    //         xScaled = gameClock * scalingRate + scalingRate * 0.5f;
-    //         yScaled = 5.f * scalingRate + scalingRate * 0.5f;
-    //         angle = -90.f; break;
-    // }
-
     glm::mat4 model;
     model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.02f));
     model = glm::translate(model, glm::vec3(2.f, 10.f, 0.f));
@@ -265,4 +235,9 @@ float		Area::getEndY() const {
 		case Orientation::EAST:
 			return this->startY - this->lineNbr; break;
 	}
+}
+
+void		Area::setObstacleModel(Model * model) {
+	delete this->obstacle;
+	this->obstacle = model;
 }
