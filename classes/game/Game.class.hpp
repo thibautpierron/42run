@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/20 13:40:12 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/21 10:07:46 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "./Area.class.hpp"
 # include "./Player.class.hpp"
 # include "./Camera.class.hpp"
+# include "./AreaFactory.class.hpp"
 # include "../../constants/constants.hpp"
 
 class Game {
@@ -38,11 +39,10 @@ class Game {
 		void				initAreas();
 		void				checkObstaclesCollision();
 		bool				checkWallCollision();
-		void				addArea(Orientation::Enum);
+		// void				addArea(Orientation::Enum);
 		void				delArea();
 		void				manageAreas();
 		bool				playerCanTurn();
-		Orientation::Enum	getRandOrientationDifferentFrom(Orientation::Enum) const;
 		void				transcriptCrdToCameraRef(float *, float *, Orientation::Enum);
 		
 		Player	*player;
@@ -54,6 +54,7 @@ class Game {
 
 		bool					areasUpdated;
 		std::deque<Area*>		areas;
+		AreaFactory				areaFactory;
 		unsigned int			currentAreaInd;
 };
 

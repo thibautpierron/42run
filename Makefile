@@ -6,7 +6,7 @@
 #    By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/07/21 11:32:23 by tpierron          #+#    #+#              #
-#    Updated: 2017/09/18 15:11:57 by tpierron         ###   ########.fr        #
+#    Updated: 2017/09/21 11:49:05 by tpierron         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ SRC =	classes/Shader.class.cpp \
 		classes/model/Model.class.cpp	\
 		classes/model/Joint.class.cpp	\
 		classes/game/Area.class.cpp	\
+		classes/game/AreaFactory.class.cpp	\
+		classes/game/Stage.class.cpp	\
 		classes/game/Player.class.cpp	\
 		classes/game/Game.class.cpp	\
 		classes/game/Camera.class.cpp	\

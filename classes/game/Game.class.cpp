@@ -6,22 +6,25 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/20 16:48:06 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/21 11:17:57 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./Game.class.hpp"
 
 Game::Game(float gameSpeed) : gameSpeed(gameSpeed) {
-	initAreas();
-    this->obstacles = this->areas.front()->getObstacles();
-    this->player = new Player(0, this->areas.front()->getLineNbr());
 	this->camera = Camera();
 	this->camera.setOrientation(Orientation::NORTH);
-	this->movementDirection = Orientation::NORTH;
-	this->gameClockRender = 0.f;
+
+	this->areaFactory = AreaFactory();
+	initAreas();
 	this->areasUpdated = false;
 	this->currentAreaInd = 0;
+    this->obstacles = this->areas.front()->getObstacles();
+
+    this->player = new Player(0, this->areas.front()->getLineNbr());
+	this->movementDirection = Orientation::NORTH;
+	this->gameClockRender = 0.f;
 }
 
 Game::~Game() {
@@ -291,55 +294,11 @@ void	Game::orientatePlayer(Orientation::Enum orientation) {
 	this->player->setOrientation(orientation);
 }
 
-void	Game::addArea(Orientation::Enum nextOrientation) {
-	Orientation::Enum lastOrientation = this->areas.back()->getOrientation();	
-	float x = this->areas.back()->getEndX();
-	float y = this->areas.back()->getEndY();
-
-
-	switch(lastOrientation) {
-		case Orientation::NORTH:
-			if (nextOrientation == Orientation::EAST)
-				this->areas.push_back(new Area(x, y, nextOrientation));
-			else if (nextOrientation == Orientation::WEST)
-				this->areas.push_back(new Area(x - 5, y - 5, nextOrientation));
-			else
-				this->areas.push_back(new Area(x - 5, y, nextOrientation));
-			break;
-		case Orientation::SOUTH:
-			if (nextOrientation == Orientation::EAST)
-				this->areas.push_back(new Area(x + 5, y + 5, nextOrientation));
-			else if (nextOrientation == Orientation::WEST)
-				this->areas.push_back(new Area(x, y, nextOrientation));
-			else
-				this->areas.push_back(new Area(x + 5, y, nextOrientation));
-			break;
-		case Orientation::WEST:
-			if (nextOrientation == Orientation::NORTH)
-				this->areas.push_back(new Area(x, y, nextOrientation));
-			else if (nextOrientation == Orientation::SOUTH)
-				this->areas.push_back(new Area(x + 5, y - 5, nextOrientation));
-			else
-				this->areas.push_back(new Area(x, y - 5, nextOrientation));
-			break;
-		case Orientation::EAST:
-			if (nextOrientation == Orientation::NORTH)
-				this->areas.push_back(new Area(x - 5, y + 5, nextOrientation));
-			else if (nextOrientation == Orientation::SOUTH)
-				this->areas.push_back(new Area(x, y, nextOrientation));
-			else
-				this->areas.push_back(new Area(x, y + 5, nextOrientation));
-			break;
-	}
-}
-
 void	Game::initAreas() {
 	
 	this->areas.push_back(new Area(0.f, 0.f, Orientation::NORTH));
-
-	Orientation::Enum randOrientation = getRandOrientationDifferentFrom(Orientation::SOUTH);
-	addArea(randOrientation);
-	addArea(getRandOrientationDifferentFrom(static_cast<Orientation::Enum>((randOrientation + 2) % 4)));
+	this->areas.push_back(this->areaFactory.createArea(this->areas.back()));
+	this->areas.push_back(this->areaFactory.createArea(this->areas.back()));
 }
 
 void	Game::manageAreas() {
@@ -348,37 +307,23 @@ void	Game::manageAreas() {
 	
 	if (this->areasUpdated)
 		return;
-	Orientation::Enum lastOrientationInv = static_cast<Orientation::Enum>((this->areas.back()->getOrientation() + 2) % 4);
+		
+	bool flag = false;
 	switch (this->movementDirection) {
 		case Orientation::NORTH:
-			if (this->player->getY() > this->areas[0]->getEndY() - 20) {
-				addArea(getRandOrientationDifferentFrom(lastOrientationInv));
-				this->areasUpdated = true;
-			} break;
+			if (this->player->getY() > this->areas[0]->getEndY() - 20) flag = true; break;
 		case Orientation::SOUTH:
-			if (this->player->getY() < this->areas[0]->getEndY() + 20) {
-				addArea(getRandOrientationDifferentFrom(lastOrientationInv));
-				this->areasUpdated = true;
-			} break;
+			if (this->player->getY() < this->areas[0]->getEndY() + 20) flag = true; break;
 		case Orientation::EAST:
-			if (this->player->getX() > this->areas[0]->getEndX() - 20) {
-				addArea(getRandOrientationDifferentFrom(lastOrientationInv));
-				this->areasUpdated = true;
-			} break;
+			if (this->player->getX() > this->areas[0]->getEndX() - 20) flag = true; break;
 		case Orientation::WEST:
-			if (this->player->getX() < this->areas[0]->getEndX() + 20) {
-				addArea(getRandOrientationDifferentFrom(lastOrientationInv));
-				this->areasUpdated = true;
-			} break;
+			if (this->player->getX() < this->areas[0]->getEndX() + 20) flag = true; break;
 	}
-}
-
-Orientation::Enum	Game::getRandOrientationDifferentFrom(Orientation::Enum orientation) const {
-	Orientation::Enum randOrientation = orientation;
-	while(randOrientation == orientation) {
-		randOrientation = static_cast<Orientation::Enum>(rand() % 4);
+	
+	if (flag) {
+		this->areas.push_back(this->areaFactory.createArea(this->areas.back()));
+		this->areasUpdated = true;
 	}
-	return randOrientation;
 }
 
 void	Game::delArea() {
@@ -394,12 +339,10 @@ void		Game::transcriptCrdToCameraRef(float *x, float *y, Orientation::Enum orien
 	float xx = *x;
 	float yy = *y;
 
-	// switch(this->orientation) {
-	// 	case Orientation::NORTH:
-			switch(orientation) {
-				case Orientation::NORTH: break;
-				case Orientation::SOUTH: *x = -xx; *y = -yy;break;
-				case Orientation::WEST: *x = -yy; *y = -xx;break;
-				case Orientation::EAST: *x = yy; *y = xx;break;
-			} 
+	switch(orientation) {
+		case Orientation::NORTH: break;
+		case Orientation::SOUTH: *x = -xx; *y = -yy;break;
+		case Orientation::WEST: *x = -yy; *y = -xx;break;
+		case Orientation::EAST: *x = yy; *y = xx;break;
+	} 
 }
