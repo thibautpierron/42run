@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 11:33:26 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/21 12:36:28 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/21 13:17:56 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@
 class Stage {
 	public:
 		Stage(int);
+		
+		int getLineNbrHorizontal() const;
+		int getLineNbrVertical() const;
+		int getPatternLengthHorizontal() const;
+		int getPatternLengthVertical() const;
 
 	private:
 		Stage();

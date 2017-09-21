@@ -6,27 +6,37 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/20 17:06:45 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/21 12:43:58 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Area.class.hpp"
 
-Area::Area(float x, float y, Orientation::Enum orientation) : startX(x), startY(y), orientation(orientation) {
-	this->length = 30;
-	this->lineNbr = 5;
+Area::Area(float startX, float startY,
+            unsigned int length, unsigned int lineNbr,
+			Orientation::Enum orientation)
+			: startX(startX), startY(startY),
+				length(length), lineNbr(lineNbr),
+			 	orientation(orientation) {
+					 
 	setupGrid();
 	generateObstacles();
 	setupObstacleDebug();
-	this->gridShader = new Shader("shaders/simple_grid.glvs", "shaders/simple_grid.glfs");
-	this->obstacleDebugShader = new Shader("shaders/simple_grid.glvs", "shaders/geometry_shader.glgs", "shaders/simple_grid.glfs");
-	this->obstacleShader = new Shader("shaders/static_model.glvs", "shaders/diffuse_texture.glfs");
+	this->gridShader = new Shader("shaders/simple_grid.glvs",
+									"shaders/simple_grid.glfs");
+	this->obstacleDebugShader = new Shader("shaders/simple_grid.glvs",
+											"shaders/geometry_shader.glgs",
+											"shaders/simple_grid.glfs");
+	this->obstacleShader = new Shader("shaders/static_model.glvs",
+										"shaders/diffuse_texture.glfs");
 	this->obstacle = new Model("./models/obstacles/chair.dae", false);
 }
 
 Area::~Area() {
 	delete this->gridShader;
-	// std::cout << "Area destroyed" << std::endl;
+	delete this->obstacleDebugShader;
+	delete this->obstacleShader;
+	delete this->obstacle;
 }
 
 void    Area::setupGrid() {
