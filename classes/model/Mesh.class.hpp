@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:54:43 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/25 14:29:31 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 16:37:39 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ class Mesh {
         unsigned int            vao;
         unsigned int            vbo;
         unsigned int            ebo;
+        unsigned int            ibo;
 };
 
 #endif

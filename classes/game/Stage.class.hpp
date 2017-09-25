@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 11:33:26 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/21 16:43:14 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 16:46:27 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ class Stage {
 		int patternLengthHorizontal;	
 		int patternLengthVertical;
 		
-		std::vector<Model*>	scenery;	
-		std::vector<Model*>	obstacleFull;	
-		std::vector<Model*>	obstacleBot;	
-		std::vector<Model*>	obstacleTop;	
+		std::vector<std::string>	scenery;	
+		std::vector<std::string>	obstacleFull;	
+		std::vector<std::string>	obstacleBot;	
+		std::vector<std::string>	obstacleTop;	
 };
 
 #endif

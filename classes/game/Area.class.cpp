@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/25 14:58:44 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 16:56:04 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,13 +152,7 @@ void    Area::drawGrid() const {
 }
 
 void    Area::drawObstacles() const {
-    // glm::mat4 model;
-    // model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.02f));
-    // model = glm::translate(model, glm::vec3(2.f, 10.f, 0.f));
-    // model = glm::rotate(model, glm::radians(angle), glm::vec3(0.f, 0.f, 1.f));
-    
     this->obstacleShader->use();
-	// this->obstacleShader->setModel(model);
     this->obstacleShader->setView();
     this->obstacle->draw(this->obstacleShader, this->obstacles.size());
 }
@@ -243,8 +237,8 @@ void		Area::setObstacleModel(Model * model) {
 	std::vector<glm::mat4> data;
 	for (unsigned int i = 0; i < this->obstacles.size(); i++) {
     	glm::mat4 model = glm::mat4();
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.02f));
-    	model = glm::translate(model, glm::vec3(this->obstacles[i].x * 2, this->obstacles[i].y * 2, 0.f));
+    	model = glm::translate(model, glm::vec3(this->obstacles[i].x + 0.5f, this->obstacles[i].y + 0.5f, 0.f));
+		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.03f));
 		data.push_back(model);
 	}
 	this->obstacle->setInstanceBuffer(data);

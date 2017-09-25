@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:54:40 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/25 14:53:11 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 16:22:09 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,
 }
 
 Mesh::~Mesh() {
+	// glDeleteBuffers(1, &this->vbo);
+	// glDeleteBuffers(1, &this->ebo);
+	// glDeleteBuffers(1, &this->ibo);
+	// glDeleteVertexArrays(1, &this->vao);
 	return;
 }
 
@@ -99,16 +103,16 @@ void	Mesh::setupMesh() {
 }
 
 void	Mesh::setInstanceBuffer(std::vector<glm::mat4> data) {
-	unsigned int vbo;
+	std::cout << "SET INSTANCE BUFFER" << std::endl;
 
 	glBindVertexArray(this->vao);
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glGenBuffers(1, &this->ibo);
+	glBindBuffer(GL_ARRAY_BUFFER, this->ibo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * data.size(), &data[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, this->ibo);
 	glEnableVertexAttribArray(5);
 	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4) * 4, (GLvoid*)(0));
 	glEnableVertexAttribArray(6);

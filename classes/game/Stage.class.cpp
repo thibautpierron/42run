@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 11:33:21 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/25 11:18:51 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 16:46:56 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ Stage::Stage(int n) {
 		case 1: initOutsideStage(); break;
 		default: initClusterStage(); break;
 	}
-	obstacleFull.push_back(new Model("./models/obstacles/chair.dae", false));
+	obstacleFull.push_back("./models/obstacles/chair.dae");
 }
 
 void	Stage::initClusterStage() {
@@ -64,5 +64,5 @@ int Stage::getPatternLengthVertical() const {
 }
 
 Model*	Stage::getObstacleModel() const {
-	return this->obstacleFull[0];
+	return new Model(this->obstacleFull[0], false);
 }

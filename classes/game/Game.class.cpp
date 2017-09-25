@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/25 10:49:34 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 16:47:37 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	Game::render(float gameSpeed) {
 
 	this->setCamera();
 
+std::cout << "DRAW" << std::endl;
 	for(unsigned int i = 0; i < this->areas.size(); i++) {
 		this->areas[i]->drawGrid();
 		this->areas[i]->drawObstacleDebug();
@@ -230,10 +231,10 @@ void	Game::orientatePlayer() {
 	this->currentAreaInd++;
 	this->areasUpdated = false;
 	this->camera.startGetCloserAnimation();
-	for (unsigned int i = 0; i < this->areas[currentAreaInd]->getObstacles().size(); i++) {
-		this->obstacles.push_back(this->areas[currentAreaInd]->getObstacles()[i]);
-		this->obstacles.erase(this->obstacles.begin());
-	}
+	// for (unsigned int i = 0; i < this->areas[currentAreaInd]->getObstacles().size(); i++) {
+	// 	this->obstacles.push_back(this->areas[currentAreaInd]->getObstacles()[i]);
+	// 	this->obstacles.erase(this->obstacles.begin());
+	// }
 }
 
 void	Game::orientatePlayer(Orientation::Enum orientation) {
@@ -267,6 +268,7 @@ void	Game::manageAreas() {
 			if (this->player->getX() < this->areas[0]->getEndX() + 20) flag = true; break;
 	}
 	
+	flag = false;
 	if (flag) {
 		this->areas.push_back(this->areaFactory.createArea(this->areas.back()));
 		this->areasUpdated = true;
