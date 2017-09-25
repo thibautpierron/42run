@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/18 15:05:13 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/19 16:58:35 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 14:13:05 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 Camera::Camera() {
 	this->lookingDistance = 5.f;
 	this->positionDistance = 5.f;
-	this->height = 2.f;
+	this->height = 20.f;
     this->animationRotationStarted = false;
     this->animationGetCloserStarted = false;
     this->completeAnimationDone = true;

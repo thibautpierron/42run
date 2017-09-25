@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/25 11:20:04 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 14:58:44 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@ Area::Area(float startX, float startY,
 	setupGrid();
 	generateObstacles();
 	setupObstacleDebug();
+	
 	this->gridShader = new Shader("shaders/simple_grid.glvs",
 									"shaders/simple_grid.glfs");
 	this->obstacleDebugShader = new Shader("shaders/simple_grid.glvs",
 											"shaders/geometry_shader.glgs",
 											"shaders/simple_grid.glfs");
-	this->obstacleShader = new Shader("shaders/static_model.glvs",
+	this->obstacleShader = new Shader("shaders/static_model_instanced.glvs",
 										"shaders/diffuse_texture.glfs");
 
 }
@@ -151,15 +152,15 @@ void    Area::drawGrid() const {
 }
 
 void    Area::drawObstacles() const {
-    glm::mat4 model;
-    model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.02f));
-    model = glm::translate(model, glm::vec3(2.f, 10.f, 0.f));
+    // glm::mat4 model;
+    // model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.02f));
+    // model = glm::translate(model, glm::vec3(2.f, 10.f, 0.f));
     // model = glm::rotate(model, glm::radians(angle), glm::vec3(0.f, 0.f, 1.f));
     
     this->obstacleShader->use();
-	this->obstacleShader->setModel(model);
+	// this->obstacleShader->setModel(model);
     this->obstacleShader->setView();
-    this->obstacle->draw(this->obstacleShader, 1);
+    this->obstacle->draw(this->obstacleShader, this->obstacles.size());
 }
 
 void	Area::drawObstacleDebug() const {
@@ -192,7 +193,7 @@ void	Area::generateObstacles() {
 			for (unsigned int i = 0; i < this->length; i++) {
 				this->obstacles.push_back(glm::vec2(this->startX + static_cast<float>(i),  this->startY - static_cast<float>(rand() % this->lineNbr) - 1));
 			} break;
-	}
+	}	
 }
 
 unsigned int	Area::getLineNbr() const {
@@ -239,4 +240,12 @@ float		Area::getEndY() const {
 
 void		Area::setObstacleModel(Model * model) {
 	this->obstacle = model;
+	std::vector<glm::mat4> data;
+	for (unsigned int i = 0; i < this->obstacles.size(); i++) {
+    	glm::mat4 model = glm::mat4();
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.02f));
+    	model = glm::translate(model, glm::vec3(this->obstacles[i].x * 2, this->obstacles[i].y * 2, 0.f));
+		data.push_back(model);
+	}
+	this->obstacle->setInstanceBuffer(data);
 }

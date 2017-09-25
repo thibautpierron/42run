@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/24 10:02:40 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/25 11:13:56 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 14:29:47 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -364,4 +364,10 @@ void				Model::printMat(glm::mat4 mat) {
 		std::cout << mat[1][0] << mat[1][1] << mat[1][2] << mat[1][3] << std::endl;
 		std::cout << mat[2][0] << mat[2][1] << mat[2][2] << mat[2][3] << std::endl;
 		std::cout << mat[3][0] << mat[3][1] << mat[3][2] << mat[3][3] << std::endl;
+}
+
+void				Model::setInstanceBuffer(std::vector<glm::mat4> data) {
+	for(unsigned int i = 0; i < this->meshes.size(); i++) {
+		meshes[i].setInstanceBuffer(data);
+	}
 }
