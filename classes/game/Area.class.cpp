@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/25 16:56:04 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 17:05:42 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,10 @@ void		Area::setObstacleModel(Model * model) {
     	glm::mat4 model = glm::mat4();
     	model = glm::translate(model, glm::vec3(this->obstacles[i].x + 0.5f, this->obstacles[i].y + 0.5f, 0.f));
 		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.03f));
+		float angle = 90.f;
+		int n = rand() % 4;
+
+		model = glm::rotate(model, glm::radians(angle * n), glm::vec3(0.f, 0.f, 1.f));
 		data.push_back(model);
 	}
 	this->obstacle->setInstanceBuffer(data);

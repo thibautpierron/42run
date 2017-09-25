@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:54:40 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/25 16:22:09 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 16:57:56 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void	Mesh::setupMesh() {
 }
 
 void	Mesh::setInstanceBuffer(std::vector<glm::mat4> data) {
-	std::cout << "SET INSTANCE BUFFER" << std::endl;
 
 	glBindVertexArray(this->vao);
 	glGenBuffers(1, &this->ibo);
