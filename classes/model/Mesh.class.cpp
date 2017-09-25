@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:54:40 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/11 11:00:45 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 11:16:35 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	Mesh::setupMesh() {
 	return;
 }
 
-void	Mesh::draw(Shader *shader, bool animated) {
+void	Mesh::draw(Shader *shader, bool animated, unsigned int instanceCount) {
 
 	unsigned int diffuseNbr = 1;
 	unsigned int specularNbr = 1;
@@ -109,7 +109,13 @@ void	Mesh::draw(Shader *shader, bool animated) {
 
 
 	glBindVertexArray(this->vao);
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+
+	if (instanceCount == 0 || instanceCount == 1)
+		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	else {
+		
+	}
+
 	glBindVertexArray(0);
 	
 	return;

@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:54:43 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/11 10:57:15 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 11:14:17 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ class Mesh {
                 std::vector<Texture>, Joint *rootJoint, unsigned int jointNbr);
         ~Mesh();
 
-		void	draw(Shader *shader, bool animated);
+		void	draw(Shader *shader, bool animated, unsigned int instanceCount);
 		glm::mat4* getJointTransforms() const;
         Joint *getRootJoint();
         void printJointMatrices(Joint *joint);

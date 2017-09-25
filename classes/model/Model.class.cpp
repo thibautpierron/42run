@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/24 10:02:40 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/11 10:59:39 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 11:13:56 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	Model::loadModel(std::string path) {
 	std::vector<unsigned int> indices = loadIndices(mesh);
 	std::vector<Texture> materials = loadMaterials(mesh, scene);
 	Joint *rootJoint;
+				// std::cout << path << std::endl;
 	if (this->animated == true) {
 		rootJoint = loadJoints(mesh);
 		this->meshes.push_back(Mesh(vertices, indices, materials, rootJoint, mesh->mNumBones));
@@ -308,11 +309,10 @@ std::vector<Texture> Model::loadTextures(aiMaterial *mat, aiTextureType type, st
 	return textures;
 }
 
-void	Model::draw(Shader *shader) {
+void	Model::draw(Shader *shader, unsigned int instanceCount) {
 	for(unsigned int i = 0; i < this->meshes.size(); i++) {
-		meshes[i].draw(shader, this->animated);
+		meshes[i].draw(shader, this->animated, instanceCount);
 	}
-	return;
 }
 
 unsigned int		Model::textureFromFile(const char* path, const std::string &directory) {

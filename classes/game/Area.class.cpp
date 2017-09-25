@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/21 17:20:49 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 11:20:04 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ Area::Area(float startX, float startY,
 			: startX(startX), startY(startY),
 				length(length), lineNbr(lineNbr),
 			 	orientation(orientation) {
-					 
+	// std::cout << "AREA CONSTRUCTOR" << std::endl;
 	setupGrid();
 	generateObstacles();
 	setupObstacleDebug();
@@ -29,7 +29,7 @@ Area::Area(float startX, float startY,
 											"shaders/simple_grid.glfs");
 	this->obstacleShader = new Shader("shaders/static_model.glvs",
 										"shaders/diffuse_texture.glfs");
-	this->obstacle = new Model("./models/cowboy/model.dae", false);
+
 }
 
 Area::~Area() {
@@ -159,7 +159,7 @@ void    Area::drawObstacles() const {
     this->obstacleShader->use();
 	this->obstacleShader->setModel(model);
     this->obstacleShader->setView();
-    this->obstacle->draw(this->obstacleShader);
+    this->obstacle->draw(this->obstacleShader, 1);
 }
 
 void	Area::drawObstacleDebug() const {
@@ -238,6 +238,5 @@ float		Area::getEndY() const {
 }
 
 void		Area::setObstacleModel(Model * model) {
-	delete this->obstacle;
 	this->obstacle = model;
 }

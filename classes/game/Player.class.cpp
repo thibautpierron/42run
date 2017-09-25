@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/18 14:03:46 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 11:17:36 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void    Player::draw(float gameClock) const {
     this->shader->use();
 	this->shader->setModel(model);
     this->shader->setView();
-    this->model->draw(this->shader);
+    this->model->draw(this->shader, 1);
 }
 
 void    Player::drawDebug(float gameClock) const {

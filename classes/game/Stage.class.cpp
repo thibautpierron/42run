@@ -6,18 +6,20 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 11:33:21 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/21 17:18:38 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 11:18:51 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./Stage.class.hpp"
 
 Stage::Stage(int n) {
+	// std::cout << "STAGE CONSTRUCTOR" << std::endl;
 	switch (n) {
 		case 0: initClusterStage(); break;
 		case 1: initOutsideStage(); break;
 		default: initClusterStage(); break;
 	}
+	obstacleFull.push_back(new Model("./models/obstacles/chair.dae", false));
 }
 
 void	Stage::initClusterStage() {
@@ -26,7 +28,6 @@ void	Stage::initClusterStage() {
 	this->patternLengthHorizontal = 5;
 	this->patternLengthVertical = 5;
 	
-	obstacleFull.push_back(new Model("./models/obstacles/chair.dae", false));
 	// std::cout << "B" << std::endl;
 	// std::vector<Model*>	scenery;
 	// std::vector<Model*>	obstacleFull;	

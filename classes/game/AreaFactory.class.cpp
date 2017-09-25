@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 09:44:59 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/21 17:19:47 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 11:18:40 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,16 @@ Area *	AreaFactory::createArea(Area * prev) {
 	}
 
 	Area *area = new Area(areaX, areaY, nextAreaLength, nextAreaLineNbr, nextOrientation);
+	area->setObstacleModel(this->stages[this->currentStage]->getObstacleModel());
+
+	return area;
+}
+
+Area *	AreaFactory::createArea() {
+	int nextAreaLength = (rand() % 10 + 3) * this->stages[this->currentStage]->getPatternLengthVertical();
+	int nextAreaLineNbr = this->stages[this->currentStage]->getLineNbrVertical();
+
+	Area *area = new Area(0, 0, nextAreaLength, nextAreaLineNbr, Orientation::NORTH);
 	area->setObstacleModel(this->stages[this->currentStage]->getObstacleModel());
 
 	return area;

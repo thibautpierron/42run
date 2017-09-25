@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/21 15:59:15 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 10:49:34 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ void	Game::orientatePlayer(Orientation::Enum orientation) {
 
 void	Game::initAreas() {
 	
-	this->areas.push_back(new Area(0.f, 0.f, 30, 3, Orientation::NORTH));
+	this->areas.push_back(this->areaFactory.createArea());
 	this->areas.push_back(this->areaFactory.createArea(this->areas.back()));
 	this->areas.push_back(this->areaFactory.createArea(this->areas.back()));
 }

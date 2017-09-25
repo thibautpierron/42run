@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 09:44:39 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/21 15:45:41 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 09:51:08 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ class AreaFactory {
 		~AreaFactory();
 
 		Area * 	createArea(Area *);
+		Area * 	createArea();
 		void	changeStage();
 
 	private:

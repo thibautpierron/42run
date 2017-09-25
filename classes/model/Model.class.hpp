@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/24 09:40:41 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/11 10:19:11 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/25 11:12:22 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ class Model {
 		Model(std::string path, bool animated);
 		~Model();
 
-		void draw(Shader *shader);
+		void draw(Shader *shader, unsigned int instanceCount);
+		// void drawInstanced(Shader *shader);
 		
 	private:
 		Model();
