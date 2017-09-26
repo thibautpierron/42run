@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/26 11:28:35 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/26 14:53:36 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void    Area::drawObstacles() const {
 void	Area::drawScenery() const {
     this->obstacleShader->use();
     this->obstacleShader->setView();
-    this->scenery->draw(this->obstacleShader, 0);
+    this->scenery->draw(this->obstacleShader, 22);
 }
 
 void	Area::drawObstacleDebug() const {
@@ -244,7 +244,7 @@ void		Area::setObstacleModel(Model * model) {
 	for (unsigned int i = 0; i < this->obstacles.size(); i++) {
     	glm::mat4 model = glm::mat4();
     	model = glm::translate(model, glm::vec3(this->obstacles[i].x + 0.5f, this->obstacles[i].y + 0.5f, 0.f));
-		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.03f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.025f));
 		float angle = 90.f;
 		int n = rand() % 4;
 
@@ -258,11 +258,22 @@ void		Area::setSceneryModel(Model * model) {
 	this->scenery = model;
 	std::vector<glm::mat4> data;
 
-	for (unsigned int i = 0; i < 3; i++) {
+	for (unsigned int i = 0; i < 1000; i++) {
     	glm::mat4 model = glm::mat4();
-    	model = glm::translate(model, glm::vec3(0, i * 3 + 10, 0.f));
-		model = glm::scale(model, glm::vec3(1.f, 1.f, 1.f));
+    	model = glm::translate(model, glm::vec3(0, i * 9, 0.f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
+		model = glm::rotate(model, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
 		data.push_back(model);
+
+    	glm::mat4 model2 = glm::mat4();
+    	model2 = glm::translate(model2, glm::vec3(0 + 3, i * 9, 0.f));
+		model2 = glm::scale(model2, glm::vec3(-0.5f, 0.5f, 0.5f));
+		model2 = glm::rotate(model2, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
+		model2 = glm::rotate(model2, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
+		data.push_back(model2);
+
 	}
+	// std::cout << data.size() << std::endl;
 	this->scenery->setInstanceBuffer(data);
 }

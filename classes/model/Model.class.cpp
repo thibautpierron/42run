@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/24 10:02:40 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/25 14:29:47 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/26 13:28:42 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,35 @@ void	Model::readBonesHierarchy2(std::vector<glm::mat4> trs, aiNode* node, glm::m
 	}
 }
 
+void	Model::processNode(aiNode *node, const aiScene *scene) {
+	// std::cout << "PROCESS NODE: "<< node->mNumChildren << " : " << this->directory << std::endl;
+	for (unsigned int i = 0; i < node->mNumMeshes; i++) {
+		aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+		std::vector<Vertex>	vertices = loadVertices(mesh);
+		std::vector<unsigned int> indices = loadIndices(mesh);
+		std::vector<Texture> materials = loadMaterials(mesh, scene);
+		Joint *rootJoint;
+			
+		if (this->animated == true) {
+			rootJoint = loadJoints(mesh);
+			this->meshes.push_back(Mesh(vertices, indices, materials, rootJoint, mesh->mNumBones));
+			
+			this->readBonesHierarchy(scene->mRootNode, rootJoint); //localBindTrans == offset matrix
+			aiNode *rootBone = scene->mRootNode->FindNode(mesh->mBones[0]->mName.data);
+			this->readBonesHierarchy2(getKeyFrame(scene->mAnimations[0]), rootBone, glm::mat4(1.0));
+			setTransforms(finalTransform, meshes[0].getRootJoint()); //animatedTra = TRS matrix
+		}
+		else {
+			rootJoint = NULL;
+			this->meshes.push_back(Mesh(vertices, indices, materials, rootJoint, mesh->mNumBones));
+		}
+	}
+
+	for (unsigned int i = 0; i < node->mNumChildren; i++) {
+		processNode(node->mChildren[i], scene);
+	}
+}
+
 void	Model::loadModel(std::string path) {
 	Assimp::Importer importer;
 	const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -84,32 +113,33 @@ void	Model::loadModel(std::string path) {
 	this->directory = path.substr(0, path.find_last_of('/'));
 
 	aiNode *node = scene->mRootNode;
-	for(unsigned int i = 0; i < node->mNumChildren; i++) {
-		if (node->mChildren[i]->mNumMeshes != 0) {
-			node = node->mChildren[i];
-			break;
-		}
-	}
-
-	aiMesh *mesh = scene->mMeshes[node->mMeshes[0]];
-	std::vector<Vertex>	vertices = loadVertices(mesh);
-	std::vector<unsigned int> indices = loadIndices(mesh);
-	std::vector<Texture> materials = loadMaterials(mesh, scene);
-	Joint *rootJoint;
-				// std::cout << path << std::endl;
-	if (this->animated == true) {
-		rootJoint = loadJoints(mesh);
-		this->meshes.push_back(Mesh(vertices, indices, materials, rootJoint, mesh->mNumBones));
+	// for(unsigned int i = 0; i < node->mNumChildren; i++) {
+	// 	if (node->mChildren[i]->mNumMeshes != 0) {
+	// 		node = node->mChildren[i];
+	// 		break;
+	// 	}
+	// }
+	
+	processNode(node, scene);
+	// aiMesh *mesh = scene->mMeshes[node->mMeshes[0]];
+	// std::vector<Vertex>	vertices = loadVertices(mesh);
+	// std::vector<unsigned int> indices = loadIndices(mesh);
+	// std::vector<Texture> materials = loadMaterials(mesh, scene);
+	// Joint *rootJoint;
+	// 			// std::cout << path << std::endl;
+	// if (this->animated == true) {
+	// 	rootJoint = loadJoints(mesh);
+	// 	this->meshes.push_back(Mesh(vertices, indices, materials, rootJoint, mesh->mNumBones));
 		
-		this->readBonesHierarchy(scene->mRootNode, rootJoint); //localBindTrans == offset matrix
-		aiNode *rootBone = scene->mRootNode->FindNode(mesh->mBones[0]->mName.data);
-		this->readBonesHierarchy2(getKeyFrame(scene->mAnimations[0]), rootBone, glm::mat4(1.0));
-		setTransforms(finalTransform, meshes[0].getRootJoint()); //animatedTra = TRS matrix
-	}
-	else {
-		rootJoint = NULL;
-		this->meshes.push_back(Mesh(vertices, indices, materials, rootJoint, mesh->mNumBones));
-	}
+	// 	this->readBonesHierarchy(scene->mRootNode, rootJoint); //localBindTrans == offset matrix
+	// 	aiNode *rootBone = scene->mRootNode->FindNode(mesh->mBones[0]->mName.data);
+	// 	this->readBonesHierarchy2(getKeyFrame(scene->mAnimations[0]), rootBone, glm::mat4(1.0));
+	// 	setTransforms(finalTransform, meshes[0].getRootJoint()); //animatedTra = TRS matrix
+	// }
+	// else {
+	// 	rootJoint = NULL;
+	// 	this->meshes.push_back(Mesh(vertices, indices, materials, rootJoint, mesh->mNumBones));
+	// }
 
 
 

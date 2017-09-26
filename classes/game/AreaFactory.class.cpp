@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 09:44:59 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/26 10:14:56 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/26 15:08:02 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,17 @@ Area *	AreaFactory::createArea(Area * prev) {
 	Orientation::Enum nextOrientation = getNextOrientationAfter(lastOrientation);
 	float prevX = prev->getEndX();
 	float prevY = prev->getEndY();
-	int nextAreaLength = rand() % 10 + 3;
+	int nextAreaLength = rand() % 3 + 2;
+	// int nextAreaLength = 1;
 	int nextAreaLineNbr;
 	if (nextOrientation == Orientation::NORTH || nextOrientation == Orientation::SOUTH) {
 		nextAreaLength *= this->stages[this->currentStage]->getPatternLengthVertical();
+		nextAreaLength += this->stages[this->currentStage]->getLineNbrHorizontal();
 		nextAreaLineNbr = this->stages[this->currentStage]->getLineNbrVertical();
 	}
 	else {
 		nextAreaLength *= this->stages[this->currentStage]->getPatternLengthHorizontal();
+		nextAreaLength += this->stages[this->currentStage]->getLineNbrVertical();
 		nextAreaLineNbr = this->stages[this->currentStage]->getLineNbrHorizontal();
 	}
 
@@ -82,7 +85,8 @@ Area *	AreaFactory::createArea(Area * prev) {
 }
 
 Area *	AreaFactory::createArea() {
-	int nextAreaLength = (rand() % 10 + 3) * this->stages[this->currentStage]->getPatternLengthVertical();
+	int nextAreaLength = (rand() % 3 + 2) * this->stages[this->currentStage]->getPatternLengthVertical()
+							+ this->stages[this->currentStage]->getLineNbrHorizontal();
 	int nextAreaLineNbr = this->stages[this->currentStage]->getLineNbrVertical();
 
 	Area *area = new Area(0, 0, nextAreaLength, nextAreaLineNbr, Orientation::NORTH);

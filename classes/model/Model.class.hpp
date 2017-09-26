@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/24 09:40:41 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/25 14:29:25 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/26 12:58:50 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ class Model {
 		std::vector<Texture>		loadMaterials(aiMesh *mesh, const aiScene *scene);
 		Joint 						*loadJoints(aiMesh *mesh);
 
-		// void				processNode(aiNode *node, const aiScene *scene);
+		void				processNode(aiNode *node, const aiScene *scene);
 		// Mesh				processMesh(aiMesh *mesh, const aiScene *scene);
 		std::vector<Texture>		loadTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
 		unsigned int				textureFromFile(const char* path, const std::string &directory);
