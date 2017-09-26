@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/25 17:05:42 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/26 10:17:42 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,16 @@ void    Area::drawObstacles() const {
     this->obstacle->draw(this->obstacleShader, this->obstacles.size());
 }
 
+void	Area::drawScenery() const {
+		std::cout << "DRAW SCENERY 1" << std::endl;
+    this->obstacleShader->use();
+		std::cout << "DRAW SCENERY 2" << std::endl;
+    this->obstacleShader->setView();
+		std::cout << "DRAW SCENERY 3" << std::endl;
+    this->scenery->draw(this->obstacleShader, 0);
+		std::cout << "DRAW SCENERY 4" << std::endl;
+}
+
 void	Area::drawObstacleDebug() const {
 	glm::mat4 model = glm::mat4();
 
@@ -172,19 +182,19 @@ void	Area::drawObstacleDebug() const {
 void	Area::generateObstacles() {
 	switch(orientation) {
 		case Orientation::NORTH:
-			for (unsigned int i = 0; i < this->length; i++) {
+			for (unsigned int i = 0; i < this->length; i+=2) {
 				this->obstacles.push_back(glm::vec2(static_cast<float>(rand() % this->lineNbr) + this->startX, static_cast<float>(i) + this->startY));
 			} break;
 		case Orientation::SOUTH:
-			for (unsigned int i = 0; i < this->length; i++) {
+			for (unsigned int i = 0; i < this->length; i+=2) {
 				this->obstacles.push_back(glm::vec2(this->startX - static_cast<float>(rand() % this->lineNbr) - 1, this->startY - static_cast<float>(i) - 1));
 			} break;
 		case Orientation::WEST:
-			for (unsigned int i = 0; i < this->length; i++) {
+			for (unsigned int i = 0; i < this->length; i+=2) {
 				this->obstacles.push_back(glm::vec2(this->startX - static_cast<float>(i) - 1, static_cast<float>(rand() % this->lineNbr) + this->startY));
 			} break;
 		case Orientation::EAST:
-			for (unsigned int i = 0; i < this->length; i++) {
+			for (unsigned int i = 0; i < this->length; i+=2) {
 				this->obstacles.push_back(glm::vec2(this->startX + static_cast<float>(i),  this->startY - static_cast<float>(rand() % this->lineNbr) - 1));
 			} break;
 	}	
@@ -246,4 +256,23 @@ void		Area::setObstacleModel(Model * model) {
 		data.push_back(model);
 	}
 	this->obstacle->setInstanceBuffer(data);
+}
+
+void		Area::setSceneryModel(Model * model) {
+	this->scenery = model;
+	std::vector<glm::mat4> data;
+
+	for (unsigned int i = 0; i < 3; i++) {
+    	glm::mat4 model = glm::mat4();
+    	model = glm::translate(model, glm::vec3(0, i * 3 + 10, 0.f));
+		model = glm::scale(model, glm::vec3(1.f, 1.f, 1.f));
+		// float angle = 90.f;
+		// int n = rand() % 4;
+
+		// model = glm::rotate(model, glm::radians(angle * n), glm::vec3(0.f, 0.f, 1.f));
+		data.push_back(model);
+	}
+	std::cout << "SET SCENERY 1" << std::endl;
+	this->scenery->setInstanceBuffer(data);
+	std::cout << "SET SCENERY 2" << std::endl;
 }

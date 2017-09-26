@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/25 17:10:30 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/26 10:02:13 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	Game::render(float gameSpeed) {
 		this->areas[i]->drawGrid();
 		this->areas[i]->drawObstacleDebug();
 		this->areas[i]->drawObstacles();
+		this->areas[i]->drawScenery();
 	}
 
 	player->draw(gameClockRender);
@@ -113,7 +114,8 @@ void	Game::checkObstaclesCollision() {
 	glm::vec2 playerPosition = this->player->getPosition();
 	for (unsigned int i = 0; i < obstacles.size(); i++) {
         if (obstacles[i].x == playerPosition.x && 
-            ((obstacles[i].y + 1) == playerPosition.y || (obstacles[i].y ) == playerPosition.y) ) {
+            ((obstacles[i].y + 1) == playerPosition.y ||
+			 (obstacles[i].y ) == playerPosition.y) ) {
 			player->setState(1);
             return;
         }

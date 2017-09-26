@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 11:33:21 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/25 16:46:56 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/26 09:49:24 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ Stage::Stage(int n) {
 		case 1: initOutsideStage(); break;
 		default: initClusterStage(); break;
 	}
-	obstacleFull.push_back("./models/obstacles/chair.dae");
 }
 
 void	Stage::initClusterStage() {
@@ -28,6 +27,8 @@ void	Stage::initClusterStage() {
 	this->patternLengthHorizontal = 5;
 	this->patternLengthVertical = 5;
 	
+	obstacleFull.push_back("./models/obstacles/chair.dae");
+	scenery.push_back("./models/scenery/cluster.dae");
 	// std::cout << "B" << std::endl;
 	// std::vector<Model*>	scenery;
 	// std::vector<Model*>	obstacleFull;	
@@ -65,4 +66,8 @@ int Stage::getPatternLengthVertical() const {
 
 Model*	Stage::getObstacleModel() const {
 	return new Model(this->obstacleFull[0], false);
+}
+
+Model*	Stage::getSceneryModel() const {
+	return new Model(this->scenery[0], false);
 }

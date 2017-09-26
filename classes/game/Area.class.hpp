@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 09:56:41 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/25 14:57:49 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/26 10:00:38 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ class Area {
         void                    drawGrid() const;
         void                    drawObstacles() const;
         void                    drawObstacleDebug() const;
+        void	                drawScenery() const;
+
         unsigned int	        getLineNbr() const;
         unsigned int            getLength() const;
         float                   getEndX() const;
@@ -38,6 +40,7 @@ class Area {
         std::vector<glm::vec2>  getObstacles() const;
         Orientation::Enum       getOrientation() const;
         void                    setObstacleModel(Model *);
+        void                    setSceneryModel(Model *);
 
     private:
         Area();
@@ -66,6 +69,8 @@ class Area {
 
         Model                   *obstacle;
         Shader                  *obstacleShader;
+        Model                   *scenery;
+        Shader                  *sceneryShader;
         // unsigned int            obstacleVao;
         // unsigned int            obstacleVbo;
 };

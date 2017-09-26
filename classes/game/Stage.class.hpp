@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 11:33:26 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/25 16:46:27 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/26 09:45:15 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ class Stage {
 		int getPatternLengthHorizontal() const;
 		int getPatternLengthVertical() const;
 		Model* getObstacleModel() const;
+		Model* getSceneryModel() const;
 
 	private:
 		Stage();
