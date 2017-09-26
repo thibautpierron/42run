@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/26 10:17:42 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/26 11:28:35 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,13 +158,9 @@ void    Area::drawObstacles() const {
 }
 
 void	Area::drawScenery() const {
-		std::cout << "DRAW SCENERY 1" << std::endl;
     this->obstacleShader->use();
-		std::cout << "DRAW SCENERY 2" << std::endl;
     this->obstacleShader->setView();
-		std::cout << "DRAW SCENERY 3" << std::endl;
     this->scenery->draw(this->obstacleShader, 0);
-		std::cout << "DRAW SCENERY 4" << std::endl;
 }
 
 void	Area::drawObstacleDebug() const {
@@ -266,13 +262,7 @@ void		Area::setSceneryModel(Model * model) {
     	glm::mat4 model = glm::mat4();
     	model = glm::translate(model, glm::vec3(0, i * 3 + 10, 0.f));
 		model = glm::scale(model, glm::vec3(1.f, 1.f, 1.f));
-		// float angle = 90.f;
-		// int n = rand() % 4;
-
-		// model = glm::rotate(model, glm::radians(angle * n), glm::vec3(0.f, 0.f, 1.f));
 		data.push_back(model);
 	}
-	std::cout << "SET SCENERY 1" << std::endl;
 	this->scenery->setInstanceBuffer(data);
-	std::cout << "SET SCENERY 2" << std::endl;
 }
