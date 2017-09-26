@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/26 14:53:36 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/26 15:35:19 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void    Area::drawObstacles() const {
 void	Area::drawScenery() const {
     this->obstacleShader->use();
     this->obstacleShader->setView();
-    this->scenery->draw(this->obstacleShader, 22);
+    this->scenery->draw(this->obstacleShader, 40);
 }
 
 void	Area::drawObstacleDebug() const {
@@ -258,7 +258,7 @@ void		Area::setSceneryModel(Model * model) {
 	this->scenery = model;
 	std::vector<glm::mat4> data;
 
-	for (unsigned int i = 0; i < 1000; i++) {
+	for (unsigned int i = 0; i < 20; i++) {
     	glm::mat4 model = glm::mat4();
     	model = glm::translate(model, glm::vec3(0, i * 9, 0.f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
