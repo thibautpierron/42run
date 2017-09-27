@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 11:33:21 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/27 09:26:45 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/27 11:46:37 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,32 @@ void	Stage::initOutsideStage() {
 	// std::vector<Model*>	obstacleTop;	
 }
 
-int Stage::getLineNbrHorizontal() const {
+// int Stage::getLineNbrHorizontal() const {
+// 	return this->lineNbrHorizontal;
+// }
+
+// int Stage::getLineNbrVertical() const {
+// 	return this->lineNbrVertical;
+// }
+
+int Stage::getLineNbr(Orientation::Enum orientation) const {
+	if (orientation == Orientation::NORTH || orientation == Orientation::SOUTH)
+		return this->lineNbrVertical;
 	return this->lineNbrHorizontal;
 }
 
-int Stage::getLineNbrVertical() const {
-	return this->lineNbrVertical;
-}
+// int Stage::getPatternLengthHorizontal() const {
+// 	return this->patternLengthHorizontal;
+// }
 
-int Stage::getPatternLengthHorizontal() const {
+// int Stage::getPatternLengthVertical() const {
+// 	return this->patternLengthVertical;
+// }
+
+int Stage::getPatternLength(Orientation::Enum orientation) const {
+	if (orientation == Orientation::NORTH || orientation == Orientation::SOUTH)
+		return this->patternLengthVertical;
 	return this->patternLengthHorizontal;
-}
-
-int Stage::getPatternLengthVertical() const {
-	return this->patternLengthVertical;
 }
 
 Model*	Stage::getObstacleModel() const {

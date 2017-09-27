@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 09:56:41 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/26 10:00:38 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/27 10:34:17 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@
 # include "../Shader.class.hpp"
 # include "../../constants/constants.hpp"
 # include "../model/Model.class.hpp"
+# include "Stage.class.hpp"
 
 class Area {
     public:
         Area(float startX, float startY,
-                unsigned int length, unsigned int lineNbr,
+                unsigned int length, Stage *,
                 Orientation::Enum orientation);
         ~Area();
         
@@ -52,6 +53,7 @@ class Area {
         float				startY;
         unsigned int		length;
         unsigned int		lineNbr;
+        unsigned int		patternLength;
         Orientation::Enum	orientation;
 
         std::vector<unsigned int>	indices;

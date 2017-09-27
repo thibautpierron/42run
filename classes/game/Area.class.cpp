@@ -6,19 +6,20 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/27 10:01:43 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/27 11:50:30 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Area.class.hpp"
 
 Area::Area(float startX, float startY,
-            unsigned int length, unsigned int lineNbr,
+            unsigned int length, Stage *stage,
 			Orientation::Enum orientation)
 			: startX(startX), startY(startY),
-				length(length), lineNbr(lineNbr),
-			 	orientation(orientation) {
+				length(length - 2), orientation(orientation) {
 	// std::cout << "AREA CONSTRUCTOR" << std::endl;
+	this->lineNbr = stage->getLineNbr(orientation);
+	this->patternLength = stage->getPatternLength(orientation);
 	setupGrid();
 	generateObstacles();
 	setupObstacleDebug();
@@ -160,7 +161,7 @@ void    Area::drawObstacles() const {
 void	Area::drawScenery() const {
     this->obstacleShader->use();
     this->obstacleShader->setView();
-    this->scenery->draw(this->obstacleShader, 20);
+    this->scenery->draw(this->obstacleShader, this->length / this->patternLength * 2);
 }
 
 void	Area::drawObstacleDebug() const {
@@ -257,40 +258,79 @@ void		Area::setObstacleModel(Model * model) {
 void		Area::setSceneryModel(Model * model) {
 	this->scenery = model;
 	std::vector<glm::mat4> data;
+			std::cout << "a" << std::endl;
+	unsigned int limit = this->length / this->patternLength;
+			std::cout << "b" << std::endl;
 
-	if (this->orientation == Orientation::NORTH || this->orientation == Orientation::SOUTH) {
-		for (unsigned int i = 0; i < 20; i++) {
-			glm::mat4 model = glm::mat4();
-			model = glm::translate(model, glm::vec3(this->startX, this->startY + i * 9, 0.f));
-			model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-			model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
-			model = glm::rotate(model, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
-			data.push_back(model);
+	switch (this->orientation) {
+		case Orientation::NORTH:
+			std::cout << "N" << std::endl;
+			for (unsigned int i = 1; i <= limit; i++) {
+				glm::mat4 model = glm::mat4();
+				model = glm::translate(model, glm::vec3(this->startX, this->startY + i * this->patternLength - 2, 0.f));
+				model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+				model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
+				model = glm::rotate(model, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
+				data.push_back(model);
 
-			glm::mat4 model2 = glm::mat4();
-			model2 = glm::translate(model2, glm::vec3(this->startX + 3, this->startY + i * 9, 0.f));
-			model2 = glm::scale(model2, glm::vec3(-0.5f, 0.5f, 0.5f));
-			model2 = glm::rotate(model2, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
-			model2 = glm::rotate(model2, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
-			data.push_back(model2);
-		}
-	} else {
-		for (unsigned int i = 0; i < 20; i++) {
-			glm::mat4 model = glm::mat4();
-			model = glm::translate(model, glm::vec3(i * 7 + this->startX + 16, this->startY - 2, 0.f));
-			model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-			model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
-			model = glm::rotate(model, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
-			data.push_back(model);
+				glm::mat4 model2 = glm::mat4();
+				model2 = glm::translate(model2, glm::vec3(this->startX + 3, this->startY + i * this->patternLength - 2, 0.f));
+				model2 = glm::scale(model2, glm::vec3(-0.5f, 0.5f, 0.5f));
+				model2 = glm::rotate(model2, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
+				model2 = glm::rotate(model2, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
+				data.push_back(model2);
+			} break;
+		case Orientation::SOUTH:
+			std::cout << "S" << std::endl;
+			for (unsigned int i = 0; i < limit; i++) {
+				glm::mat4 model = glm::mat4();
+				model = glm::translate(model, glm::vec3(this->startX - 3, this->startY - i * 9, 0.f));
+				model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+				model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
+				model = glm::rotate(model, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
+				data.push_back(model);
 
-			// glm::mat4 model2 = glm::mat4();
-			// model2 = glm::translate(model2, glm::vec3(i * 8 + this->startX + 8, this->startY + 2, 0.f));
-			// model2 = glm::scale(model2, glm::vec3(-0.5f, 0.5f, 0.5f));
-			// model2 = glm::rotate(model2, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
-			// model2 = glm::rotate(model2, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
-			// data.push_back(model2);
-		}
+				glm::mat4 model2 = glm::mat4();
+				model2 = glm::translate(model2, glm::vec3(this->startX, this->startY - i * 9, 0.f));
+				model2 = glm::scale(model2, glm::vec3(-0.5f, 0.5f, 0.5f));
+				model2 = glm::rotate(model2, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
+				model2 = glm::rotate(model2, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
+				data.push_back(model2);
+			} break;
+		case Orientation::EAST:
+			std::cout << "E" << std::endl;
+			for (unsigned int i = 1; i < limit - 1; i++) {
+				glm::mat4 model = glm::mat4();
+				model = glm::translate(model, glm::vec3(i * 8 + this->startX + 8, this->startY - 2, 0.f));
+				model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+				model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
+				model = glm::rotate(model, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
+				data.push_back(model);
+
+				glm::mat4 model2 = glm::mat4();
+				model2 = glm::translate(model2, glm::vec3(i * 8 + this->startX + 8, this->startY + 9 - 2, 0.f));
+				model2 = glm::scale(model2, glm::vec3(0.5f, 0.5f, 0.5f));
+				model2 = glm::rotate(model2, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
+				model2 = glm::rotate(model2, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
+				data.push_back(model2);
+			} break;
+		case Orientation::WEST:
+			std::cout << "W" << std::endl;
+			for (unsigned int i = 1; i < limit - 1; i++) {
+				glm::mat4 model = glm::mat4();
+				model = glm::translate(model, glm::vec3((this->startX - 1) - (i * 8), this->startY, 0.f));
+				model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+				model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
+				model = glm::rotate(model, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
+				data.push_back(model);
+
+				glm::mat4 model2 = glm::mat4();
+				model2 = glm::translate(model2, glm::vec3((this->startX - 1) - (i * 8), this->startY + 9, 0.f));
+				model2 = glm::scale(model2, glm::vec3(0.5f, 0.5f, 0.5f));
+				model2 = glm::rotate(model2, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
+				model2 = glm::rotate(model2, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
+				data.push_back(model2);
+			} break;
 	}
-	// std::cout << data.size() << std::endl;
 	this->scenery->setInstanceBuffer(data);
 }

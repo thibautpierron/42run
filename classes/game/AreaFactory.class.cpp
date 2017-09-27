@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 09:44:59 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/26 15:08:02 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/27 10:38:13 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ Area *	AreaFactory::createArea(Area * prev) {
 	// int nextAreaLength = 1;
 	int nextAreaLineNbr;
 	if (nextOrientation == Orientation::NORTH || nextOrientation == Orientation::SOUTH) {
-		nextAreaLength *= this->stages[this->currentStage]->getPatternLengthVertical();
-		nextAreaLength += this->stages[this->currentStage]->getLineNbrHorizontal();
-		nextAreaLineNbr = this->stages[this->currentStage]->getLineNbrVertical();
+		nextAreaLength *= this->stages[this->currentStage]->getPatternLength(Orientation::NORTH);
+		nextAreaLength += this->stages[this->currentStage]->getLineNbr(Orientation::WEST);
+		nextAreaLineNbr = this->stages[this->currentStage]->getLineNbr(Orientation::NORTH);
 	}
 	else {
-		nextAreaLength *= this->stages[this->currentStage]->getPatternLengthHorizontal();
-		nextAreaLength += this->stages[this->currentStage]->getLineNbrVertical();
-		nextAreaLineNbr = this->stages[this->currentStage]->getLineNbrHorizontal();
+		nextAreaLength *= this->stages[this->currentStage]->getPatternLength(Orientation::WEST);
+		nextAreaLength += this->stages[this->currentStage]->getLineNbr(Orientation::NORTH);
+		nextAreaLineNbr = this->stages[this->currentStage]->getLineNbr(Orientation::WEST);
 	}
 
 	float areaX;
@@ -77,7 +77,7 @@ Area *	AreaFactory::createArea(Area * prev) {
 			break;
 	}
 
-	Area *area = new Area(areaX, areaY, nextAreaLength, nextAreaLineNbr, nextOrientation);
+	Area *area = new Area(areaX, areaY, nextAreaLength, this->stages[currentStage], nextOrientation);
 	area->setObstacleModel(this->stages[this->currentStage]->getObstacleModel());
 	area->setSceneryModel(this->stages[this->currentStage]->getSceneryModel());
 
@@ -85,11 +85,11 @@ Area *	AreaFactory::createArea(Area * prev) {
 }
 
 Area *	AreaFactory::createArea() {
-	int nextAreaLength = (rand() % 3 + 2) * this->stages[this->currentStage]->getPatternLengthVertical()
-							+ this->stages[this->currentStage]->getLineNbrHorizontal();
-	int nextAreaLineNbr = this->stages[this->currentStage]->getLineNbrVertical();
+	int nextAreaLength = (rand() % 3 + 2) * this->stages[this->currentStage]->getPatternLength(Orientation::NORTH)
+							+ this->stages[this->currentStage]->getLineNbr(Orientation::WEST);
+	// int nextAreaLineNbr = this->stages[this->currentStage]->getLineNbr(Orientation::NORTH);
 
-	Area *area = new Area(0, 0, nextAreaLength, nextAreaLineNbr, Orientation::NORTH);
+	Area *area = new Area(0, 0, nextAreaLength, this->stages[currentStage], Orientation::NORTH);
 	area->setObstacleModel(this->stages[this->currentStage]->getObstacleModel());
 	area->setSceneryModel(this->stages[this->currentStage]->getSceneryModel());
 
