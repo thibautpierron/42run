@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/27 11:50:30 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/27 13:26:53 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ Area::Area(float startX, float startY,
 			: startX(startX), startY(startY),
 				length(length - 2), orientation(orientation) {
 	// std::cout << "AREA CONSTRUCTOR" << std::endl;
+	std::cout << "NEW AREA: " << this->orientation << std::endl;
 	this->lineNbr = stage->getLineNbr(orientation);
 	this->patternLength = stage->getPatternLength(orientation);
 	setupGrid();
@@ -240,6 +241,7 @@ float		Area::getEndY() const {
 }
 
 void		Area::setObstacleModel(Model * model) {
+	std::cout << "SET OBSTACLE MODEL BEGIN" << std::endl;
 	this->obstacle = model;
 	std::vector<glm::mat4> data;
 	for (unsigned int i = 0; i < this->obstacles.size(); i++) {
@@ -253,18 +255,18 @@ void		Area::setObstacleModel(Model * model) {
 		data.push_back(model);
 	}
 	this->obstacle->setInstanceBuffer(data);
+	std::cout << "SET OBSTACLE MODEL END" << std::endl;
 }
 
 void		Area::setSceneryModel(Model * model) {
 	this->scenery = model;
 	std::vector<glm::mat4> data;
-			std::cout << "a" << std::endl;
 	unsigned int limit = this->length / this->patternLength;
-			std::cout << "b" << std::endl;
+			// std::cout << "b" << std::endl;
 
 	switch (this->orientation) {
 		case Orientation::NORTH:
-			std::cout << "N" << std::endl;
+			// std::cout << "N" << std::endl;
 			for (unsigned int i = 1; i <= limit; i++) {
 				glm::mat4 model = glm::mat4();
 				model = glm::translate(model, glm::vec3(this->startX, this->startY + i * this->patternLength - 2, 0.f));
@@ -281,7 +283,7 @@ void		Area::setSceneryModel(Model * model) {
 				data.push_back(model2);
 			} break;
 		case Orientation::SOUTH:
-			std::cout << "S" << std::endl;
+			// std::cout << "S" << std::endl;
 			for (unsigned int i = 0; i < limit; i++) {
 				glm::mat4 model = glm::mat4();
 				model = glm::translate(model, glm::vec3(this->startX - 3, this->startY - i * 9, 0.f));
@@ -298,7 +300,7 @@ void		Area::setSceneryModel(Model * model) {
 				data.push_back(model2);
 			} break;
 		case Orientation::EAST:
-			std::cout << "E" << std::endl;
+			// std::cout << "E" << std::endl;
 			for (unsigned int i = 1; i < limit - 1; i++) {
 				glm::mat4 model = glm::mat4();
 				model = glm::translate(model, glm::vec3(i * 8 + this->startX + 8, this->startY - 2, 0.f));
@@ -315,7 +317,7 @@ void		Area::setSceneryModel(Model * model) {
 				data.push_back(model2);
 			} break;
 		case Orientation::WEST:
-			std::cout << "W" << std::endl;
+			// std::cout << "W" << std::endl;
 			for (unsigned int i = 1; i < limit - 1; i++) {
 				glm::mat4 model = glm::mat4();
 				model = glm::translate(model, glm::vec3((this->startX - 1) - (i * 8), this->startY, 0.f));

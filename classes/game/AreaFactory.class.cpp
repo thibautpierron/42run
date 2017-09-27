@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 09:44:59 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/27 10:38:13 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/27 13:44:57 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ AreaFactory::AreaFactory() {
 }
 
 Area *	AreaFactory::createArea(Area * prev) {
-	static int areaCounter = 0;
-	if (areaCounter >= 5) {
-		this->changeStage();
-		areaCounter = 0;
-	}
-	areaCounter++;
+	// static int areaCounter = 0;
+	// if (areaCounter >= 5) {
+	// 	this->changeStage();
+	// 	areaCounter = 0;
+	// }
+	// areaCounter++;
 	
 	Orientation::Enum lastOrientation = prev->getOrientation();	
 	Orientation::Enum nextOrientation = getNextOrientationAfter(lastOrientation);
@@ -76,10 +76,13 @@ Area *	AreaFactory::createArea(Area * prev) {
 				{areaX = prevX; areaY = prevY;}
 			break;
 	}
-
+std::cout << "A" << std::endl;
 	Area *area = new Area(areaX, areaY, nextAreaLength, this->stages[currentStage], nextOrientation);
+std::cout << "B" << std::endl;
 	area->setObstacleModel(this->stages[this->currentStage]->getObstacleModel());
+std::cout << "C" << std::endl;
 	area->setSceneryModel(this->stages[this->currentStage]->getSceneryModel());
+std::cout << "D" << std::endl;
 
 	return area;
 }
