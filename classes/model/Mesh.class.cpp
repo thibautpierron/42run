@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:54:40 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/25 16:57:56 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/27 17:09:38 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void Mesh::printJointMatrices(Joint *joint) {
 }
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,
-			std::vector<Texture> textures, Joint* rootJoint, unsigned int jointNbr)
-: vertices(vertices), indices(indices), textures(textures), rootJoint(rootJoint), jointNbr(jointNbr) {
+			std::vector<Texture> textures, aiColor3D color, Joint* rootJoint, unsigned int jointNbr)
+: vertices(vertices), indices(indices), textures(textures), color(color), rootJoint(rootJoint), jointNbr(jointNbr) {
 	// this->rootJoint->calcInverseBindTransform(glm::mat4());
 	// printJointMatrices(&rootJoint);
 	setupMesh();
@@ -141,6 +141,9 @@ void	Mesh::draw(Shader *shader, bool animated, unsigned int instanceCount) {
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	}
 	glActiveTexture(GL_TEXTURE0);
+
+	if (textures.size() == 0)
+		glUniform3f(glGetUniformLocation(shader->getProgramID(), "materialColor"), this->color.r, this->color.g, this->color.b);
 
 	if (animated) {
 		glm::mat4 *jointTransforms = getJointTransforms();

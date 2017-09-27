@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:54:43 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/25 16:37:39 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/27 17:08:06 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ struct Texture {
 class Mesh {
     public:
         Mesh(std::vector<Vertex>, std::vector<unsigned int>,
-                std::vector<Texture>, Joint *rootJoint, unsigned int jointNbr);
+                std::vector<Texture>, aiColor3D color, 
+                Joint *rootJoint, unsigned int jointNbr);
         ~Mesh();
 
 		void	draw(Shader *shader, bool animated, unsigned int instanceCount);
@@ -66,6 +67,7 @@ class Mesh {
         std::vector<Vertex>     vertices;
         std::vector<unsigned int>     indices;
         std::vector<Texture>    textures;
+        aiColor3D               color;
         Joint                   *rootJoint;
         unsigned int            jointNbr;
         unsigned int            vao;

@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/24 10:02:40 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/26 13:28:42 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/27 17:22:16 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,14 @@ void	Model::processNode(aiNode *node, const aiScene *scene) {
 		std::vector<Vertex>	vertices = loadVertices(mesh);
 		std::vector<unsigned int> indices = loadIndices(mesh);
 		std::vector<Texture> materials = loadMaterials(mesh, scene);
+		aiColor3D color(0.f,0.f,0.f);
+		if (materials.size() == 0)
+			scene->mMaterials[mesh->mMaterialIndex]->Get(AI_MATKEY_COLOR_DIFFUSE,color);
 		Joint *rootJoint;
 			
 		if (this->animated == true) {
 			rootJoint = loadJoints(mesh);
-			this->meshes.push_back(Mesh(vertices, indices, materials, rootJoint, mesh->mNumBones));
+			this->meshes.push_back(Mesh(vertices, indices, materials, color, rootJoint, mesh->mNumBones));
 			
 			this->readBonesHierarchy(scene->mRootNode, rootJoint); //localBindTrans == offset matrix
 			aiNode *rootBone = scene->mRootNode->FindNode(mesh->mBones[0]->mName.data);
@@ -91,7 +94,7 @@ void	Model::processNode(aiNode *node, const aiScene *scene) {
 		}
 		else {
 			rootJoint = NULL;
-			this->meshes.push_back(Mesh(vertices, indices, materials, rootJoint, mesh->mNumBones));
+			this->meshes.push_back(Mesh(vertices, indices, materials, color, rootJoint, mesh->mNumBones));
 		}
 	}
 

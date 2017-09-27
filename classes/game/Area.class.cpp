@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/27 14:35:05 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/27 17:07:11 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ Area::Area(float startX, float startY,
 											"shaders/geometry_shader.glgs",
 											"shaders/simple_grid.glfs");
 	this->obstacleShader = new Shader("shaders/static_model_instanced.glvs",
-										"shaders/diffuse_texture.glfs");
+										"shaders/simple_color.glfs");
 
 }
 
@@ -163,7 +163,9 @@ void	Area::drawScenery() const {
 	if ((this->orientation == Orientation::EAST || this->orientation == Orientation::WEST)
 			&& ((this->length / this->patternLength) * 2) <= 4)
 		return;
-    this->scenery->draw(this->obstacleShader, (this->length / this->patternLength) * 2);
+	int n;
+	(this->orientation == Orientation::NORTH || this->orientation == Orientation::SOUTH) ? n = 4 : n = 0;
+    this->scenery->draw(this->obstacleShader, (this->length / this->patternLength) * 2 + n);
 }
 
 void	Area::drawObstacleDebug() const {
@@ -265,7 +267,7 @@ void		Area::setSceneryModel(Model * model) {
 	switch (this->orientation) {
 		case Orientation::NORTH:
 			// std::cout << "N" << std::endl;
-			for (unsigned int i = 1; i <= limit; i++) {
+			for (unsigned int i = 0; i <= limit + 1; i++) {
 				glm::mat4 model = glm::mat4();
 				model = glm::translate(model, glm::vec3(this->startX, this->startY + i * this->patternLength - 2, 0.f));
 				model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
@@ -282,7 +284,7 @@ void		Area::setSceneryModel(Model * model) {
 			} break;
 		case Orientation::SOUTH:
 			// std::cout << "S" << std::endl;
-			for (unsigned int i = 0; i < limit; i++) {
+			for (unsigned int i = 0; i < limit + 1; i++) {
 				glm::mat4 model = glm::mat4();
 				model = glm::translate(model, glm::vec3(this->startX - 3, this->startY - i * 9, 0.f));
 				model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
