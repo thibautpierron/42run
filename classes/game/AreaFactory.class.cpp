@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 09:44:59 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/27 13:44:57 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/27 14:35:38 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,9 @@ Area *	AreaFactory::createArea(Area * prev) {
 				{areaX = prevX; areaY = prevY;}
 			break;
 	}
-std::cout << "A" << std::endl;
 	Area *area = new Area(areaX, areaY, nextAreaLength, this->stages[currentStage], nextOrientation);
-std::cout << "B" << std::endl;
 	area->setObstacleModel(this->stages[this->currentStage]->getObstacleModel());
-std::cout << "C" << std::endl;
 	area->setSceneryModel(this->stages[this->currentStage]->getSceneryModel());
-std::cout << "D" << std::endl;
 
 	return area;
 }

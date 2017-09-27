@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/27 13:26:53 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/27 14:35:05 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ Area::Area(float startX, float startY,
 			Orientation::Enum orientation)
 			: startX(startX), startY(startY),
 				length(length - 2), orientation(orientation) {
-	// std::cout << "AREA CONSTRUCTOR" << std::endl;
-	std::cout << "NEW AREA: " << this->orientation << std::endl;
 	this->lineNbr = stage->getLineNbr(orientation);
 	this->patternLength = stage->getPatternLength(orientation);
 	setupGrid();
@@ -162,7 +160,10 @@ void    Area::drawObstacles() const {
 void	Area::drawScenery() const {
     this->obstacleShader->use();
     this->obstacleShader->setView();
-    this->scenery->draw(this->obstacleShader, this->length / this->patternLength * 2);
+	if ((this->orientation == Orientation::EAST || this->orientation == Orientation::WEST)
+			&& ((this->length / this->patternLength) * 2) <= 4)
+		return;
+    this->scenery->draw(this->obstacleShader, (this->length / this->patternLength) * 2);
 }
 
 void	Area::drawObstacleDebug() const {
@@ -241,7 +242,6 @@ float		Area::getEndY() const {
 }
 
 void		Area::setObstacleModel(Model * model) {
-	std::cout << "SET OBSTACLE MODEL BEGIN" << std::endl;
 	this->obstacle = model;
 	std::vector<glm::mat4> data;
 	for (unsigned int i = 0; i < this->obstacles.size(); i++) {
@@ -255,14 +255,12 @@ void		Area::setObstacleModel(Model * model) {
 		data.push_back(model);
 	}
 	this->obstacle->setInstanceBuffer(data);
-	std::cout << "SET OBSTACLE MODEL END" << std::endl;
 }
 
 void		Area::setSceneryModel(Model * model) {
 	this->scenery = model;
 	std::vector<glm::mat4> data;
 	unsigned int limit = this->length / this->patternLength;
-			// std::cout << "b" << std::endl;
 
 	switch (this->orientation) {
 		case Orientation::NORTH:
