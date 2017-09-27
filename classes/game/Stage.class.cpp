@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 11:33:21 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/26 15:11:38 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/27 09:26:45 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ Stage::Stage(int n) {
 void	Stage::initClusterStage() {
 	this->lineNbrHorizontal = 2;
 	this->lineNbrVertical = 3;
-	this->patternLengthHorizontal = 5;
+	this->patternLengthHorizontal = 8;
 	this->patternLengthVertical = 9;
 	
 	obstacleFull.push_back("./models/obstacles/chair.dae");
