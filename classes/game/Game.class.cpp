@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/28 15:21:06 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/28 15:31:27 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,14 @@ void	Game::render(float gameSpeed) {
 	this->drawCeiling();
 
 	for(unsigned int i = 0; i < this->areas.size(); i++) {
-		// this->areas[i]->drawGrid();
-		// this->areas[i]->drawObstacleDebug();
+		this->areas[i]->drawGrid();
+		this->areas[i]->drawObstacleDebug();
 		this->areas[i]->drawObstacles();
 		this->areas[i]->drawScenery();
 	}
 
 	player->draw(gameClockRender);
-	// player->drawDebug(gameClockRender);
+	player->drawDebug(gameClockRender);
 
 }
 
@@ -252,15 +252,13 @@ void	Game::orientatePlayer(Orientation::Enum orientation) {
 	this->player->setOrientation(orientation);
 }
 
-void	Game::initAreas() {
-	
+void	Game::initAreas() {	
 	this->areas.push_back(this->areaFactory.createArea());
 	this->areas.push_back(this->areaFactory.createArea(this->areas.back()));
 	this->areas.push_back(this->areaFactory.createArea(this->areas.back()));
 }
 
 void	Game::manageAreas() {
-
 	delArea();
 	
 	if (this->areasUpdated)
@@ -293,7 +291,6 @@ void	Game::delArea() {
 }
 
 void		Game::transcriptCrdToCameraRef(float *x, float *y, Orientation::Enum orientation) {
-
 	float xx = *x;
 	float yy = *y;
 
@@ -306,9 +303,7 @@ void		Game::transcriptCrdToCameraRef(float *x, float *y, Orientation::Enum orien
 }
 
 void		Game::drawGround() const{
-
 	glm::mat4 model = glm::mat4();
-	// model = glm::translate(model, glm::vec3(4.f, 4.f, 4.f));
 	model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
 
 	this->groundShader->use();
@@ -320,7 +315,6 @@ void		Game::drawGround() const{
 
 void		Game::drawCeiling() const {
 	std::vector<glm::mat4> data;
-	// int limit = (this->player->getY() - 8);
 	int plx = static_cast<int>(this->player->getX()) / 8;
 	int ply = static_cast<int>(this->player->getY()) / 8;
 
@@ -328,13 +322,11 @@ void		Game::drawCeiling() const {
 		for (int i = ply - 6; i < ply + 6; i++) {
 			glm::mat4 model = glm::mat4();
 			model = glm::translate(model, glm::vec3(j * 8, i * 8, 3.5f));
-			// model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 			model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
 			model = glm::rotate(model, glm::radians(180.f), glm::vec3(1.f, 0.f, 0.f));
 			data.push_back(model);
 		}
 	}
-	// std::cout << data.size() << " : " << ply << std::endl;
 	this->ceiling->setInstanceBuffer(data);
 
 	this->ceilingShader->use();
