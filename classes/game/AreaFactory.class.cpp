@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 09:44:59 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/28 09:09:02 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/28 13:29:53 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,8 @@ Orientation::Enum	AreaFactory::getNextOrientationAfter(Orientation::Enum orienta
 
 Model*	AreaFactory::getGroundModel() const {
 	return this->stages[this->currentStage]->getGroundModel();
+}
+
+Model*	AreaFactory::getCeilingModel() const {
+	return this->stages[this->currentStage]->getCeilingModel();
 }

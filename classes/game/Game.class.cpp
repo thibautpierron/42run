@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/28 09:32:09 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/28 15:21:06 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ Game::Game(float gameSpeed) : gameSpeed(gameSpeed) {
 
 	initAreas();
 	this->ground = this->areaFactory.getGroundModel();
+	this->ceiling = this->areaFactory.getCeilingModel();
 	this->groundShader = new Shader("shaders/simple_grid.glvs",
+										"shaders/simple_color.glfs");
+	this->ceilingShader = new Shader("shaders/static_model_instanced.glvs",
 										"shaders/simple_color.glfs");
 	this->areasUpdated = false;
 	this->currentAreaInd = 0;
@@ -101,17 +104,18 @@ void	Game::render(float gameSpeed) {
 
 	this->setCamera();
 
-	this->renderGround();
+	this->drawGround();
+	this->drawCeiling();
 
 	for(unsigned int i = 0; i < this->areas.size(); i++) {
-		this->areas[i]->drawGrid();
-		this->areas[i]->drawObstacleDebug();
+		// this->areas[i]->drawGrid();
+		// this->areas[i]->drawObstacleDebug();
 		this->areas[i]->drawObstacles();
 		this->areas[i]->drawScenery();
 	}
 
 	player->draw(gameClockRender);
-	player->drawDebug(gameClockRender);
+	// player->drawDebug(gameClockRender);
 
 }
 
@@ -301,7 +305,7 @@ void		Game::transcriptCrdToCameraRef(float *x, float *y, Orientation::Enum orien
 	} 
 }
 
-void		Game::renderGround() const{
+void		Game::drawGround() const{
 
 	glm::mat4 model = glm::mat4();
 	// model = glm::translate(model, glm::vec3(4.f, 4.f, 4.f));
@@ -311,5 +315,30 @@ void		Game::renderGround() const{
     this->groundShader->setView();
 	this->groundShader->setModel(model);
     this->ground->draw(this->groundShader, 1);
+
+}
+
+void		Game::drawCeiling() const {
+	std::vector<glm::mat4> data;
+	// int limit = (this->player->getY() - 8);
+	int plx = static_cast<int>(this->player->getX()) / 8;
+	int ply = static_cast<int>(this->player->getY()) / 8;
+
+	for (int j = plx - 6; j < plx + 6; j++) {
+		for (int i = ply - 6; i < ply + 6; i++) {
+			glm::mat4 model = glm::mat4();
+			model = glm::translate(model, glm::vec3(j * 8, i * 8, 3.5f));
+			// model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+			model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
+			model = glm::rotate(model, glm::radians(180.f), glm::vec3(1.f, 0.f, 0.f));
+			data.push_back(model);
+		}
+	}
+	// std::cout << data.size() << " : " << ply << std::endl;
+	this->ceiling->setInstanceBuffer(data);
+
+	this->ceilingShader->use();
+    this->ceilingShader->setView();
+    this->ceiling->draw(this->ceilingShader, 144);
 
 }

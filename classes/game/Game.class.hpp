@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/28 09:18:35 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/28 13:30:42 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ class Game {
 		void				manageAreas();
 		bool				playerCanTurn();
 		void				transcriptCrdToCameraRef(float *, float *, Orientation::Enum);
-		void				renderGround() const;
+		void				drawGround() const;
+		void				drawCeiling() const;
 		
 		Player	*player;
 		Camera	camera;
@@ -61,6 +62,8 @@ class Game {
 
 		Model					*ground;
 		Shader					*groundShader;
+		Model					*ceiling;
+		Shader					*ceilingShader;
 };
 
 #endif
