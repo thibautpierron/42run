@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/21 15:52:02 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/28 09:18:35 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include "./Area.class.hpp"
 # include "./Player.class.hpp"
 # include "./Camera.class.hpp"
+# include "../model/Model.class.hpp"
+# include "../Shader.class.hpp"
 # include "./AreaFactory.class.hpp"
 # include "../../constants/constants.hpp"
 
@@ -43,6 +45,7 @@ class Game {
 		void				manageAreas();
 		bool				playerCanTurn();
 		void				transcriptCrdToCameraRef(float *, float *, Orientation::Enum);
+		void				renderGround() const;
 		
 		Player	*player;
 		Camera	camera;
@@ -55,6 +58,9 @@ class Game {
 		std::deque<Area*>		areas;
 		AreaFactory				areaFactory;
 		unsigned int			currentAreaInd;
+
+		Model					*ground;
+		Shader					*groundShader;
 };
 
 #endif

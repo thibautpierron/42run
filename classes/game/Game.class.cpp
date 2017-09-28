@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/26 10:02:13 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/28 09:32:09 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ Game::Game(float gameSpeed) : gameSpeed(gameSpeed) {
 	this->camera.setOrientation(Orientation::NORTH);
 
 	initAreas();
+	this->ground = this->areaFactory.getGroundModel();
+	this->groundShader = new Shader("shaders/simple_grid.glvs",
+										"shaders/simple_color.glfs");
 	this->areasUpdated = false;
 	this->currentAreaInd = 0;
     this->obstacles = this->areas.front()->getObstacles();
@@ -97,6 +100,8 @@ void	Game::render(float gameSpeed) {
 		this->gameClockRender -= gameSpeed;
 
 	this->setCamera();
+
+	this->renderGround();
 
 	for(unsigned int i = 0; i < this->areas.size(); i++) {
 		this->areas[i]->drawGrid();
@@ -294,4 +299,17 @@ void		Game::transcriptCrdToCameraRef(float *x, float *y, Orientation::Enum orien
 		case Orientation::WEST: *x = -yy; *y = -xx;break;
 		case Orientation::EAST: *x = yy; *y = xx;break;
 	} 
+}
+
+void		Game::renderGround() const{
+
+	glm::mat4 model = glm::mat4();
+	// model = glm::translate(model, glm::vec3(4.f, 4.f, 4.f));
+	model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
+
+	this->groundShader->use();
+    this->groundShader->setView();
+	this->groundShader->setModel(model);
+    this->ground->draw(this->groundShader, 1);
+
 }

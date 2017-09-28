@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 11:33:26 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/27 10:34:46 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/28 09:04:22 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,12 @@ class Stage {
 	public:
 		Stage(int);
 		
-		// int getLineNbrHorizontal() const;
-		// int getLineNbrVertical() const;
 		int getLineNbr(Orientation::Enum) const;
-		// int getPatternLengthHorizontal() const;
-		// int getPatternLengthVertical() const;
 		int getPatternLength(Orientation::Enum) const;
 		Model* getObstacleModel() const;
 		Model* getSceneryModel() const;
+		Model* getGroundModel() const;
+		Model* getCeilingModel() const;
 
 	private:
 		Stage();
@@ -55,7 +53,9 @@ class Stage {
 		std::vector<std::string>	scenery;	
 		std::vector<std::string>	obstacleFull;	
 		std::vector<std::string>	obstacleBot;	
-		std::vector<std::string>	obstacleTop;	
+		std::vector<std::string>	obstacleTop;
+		std::string					ground;
+		std::string					ceiling;
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 11:33:21 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/27 11:46:37 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/28 09:33:28 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ void	Stage::initClusterStage() {
 	
 	obstacleFull.push_back("./models/obstacles/chair.dae");
 	scenery.push_back("./models/scenery/cluster.obj");
-	// std::cout << "B" << std::endl;
+	ground = "./models/scenery/ground.obj";
+	ceiling = "./models/scenery/ceiling.obj";
+	
 	// std::vector<Model*>	scenery;
 	// std::vector<Model*>	obstacleFull;	
 	// std::vector<Model*>	obstacleBot;	
@@ -82,4 +84,12 @@ Model*	Stage::getObstacleModel() const {
 
 Model*	Stage::getSceneryModel() const {
 	return new Model(this->scenery[0], false);
+}
+
+Model*	Stage::getGroundModel() const {
+	return new Model(this->ground, false);
+}
+
+Model*	Stage::getCeilingModel() const {
+	return new Model(this->ceiling, false);
 }

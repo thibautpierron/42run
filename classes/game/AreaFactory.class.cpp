@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 09:44:59 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/27 14:35:38 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/28 09:09:02 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,8 @@ Orientation::Enum	AreaFactory::getNextOrientationAfter(Orientation::Enum orienta
 		nextOrientation = static_cast<Orientation::Enum>(rand() % 4);
 	}
 	return nextOrientation;
+}
+
+Model*	AreaFactory::getGroundModel() const {
+	return this->stages[this->currentStage]->getGroundModel();
 }
