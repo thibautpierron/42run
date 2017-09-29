@@ -4,7 +4,7 @@ const int MAX_JOINTS = 50;
 const int MAX_WEIGHTS = 3;
 
 layout(location = 0) in vec3 position;
-layout(location = 1) in vec3 normal;
+layout(location = 1) in vec3 normalIn;
 layout(location = 2) in vec2 textureCoord;
 layout(location = 3) in ivec3 jointIndices;
 layout(location = 4) in vec3 weights;
@@ -16,9 +16,13 @@ uniform mat4 jointTransforms[MAX_JOINTS];
 
 out vec2 UV;
 out vec3 fragColor;
+out vec3 fragPos;
+out vec3 normal;
 
 void main()
 {
     gl_Position = (projectionMatrix * viewMatrix * modelMatrix) * vec4(position, 1.0);
     UV = textureCoord;
+    normal = normalIn;
+    fragPos = vec3(modelMatrix * vec4(position, 1.0));
 }

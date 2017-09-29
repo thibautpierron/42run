@@ -1,5 +1,5 @@
 # Blender MTL File: 'cluster.blend'
-# Material Count: 9
+# Material Count: 10
 
 newmtl Blanc
 Ns 96.078431
@@ -62,6 +62,16 @@ d 1.000000
 illum 1
 
 newmtl gris
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.176206 0.176206 0.176206
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+
+newmtl gris.001
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.176206 0.176206 0.176206

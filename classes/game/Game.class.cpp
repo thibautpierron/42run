@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/29 09:58:09 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/29 13:24:21 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ Game::Game(float gameSpeed) : gameSpeed(gameSpeed) {
 	this->groundShader = new Shader("shaders/simple_grid.glvs",
 										"shaders/simple_color.glfs");
 	this->ceilingShader = new Shader("shaders/static_model_instanced.glvs",
-										"shaders/simple_color.glfs");
+										"shaders/simple_diffuse.glfs");
 	this->areasUpdated = false;
 	this->currentAreaInd = 0;
     this->obstacles = this->areas.front()->getObstacles();

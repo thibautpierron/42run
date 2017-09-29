@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/29 09:54:25 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/29 13:26:47 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ Area::Area(float startX, float startY,
 											"shaders/geometry_shader.glgs",
 											"shaders/simple_grid.glfs");
 	this->obstacleShader = new Shader("shaders/static_model_instanced.glvs",
-										"shaders/simple_color.glfs");
+										"shaders/simple_diffuse.glfs");
 
 }
 
@@ -288,8 +288,8 @@ void		Area::setSceneryModel(Model * model) {
 				data.push_back(model);
 
 				glm::mat4 model2 = glm::mat4();
-				model2 = glm::translate(model2, glm::vec3(this->startX + 3, this->startY + i * this->patternLength - 2, 0.f));
-				model2 = glm::scale(model2, glm::vec3(-0.5f, 0.5f, 0.5f));
+				model2 = glm::translate(model2, glm::vec3(this->startX + 3 + 8, this->startY + i * this->patternLength - 2, 0.f));
+				model2 = glm::scale(model2, glm::vec3(0.5f, 0.5f, 0.5f));
 				model2 = glm::rotate(model2, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
 				model2 = glm::rotate(model2, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
 				data.push_back(model2);
@@ -305,8 +305,8 @@ void		Area::setSceneryModel(Model * model) {
 				data.push_back(model);
 
 				glm::mat4 model2 = glm::mat4();
-				model2 = glm::translate(model2, glm::vec3(this->startX, this->startY - i * 9 + 9, 0.f));
-				model2 = glm::scale(model2, glm::vec3(-0.5f, 0.5f, 0.5f));
+				model2 = glm::translate(model2, glm::vec3(this->startX + 8, this->startY - i * 9 + 9, 0.f));
+				model2 = glm::scale(model2, glm::vec3(0.5f, 0.5f, 0.5f));
 				model2 = glm::rotate(model2, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
 				model2 = glm::rotate(model2, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
 				data.push_back(model2);
