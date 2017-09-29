@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/28 15:31:27 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/29 09:58:09 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,13 +267,13 @@ void	Game::manageAreas() {
 	bool flag = false;
 	switch (this->movementDirection) {
 		case Orientation::NORTH:
-			if (this->player->getY() > this->areas[0]->getEndY() - 20) flag = true; break;
+			if (this->player->getY() > this->areas[0]->getEndY() - 5) flag = true; break;
 		case Orientation::SOUTH:
-			if (this->player->getY() < this->areas[0]->getEndY() + 20) flag = true; break;
+			if (this->player->getY() < this->areas[0]->getEndY() + 5) flag = true; break;
 		case Orientation::EAST:
-			if (this->player->getX() > this->areas[0]->getEndX() - 20) flag = true; break;
+			if (this->player->getX() > this->areas[0]->getEndX() - 5) flag = true; break;
 		case Orientation::WEST:
-			if (this->player->getX() < this->areas[0]->getEndX() + 20) flag = true; break;
+			if (this->player->getX() < this->areas[0]->getEndX() + 5) flag = true; break;
 	}
 	
 	if (flag) {

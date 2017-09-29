@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/28 15:45:14 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/09/29 09:54:25 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,16 +296,16 @@ void		Area::setSceneryModel(Model * model) {
 			} break;
 		case Orientation::SOUTH:
 			// std::cout << "S" << std::endl;
-			for (unsigned int i = 0; i < limit + 1; i++) {
+			for (unsigned int i = 0; i < limit + 2; i++) {
 				glm::mat4 model = glm::mat4();
-				model = glm::translate(model, glm::vec3(this->startX - 3, this->startY - i * 9, 0.f));
+				model = glm::translate(model, glm::vec3(this->startX - 3, this->startY - i * 9 + 9, 0.f));
 				model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 				model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
 				model = glm::rotate(model, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
 				data.push_back(model);
 
 				glm::mat4 model2 = glm::mat4();
-				model2 = glm::translate(model2, glm::vec3(this->startX, this->startY - i * 9, 0.f));
+				model2 = glm::translate(model2, glm::vec3(this->startX, this->startY - i * 9 + 9, 0.f));
 				model2 = glm::scale(model2, glm::vec3(-0.5f, 0.5f, 0.5f));
 				model2 = glm::rotate(model2, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
 				model2 = glm::rotate(model2, glm::radians(180.f), glm::vec3(0.f, 1.f, 0.f));
