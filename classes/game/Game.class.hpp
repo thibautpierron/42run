@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/28 13:30:42 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/02 15:51:37 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@
 # include "./Camera.class.hpp"
 # include "../model/Model.class.hpp"
 # include "../Shader.class.hpp"
+# include "../GLString.class.hpp"
 # include "./AreaFactory.class.hpp"
 # include "../../constants/constants.hpp"
+
 
 class Game {
 	
@@ -47,6 +49,8 @@ class Game {
 		void				transcriptCrdToCameraRef(float *, float *, Orientation::Enum);
 		void				drawGround() const;
 		void				drawCeiling() const;
+		void				drawDistance() const;
+		void				DrawBonus() const;
 		
 		Player	*player;
 		Camera	camera;

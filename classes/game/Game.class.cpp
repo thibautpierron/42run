@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/02 13:05:46 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/02 15:14:49 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,5 +332,13 @@ void		Game::drawCeiling() const {
 	this->ceilingShader->use();
     this->ceilingShader->setView();
     this->ceiling->draw(this->ceilingShader, 144);
+
+}
+
+void		Game::drawDistance() const {
+
+}
+
+void		Game::DrawBonus() const {
 
 }

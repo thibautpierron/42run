@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/29 14:08:34 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/02 13:27:28 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,28 +183,28 @@ void	Area::drawObstacleDebug() const {
 void	Area::generateObstacles() {
 	switch(orientation) {
 		case Orientation::NORTH:
-			for (unsigned int i = 0; i < this->length; i+=2) {
+			for (unsigned int i = 0; i < this->length; i+=4) {
 				this->obstacles.push_back(glm::vec2(static_cast<float>(rand() % this->lineNbr) + this->startX, static_cast<float>(i) + this->startY));
 			}
 			for (unsigned int i = 0; i < this->lineNbr; i++) {
 				this->obstacles.push_back(glm::vec2(this->getEndX() + i - this->lineNbr, this->getEndY()));
 			} break;
 		case Orientation::SOUTH:
-			for (unsigned int i = 0; i < this->length; i+=2) {
+			for (unsigned int i = 0; i < this->length; i+=4) {
 				this->obstacles.push_back(glm::vec2(this->startX - static_cast<float>(rand() % this->lineNbr) - 1, this->startY - static_cast<float>(i) - 1));
 			}
 			for (unsigned int i = 0; i < this->lineNbr; i++) {
 				this->obstacles.push_back(glm::vec2(this->getEndX() + i, this->getEndY() - 1));
 			} break;
 		case Orientation::WEST:
-			for (unsigned int i = 0; i < this->length; i+=2) {
+			for (unsigned int i = 0; i < this->length; i+=4) {
 				this->obstacles.push_back(glm::vec2(this->startX - static_cast<float>(i) - 1, static_cast<float>(rand() % this->lineNbr) + this->startY));
 			}
 			for (unsigned int i = 0; i < this->lineNbr; i++) {
 				this->obstacles.push_back(glm::vec2(this->getEndX() - 1, this->getEndY() - this->lineNbr + i));
 			} break;
 		case Orientation::EAST:
-			for (unsigned int i = 0; i < this->length; i+=2) {
+			for (unsigned int i = 0; i < this->length; i+=4) {
 				this->obstacles.push_back(glm::vec2(this->startX + static_cast<float>(i),  this->startY - static_cast<float>(rand() % this->lineNbr) - 1));
 			}
 			for (unsigned int i = 0; i < this->lineNbr; i++) {

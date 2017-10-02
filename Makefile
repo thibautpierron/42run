@@ -6,7 +6,7 @@
 #    By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/07/21 11:32:23 by tpierron          #+#    #+#              #
-#    Updated: 2017/09/21 11:49:05 by tpierron         ###   ########.fr        #
+#    Updated: 2017/10/02 15:53:01 by tpierron         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ NAME = 42Run
 
 CC = clang++
 SRC =	classes/Shader.class.cpp \
+		classes/GLString.class.cpp \
 		classes/model/Mesh.class.cpp \
 		classes/model/Model.class.cpp	\
 		classes/model/Joint.class.cpp	\
@@ -40,6 +41,9 @@ ASSIMP_PATH = -I/Users/tpierron/.brew/include/
 
 STB = -Ilibs/stb/
 
+FREETYPE = -I/Users/tpierron/.brew/lib -lfreetype
+FREETYPE_PATH = -I/Users/tpierron/.brew/include/freetype2
+
 OPENGL = -framework OpenGl -framework AppKit
 
 OBJ = $(addprefix $(OBJ_PATH), $(OBJ_NAME))
@@ -50,10 +54,10 @@ $(OBJ_PATH)%.o: %.cpp
 	@mkdir $(OBJ_PATH)/classes 2> /dev/null || echo "" > /dev/null
 	@mkdir $(OBJ_PATH)/classes/model 2> /dev/null || echo "" > /dev/null
 	@mkdir $(OBJ_PATH)/classes/game 2> /dev/null || echo "" > /dev/null
-	$(CC) $(CFLAGS) -o $@ -c -Iclasses -Iclasses/model $(SDL_PATH) $(ASSIMP_PATH) $< -std=c++11
+	$(CC) $(CFLAGS) -o $@ -c -Iclasses -Iclasses/model $(SDL_PATH) $(ASSIMP_PATH) $(FREETYPE_PATH) $< -std=c++11
 
 $(NAME): $(OBJ)
-	$(CC) $(SDL) $(ASSIMP) $(OPENGL) $(CFLAGS) -o $@ $^
+	$(CC) $(SDL) $(ASSIMP) $(FREETYPE) $(OPENGL) $(CFLAGS) -o $@ $^
 
 clean:
 	rm -rf $(OBJ_PATH)
