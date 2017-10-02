@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/25 11:17:36 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/02 12:58:08 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ Player::Player(unsigned int x, unsigned int areaLineNbr) : x(x), areaLineNbr(are
     this->shader = new Shader("shaders/static_model.glvs", "shaders/diffuse_texture.glfs");
     this->debugShader = new Shader("shaders/simple_grid.glvs", "shaders/geometry_shader.glgs", "shaders/simple_grid.glfs");
 
-    this->model = new Model("./models/cowboy/model.dae", true);
+    this->model = new Model("./models/cowboy/marvin.obj", false);
 
     this->y = 0;
     this->state = 0;
@@ -67,7 +67,7 @@ void     Player::setupDebug() {
 }
 
 void    Player::draw(float gameClock) const {
-    float scalingRate = 5.f;
+    float scalingRate = 0.5f;
     float xScaled;
     float yScaled;
     float angle;
@@ -94,7 +94,8 @@ void    Player::draw(float gameClock) const {
     glm::mat4 model;
     model = glm::scale(model, glm::vec3(1.f / scalingRate, 1.f / scalingRate, 1.f / scalingRate));
     model = glm::translate(model, glm::vec3(xScaled, yScaled, 0.f));
-    model = glm::rotate(model, glm::radians(angle), glm::vec3(0.f, 0.f, 1.f));
+    model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
+    model = glm::rotate(model, glm::radians(angle), glm::vec3(0.f, 1.f, 0.f));
     
     this->shader->use();
 	this->shader->setModel(model);

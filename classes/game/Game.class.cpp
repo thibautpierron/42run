@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/29 13:24:21 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/02 13:05:46 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,16 +210,16 @@ bool	Game::playerCanTurn() {
 	// }
 	switch (this->movementDirection) {
 		case Orientation::NORTH:
-			if (this->player->getY() >= this->areas[this->currentAreaInd]->getEndY() - 5)
+			if (this->player->getY() >= this->areas[this->currentAreaInd]->getEndY() - this->areas[this->currentAreaInd + 1]->getLineNbr())
 				return true; break;
 		case Orientation::SOUTH:
-			if (this->player->getY() < this->areas[this->currentAreaInd]->getEndY() + 5)
+			if (this->player->getY() < this->areas[this->currentAreaInd]->getEndY() + this->areas[this->currentAreaInd + 1]->getLineNbr())
 				return true; break;
 		case Orientation::EAST:
-			if (this->player->getX() >= this->areas[this->currentAreaInd]->getEndX() - 5)
+			if (this->player->getX() >= this->areas[this->currentAreaInd]->getEndX() - this->areas[this->currentAreaInd + 1]->getLineNbr())
 				return true; break;
 		case Orientation::WEST:
-			if (this->player->getX() < this->areas[this->currentAreaInd]->getEndX() + 5)
+			if (this->player->getX() < this->areas[this->currentAreaInd]->getEndX() + this->areas[this->currentAreaInd + 1]->getLineNbr())
 				return true; break;
 	}
 	return false;
