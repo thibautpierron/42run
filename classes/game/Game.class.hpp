@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/02 15:51:37 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/03 11:05:26 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ class Game {
 		void				transcriptCrdToCameraRef(float *, float *, Orientation::Enum);
 		void				drawGround() const;
 		void				drawCeiling() const;
-		void				drawDistance() const;
-		void				DrawBonus() const;
+		void				drawScore() const;
+		void				drawBonus() const;
 		
 		Player	*player;
 		Camera	camera;
@@ -68,6 +68,11 @@ class Game {
 		Shader					*groundShader;
 		Model					*ceiling;
 		Shader					*ceilingShader;
+
+		GLString				*glString;
+		int						score;
+		int						distance;
+		int						bonusFactor;
 };
 
 #endif

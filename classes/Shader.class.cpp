@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/16 14:11:27 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/18 15:19:21 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/03 10:06:02 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,11 @@ void    Shader::setCamera(glm::mat4 cameraMat) {
 void    Shader::setView() {
     glUniformMatrix4fv(glGetUniformLocation(this->programID, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(Shader::perspective));
     glUniformMatrix4fv(glGetUniformLocation(this->programID, "viewMatrix"), 1, GL_FALSE, glm::value_ptr(Shader::camera));
+}
+
+void    Shader::setOrthoView(float resX, float resY) {
+    glm::mat4 mat = glm::ortho(0.0f, resX, 0.0f, resY);
+    glUniformMatrix4fv(glGetUniformLocation(this->programID, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(mat));
 }
 
 void    Shader::setModel(glm::mat4 model) const {

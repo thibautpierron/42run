@@ -6,17 +6,19 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 14:54:16 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/02 16:03:50 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/03 10:06:36 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./GLString.class.hpp"
 
-GLString::GLString() {
-	this->shader = new Shader("../shaders/glstring.glvs", "../shaders/glstring.glfs");
-	if(GLString::characters.size() == 0)
-		this->initFont("../models/oasis.TTF");
+std::map<GLchar, Character> GLString::characters;
 
+GLString::GLString() {
+	this->shader = new Shader("shaders/glstring.glvs", "shaders/glstring.glfs");
+	if(GLString::characters.size() == 0)
+		this->initFont("models/oasis.TTF");
+	this->setupGl();
 }
 
 void	GLString::initFont(std::string fontPath) {
@@ -94,7 +96,7 @@ void	GLString::setupGl() {
 void	GLString::renderText(std::string text, float x, float y, glm::vec3 color) const {
     // Activate corresponding render state	
     this->shader->use();
-	this->shader->setView();
+	this->shader->setOrthoView(1024.f, 1024.f);
     glUniform3f(glGetUniformLocation(this->shader->getProgramID(), "textColor"), color.x, color.y, color.z);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(this->VAO);

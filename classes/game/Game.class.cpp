@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/02 15:14:49 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/03 11:08:45 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ Game::Game(float gameSpeed) : gameSpeed(gameSpeed) {
     this->player = new Player(0, this->areas.front()->getLineNbr());
 	this->movementDirection = Orientation::NORTH;
 	this->gameClockRender = 0.f;
+
+	this->glString = new GLString();
+	this->score = 0.f;
+	this->distance = 0.f;
+	this->bonusFactor = 1.f;
 }
 
 Game::~Game() {
@@ -38,8 +43,11 @@ Game::~Game() {
 
 void	Game::compute(float gameTick) {
 	
-	if (gameTick == 0)
+	if (gameTick == 0) {
 		player->goAhead();
+		this->distance += 1;
+		this->score = distance * bonusFactor;
+	}
 
 	checkObstaclesCollision();
 	if (checkWallCollision()) {
@@ -117,6 +125,8 @@ void	Game::render(float gameSpeed) {
 	player->draw(gameClockRender);
 	player->drawDebug(gameClockRender);
 
+	this->drawScore();
+	this->drawBonus();
 }
 
 void	Game::checkObstaclesCollision() {
@@ -335,10 +345,13 @@ void		Game::drawCeiling() const {
 
 }
 
-void		Game::drawDistance() const {
-
+void		Game::drawScore() const {
+	this->glString->renderText("Score:", 50.f, 950.f, glm::vec3(0.2f, 0.4f, 1.f));	
+	this->glString->renderText(std::to_string(this->score), 50.f, 880.f, glm::vec3(0.2f, 0.4f, 1.f));	
 }
 
-void		Game::DrawBonus() const {
-
+void		Game::drawBonus() const {
+	std::string str = std::to_string(this->bonusFactor);
+	str.append("x");
+	this->glString->renderText(str, 900.f, 950.f, glm::vec3(0.2f, 0.4f, 1.f));	
 }
