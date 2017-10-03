@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/20 14:18:32 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/15 11:26:03 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/03 16:49:49 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,14 @@ void    eventManager(SDL_Event *events, bool *exitLoop, Game *game) {
     if (events->type == SDL_KEYDOWN && repeatFlag == 0) {
         repeatFlag = 1;
         switch(events->key.keysym.sym) {
-            case SDLK_SPACE: game->orientatePlayer(); break;
+            case SDLK_SPACE:
+                switch (game->getState()) {
+                    case 0: game->start(); break;
+                    case 1: game->orientatePlayer(); break;
+                    case 2: game->start(); break;
+                }
+                
+                break;
             case SDLK_w: game->orientatePlayer(Orientation::NORTH); break;
             case SDLK_s: game->orientatePlayer(Orientation::SOUTH); break;
             case SDLK_d: game->orientatePlayer(Orientation::EAST); break;

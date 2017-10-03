@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/03 14:56:45 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/03 16:56:01 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ Game::Game(float gameSpeed) : gameSpeed(gameSpeed) {
 	this->distance = 0.f;
 	this->bonusFactor = 1.f;
 	this->bonusCaught = false;
+
+	this->state = 0;
 }
 
 Game::~Game() {
@@ -57,8 +59,9 @@ void	Game::compute(float gameTick) {
 	}
 	checkObstaclesCollision();
 	if (checkWallCollision()) {
-		std::cout << "WALL" << std::endl;
-		this->currentAreaInd++;
+		// std::cout << "WALL" << std::endl;
+		// this->currentAreaInd++;
+		this->state = 2;
 	}
 	manageAreas();
 }
@@ -144,6 +147,7 @@ void	Game::checkObstaclesCollision() {
             ((obstacles[i].y + 1) == playerPosition.y ||
 			 (obstacles[i].y ) == playerPosition.y) ) {
 			player->setState(1);
+			this->state = 2;
             return;
         }
     }
@@ -282,6 +286,7 @@ void	Game::orientatePlayer(Orientation::Enum orientation) {
 }
 
 void	Game::initAreas() {	
+	this->areas.erase(this->areas.begin(), this->areas.end());
 	this->areas.push_back(this->areaFactory.createArea());
 	this->areas.push_back(this->areaFactory.createArea(this->areas.back()));
 	this->areas.push_back(this->areaFactory.createArea(this->areas.back()));
@@ -373,4 +378,51 @@ void		Game::drawBonus() const {
 	std::string str = std::to_string(this->bonusFactor);
 	str.append("x");
 	this->glString->renderText(str, 900.f, 950.f, glm::vec3(0.2f, 0.4f, 1.f));	
+}
+
+void		Game::displayStartScreen() const {
+	static int t = 0;
+	t++;
+	if (t > 100)
+		t = 0;
+	if (t < 50)
+		this->glString->renderText("press space to start", 70.f, 512.f, glm::vec3(1.f, 1.f, 1.f));
+}
+
+void		Game::displayScoreScreen() const {
+	static int t = 0;
+	t++;
+	if (t > 100)
+		t = 0;
+	if (t < 50)
+		this->glString->renderText("you lose!", 300.f, 750.f, glm::vec3(1.f, 1.f, 1.f));	
+	
+	this->glString->renderText("your score is:", 200.f, 550.f, glm::vec3(1.f, 1.f, 1.f));	
+	this->glString->renderText(std::to_string(this->score), 400.f, 450.f, glm::vec3(1.f, 1.f, 1.f));
+}
+
+int		Game::getState() const {
+	return this->state;
+}
+
+void	Game::start() {
+	this->camera = Camera();
+	this->camera.setOrientation(Orientation::NORTH);
+
+	initAreas();
+	this->areasUpdated = false;
+	this->currentAreaInd = 0;
+    this->obstacles = this->areas[this->currentAreaInd]->getObstacles();
+
+	delete this->player;
+    this->player = new Player(0, this->areas[this->currentAreaInd]->getLineNbr());
+	this->movementDirection = Orientation::NORTH;
+	this->gameClockRender = 0.f;
+
+	this->score = 0.f;
+	this->distance = 0.f;
+	this->bonusFactor = 1.f;
+	this->bonusCaught = false;
+
+	this->state = 1;
 }

@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:25:21 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/29 13:25:45 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/03 16:57:14 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int     main() {
     float gameTick = 0.f;
     Game game(gameSpeed);
 
-
 	while (!exitLoop) {
         start = std::chrono::high_resolution_clock::now();
         if(gameTick >= 1.f)
@@ -47,8 +46,15 @@ int     main() {
         eventManager(&events, &exitLoop, &game);
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        game.compute(gameTick);
-        game.render(gameSpeed);
+        switch(game.getState()) {
+            case 0: game.displayStartScreen(); break;
+            case 1:
+                game.compute(gameTick);
+                game.render(gameSpeed);
+                break;
+            case 2: game.displayScoreScreen(); break;
+            // default: game.displayStartScreen(); break;
+        }
         
         SDL_GL_SwapWindow(win);
         end = std::chrono::high_resolution_clock::now();

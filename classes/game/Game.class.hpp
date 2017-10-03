@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/03 14:38:15 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/03 16:31:18 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ class Game {
 		void				movePlayerRight();
 		void				movePlayerLeft();
 		void				setCamera();
+		void				displayStartScreen() const;
+		void				displayScoreScreen() const;
+		int					getState() const;
+		void				start();
 		
 	private:
 		void				initAreas();
@@ -75,6 +79,8 @@ class Game {
 		int						distance;
 		int						bonusFactor;
 		bool					bonusCaught;
+
+		int						state;
 };
 
 #endif
