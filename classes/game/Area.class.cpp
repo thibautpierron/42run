@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/10/03 14:11:39 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/03 14:59:54 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,30 +181,31 @@ void	Area::drawObstacleDebug() const {
 }
 
 void	Area::generateObstacles() {
+	int offset = 3;
 	switch(orientation) {
 		case Orientation::NORTH:
-			for (unsigned int i = 0; i < this->length; i+=4) {
+			for (unsigned int i = 0; i < this->length - offset; i+=4) {
 				this->obstacles.push_back(glm::vec2(static_cast<float>(rand() % this->lineNbr) + this->startX, static_cast<float>(i) + this->startY));
 			}
 			for (unsigned int i = 0; i < this->lineNbr; i++) {
 				this->obstacles.push_back(glm::vec2(this->getEndX() + i - this->lineNbr, this->getEndY()));
 			} break;
 		case Orientation::SOUTH:
-			for (unsigned int i = 0; i < this->length; i+=4) {
+			for (unsigned int i = 0; i < this->length - offset; i+=4) {
 				this->obstacles.push_back(glm::vec2(this->startX - static_cast<float>(rand() % this->lineNbr) - 1, this->startY - static_cast<float>(i) - 1));
 			}
 			for (unsigned int i = 0; i < this->lineNbr; i++) {
 				this->obstacles.push_back(glm::vec2(this->getEndX() + i, this->getEndY() - 1));
 			} break;
 		case Orientation::WEST:
-			for (unsigned int i = 0; i < this->length; i+=4) {
+			for (unsigned int i = 0; i < this->length - offset; i+=4) {
 				this->obstacles.push_back(glm::vec2(this->startX - static_cast<float>(i) - 1, static_cast<float>(rand() % this->lineNbr) + this->startY));
 			}
 			for (unsigned int i = 0; i < this->lineNbr; i++) {
 				this->obstacles.push_back(glm::vec2(this->getEndX() - 1, this->getEndY() - this->lineNbr + i));
 			} break;
 		case Orientation::EAST:
-			for (unsigned int i = 0; i < this->length; i+=4) {
+			for (unsigned int i = 0; i < this->length - offset; i+=4) {
 				this->obstacles.push_back(glm::vec2(this->startX + static_cast<float>(i),  this->startY - static_cast<float>(rand() % this->lineNbr) - 1));
 			}
 			for (unsigned int i = 0; i < this->lineNbr; i++) {
@@ -354,34 +355,33 @@ void	Area::setBonus() {
 										"shaders/simple_diffuse.glfs");
 	this->bonus = new Model("./models/scenery/card.obj", false);
 
+	int offset = 3;
 	glm::vec2 crd;
 	switch(orientation) {
 		case Orientation::NORTH:
-				crd = glm::vec2((rand() % this->lineNbr) + this->startX, (rand() % this->length) + this->startY); break;
+				crd = glm::vec2((rand() % this->lineNbr) + this->startX, (rand() % this->length - offset) + this->startY); break;
 		case Orientation::SOUTH:
-				crd = glm::vec2(this->startX - (rand() % this->lineNbr), this->startY - (rand() % this->length)); break;
+				crd = glm::vec2(this->startX - (rand() % this->lineNbr) - 1, this->startY - (rand() % this->length - offset)); break;
 		case Orientation::WEST:
-				crd = glm::vec2(this->startX - (rand() % this->length), (rand() % this->lineNbr) + this->startY); break;
+				crd = glm::vec2(this->startX - (rand() % this->length - offset), (rand() % this->lineNbr) + this->startY); break;
 		case Orientation::EAST:
-				crd = glm::vec2((rand() % this->length) + this->startX, this->startY - (rand() % this->lineNbr)); break;
+				crd = glm::vec2((rand() % this->length - offset) + this->startX, this->startY - (rand() % this->lineNbr) - 1); break;
 	}	
 
 	bool flag = true;
 	while (flag) {
 		flag = false;
 		for (unsigned int i = 0; i < obstacles.size(); i++) {
-			// std::cout << "crdx:" << obstacles[i].x << " crdy: " << obstacles[i].y << std::endl;
 			if (crd.x == obstacles[i].x && crd.y == obstacles[i].y) {
-				std::cout << "BAD RAND" << std::endl;
 				switch(orientation) {
 					case Orientation::NORTH:
-							crd = glm::vec2((rand() % this->lineNbr) + this->startX, (rand() % this->length) + this->startY); break;
+							crd = glm::vec2((rand() % this->lineNbr) + this->startX, (rand() % this->length - offset) + this->startY); break;
 					case Orientation::SOUTH:
-							crd = glm::vec2(this->startX - (rand() % this->lineNbr), this->startY - (rand() % this->length)); break;
+							crd = glm::vec2(this->startX - (rand() % this->lineNbr), this->startY - (rand() % this->length - offset)); break;
 					case Orientation::WEST:
-							crd = glm::vec2(this->startX - (rand() % this->length), (rand() % this->lineNbr) + this->startY); break;
+							crd = glm::vec2(this->startX - (rand() % this->length - offset), (rand() % this->lineNbr) + this->startY); break;
 					case Orientation::EAST:
-							crd = glm::vec2((rand() % this->length) + this->startX, this->startY - (rand() % this->lineNbr)); break;
+							crd = glm::vec2((rand() % this->length - offset) + this->startX, this->startY - (rand() % this->lineNbr)); break;
 				}	
 				flag = true;
 				break;

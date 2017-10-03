@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/03 14:41:21 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/03 14:56:45 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ Game::Game(float gameSpeed) : gameSpeed(gameSpeed) {
 										"shaders/simple_diffuse.glfs");
 	this->areasUpdated = false;
 	this->currentAreaInd = 0;
-    this->obstacles = this->areas.front()->getObstacles();
+    this->obstacles = this->areas[this->currentAreaInd]->getObstacles();
+    // this->obstacles = this->areas.front()->getObstacles();
 
     this->player = new Player(0, this->areas.front()->getLineNbr());
 	this->movementDirection = Orientation::NORTH;
@@ -271,10 +272,8 @@ void	Game::orientatePlayer() {
 	this->areasUpdated = false;
 	this->camera.startGetCloserAnimation();
 	this->bonusCaught = false;
-	// for (unsigned int i = 0; i < this->areas[currentAreaInd]->getObstacles().size(); i++) {
-	// 	this->obstacles.push_back(this->areas[currentAreaInd]->getObstacles()[i]);
-	// 	this->obstacles.erase(this->obstacles.begin());
-	// }
+	this->obstacles = this->areas[currentAreaInd]->getObstacles();
+
 }
 
 void	Game::orientatePlayer(Orientation::Enum orientation) {
