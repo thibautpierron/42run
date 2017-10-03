@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/03 11:05:26 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/03 14:38:15 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ class Game {
 	private:
 		void				initAreas();
 		void				checkObstaclesCollision();
+		bool				checkBonusCollision();
 		bool				checkWallCollision();
 		void				delArea();
 		void				manageAreas();
@@ -73,6 +74,7 @@ class Game {
 		int						score;
 		int						distance;
 		int						bonusFactor;
+		bool					bonusCaught;
 };
 
 #endif

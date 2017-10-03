@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/10/02 13:27:28 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/03 14:11:39 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ Area::Area(float startX, float startY,
 	this->patternLength = stage->getPatternLength(orientation);
 	setupGrid();
 	generateObstacles();
+	setBonus();
 	setupObstacleDebug();
 	
 	this->gridShader = new Shader("shaders/simple_grid.glvs",
@@ -30,7 +31,6 @@ Area::Area(float startX, float startY,
 											"shaders/simple_grid.glfs");
 	this->obstacleShader = new Shader("shaders/static_model_instanced.glvs",
 										"shaders/simple_diffuse.glfs");
-
 }
 
 Area::~Area() {
@@ -347,4 +347,69 @@ void		Area::setSceneryModel(Model * model) {
 			} break;
 	}
 	this->scenery->setInstanceBuffer(data);
+}
+
+void	Area::setBonus() {
+	this->bonusShader = new Shader("shaders/static_model_instanced.glvs",
+										"shaders/simple_diffuse.glfs");
+	this->bonus = new Model("./models/scenery/card.obj", false);
+
+	glm::vec2 crd;
+	switch(orientation) {
+		case Orientation::NORTH:
+				crd = glm::vec2((rand() % this->lineNbr) + this->startX, (rand() % this->length) + this->startY); break;
+		case Orientation::SOUTH:
+				crd = glm::vec2(this->startX - (rand() % this->lineNbr), this->startY - (rand() % this->length)); break;
+		case Orientation::WEST:
+				crd = glm::vec2(this->startX - (rand() % this->length), (rand() % this->lineNbr) + this->startY); break;
+		case Orientation::EAST:
+				crd = glm::vec2((rand() % this->length) + this->startX, this->startY - (rand() % this->lineNbr)); break;
+	}	
+
+	bool flag = true;
+	while (flag) {
+		flag = false;
+		for (unsigned int i = 0; i < obstacles.size(); i++) {
+			// std::cout << "crdx:" << obstacles[i].x << " crdy: " << obstacles[i].y << std::endl;
+			if (crd.x == obstacles[i].x && crd.y == obstacles[i].y) {
+				std::cout << "BAD RAND" << std::endl;
+				switch(orientation) {
+					case Orientation::NORTH:
+							crd = glm::vec2((rand() % this->lineNbr) + this->startX, (rand() % this->length) + this->startY); break;
+					case Orientation::SOUTH:
+							crd = glm::vec2(this->startX - (rand() % this->lineNbr), this->startY - (rand() % this->length)); break;
+					case Orientation::WEST:
+							crd = glm::vec2(this->startX - (rand() % this->length), (rand() % this->lineNbr) + this->startY); break;
+					case Orientation::EAST:
+							crd = glm::vec2((rand() % this->length) + this->startX, this->startY - (rand() % this->lineNbr)); break;
+				}	
+				flag = true;
+				break;
+			}
+		}
+	}
+	this->bonusCrd = crd;
+}
+
+void	Area::drawBonus() const {
+	std::vector<glm::mat4> data;
+	static float angle = 0.f;
+
+	glm::mat4 model = glm::mat4();
+	model = glm::translate(model, glm::vec3(this->bonusCrd.x + 0.5f, this->bonusCrd.y + 0.5f, 0.2f));
+	model = glm::rotate(model, glm::radians(angle) , glm::vec3(0.f, 0.f, 1.f));
+	model = glm::translate(model, glm::vec3(- 0.2f, - 0.2f, 0.f));
+	data.push_back(model);
+	this->bonus->setInstanceBuffer(data);
+	this->bonusShader->use();
+    this->bonusShader->setView();
+	this->bonusShader->setModel(model);
+    this->bonus->draw(this->bonusShader, 1);
+	angle += 1.f;
+	if (angle > 360.f)
+		angle = 0.f;
+}
+
+glm::vec2	Area::getBonus() const {
+	return this->bonusCrd;
 }

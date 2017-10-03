@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 09:56:41 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/27 10:34:17 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/03 14:05:03 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,14 @@ class Area {
         void                    drawObstacles() const;
         void                    drawObstacleDebug() const;
         void	                drawScenery() const;
+        void                    drawBonus() const;
 
         unsigned int	        getLineNbr() const;
         unsigned int            getLength() const;
         float                   getEndX() const;
         float                   getEndY() const;
         std::vector<glm::vec2>  getObstacles() const;
+        glm::vec2               getBonus() const;
         Orientation::Enum       getOrientation() const;
         void                    setObstacleModel(Model *);
         void                    setSceneryModel(Model *);
@@ -47,6 +49,7 @@ class Area {
         Area();
         void    setupGrid();
         void    setupObstacleDebug();
+        void    setBonus();
         void    generateObstacles();
 
         float				startX;
@@ -59,6 +62,7 @@ class Area {
         std::vector<unsigned int>	indices;
         std::vector<glm::vec3>		vertices;
         std::vector<glm::vec2>      obstacles;
+        glm::vec2                   bonusCrd;
 
         Shader                  *gridShader;
         unsigned int            vao;
@@ -73,6 +77,8 @@ class Area {
         Shader                  *obstacleShader;
         Model                   *scenery;
         Shader                  *sceneryShader;
+        Model                   *bonus;
+        Shader                  *bonusShader;
         // unsigned int            obstacleVao;
         // unsigned int            obstacleVbo;
 };

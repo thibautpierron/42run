@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/03 11:08:45 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/03 14:41:21 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ Game::Game(float gameSpeed) : gameSpeed(gameSpeed) {
 	this->score = 0.f;
 	this->distance = 0.f;
 	this->bonusFactor = 1.f;
+	this->bonusCaught = false;
 }
 
 Game::~Game() {
@@ -49,6 +50,10 @@ void	Game::compute(float gameTick) {
 		this->score = distance * bonusFactor;
 	}
 
+	if (!this->bonusCaught) {
+		if (checkBonusCollision())
+			this->bonusCaught = true;
+	}
 	checkObstaclesCollision();
 	if (checkWallCollision()) {
 		std::cout << "WALL" << std::endl;
@@ -120,6 +125,8 @@ void	Game::render(float gameSpeed) {
 		this->areas[i]->drawObstacleDebug();
 		this->areas[i]->drawObstacles();
 		this->areas[i]->drawScenery();
+		if (!this->bonusCaught)
+			this->areas[i]->drawBonus();
 	}
 
 	player->draw(gameClockRender);
@@ -141,6 +148,18 @@ void	Game::checkObstaclesCollision() {
     }
 	player->setState(0);
     return;
+}
+
+bool	Game::checkBonusCollision() {
+	glm::vec2 playerPosition = this->player->getPosition();
+	glm::vec2 bonusPosition = this->areas[this->currentAreaInd]->getBonus();
+	if (playerPosition == bonusPosition) {
+		this->bonusFactor++;
+		player->setState(1);
+		return true;
+	}
+	player->setState(0);
+	return false;
 }
 
 bool	Game::checkWallCollision() {
@@ -251,6 +270,7 @@ void	Game::orientatePlayer() {
 	this->currentAreaInd++;
 	this->areasUpdated = false;
 	this->camera.startGetCloserAnimation();
+	this->bonusCaught = false;
 	// for (unsigned int i = 0; i < this->areas[currentAreaInd]->getObstacles().size(); i++) {
 	// 	this->obstacles.push_back(this->areas[currentAreaInd]->getObstacles()[i]);
 	// 	this->obstacles.erase(this->obstacles.begin());
