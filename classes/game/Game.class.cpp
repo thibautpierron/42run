@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/04 11:16:39 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/04 13:23:23 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -388,7 +388,7 @@ void		Game::drawBonus() const {
 
 void		Game::displayStartScreen() const {
 	static int t = 0;
-	static float r = 0.f;
+	static float r = 180.f;
 	t++;
 	r++;
 	if (t > 100)

@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/10/04 13:12:46 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/04 13:22:42 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,6 @@ void    Player::draw(float gameClock) const {
 	this->shader->setModel(model);
     this->model->setInstanceBuffer(data);
     glUniform3f(glGetUniformLocation(this->shader->getProgramID(), "lightOffset"), static_cast<float>(this->x), static_cast<float>(this->y), gameClock);
-
-std::cout << cos(gameClock) << std::endl;
-
     this->shader->setView();
     this->model->draw(this->shader, 1);
 }

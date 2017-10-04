@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/10/04 11:06:19 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/04 14:12:15 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,8 +351,8 @@ void		Area::setSceneryModel(Model * model) {
 }
 
 void	Area::setBonus() {
-	this->bonusShader = new Shader("shaders/static_model_instanced.glvs",
-										"shaders/simple_diffuse.glfs");
+	this->bonusShader = new Shader("shaders/static_model.glvs",
+										"shaders/diffuse_texture.glfs");
 	this->bonus = new Model("./models/scenery/card.obj", false);
 
 	int offset = 3;
@@ -392,15 +392,16 @@ void	Area::setBonus() {
 }
 
 void	Area::drawBonus() const {
-	std::vector<glm::mat4> data;
+	// std::vector<glm::mat4> data;
 	static float angle = 0.f;
 
 	glm::mat4 model = glm::mat4();
 	model = glm::translate(model, glm::vec3(this->bonusCrd.x + 0.5f, this->bonusCrd.y + 0.5f, 0.2f));
 	model = glm::rotate(model, glm::radians(angle) , glm::vec3(0.f, 0.f, 1.f));
+	model = glm::rotate(model, glm::radians(90.f) , glm::vec3(1.f, 0.f, 0.f));
 	model = glm::translate(model, glm::vec3(- 0.2f, - 0.2f, 0.f));
-	data.push_back(model);
-	this->bonus->setInstanceBuffer(data);
+	// data.push_back(model);
+	// this->bonus->setInstanceBuffer(data);
 	this->bonusShader->use();
     this->bonusShader->setView();
 	this->bonusShader->setModel(model);
