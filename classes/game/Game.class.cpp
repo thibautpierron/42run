@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/04 10:26:28 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/04 11:16:39 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ Game::Game(float gameSpeed) : gameSpeed(gameSpeed) {
 	this->distance = 0.f;
 	this->bonusFactor = 1.f;
 	this->bonusCaught = false;
+	this->debugMode = false;
 
 	this->state = 0;
 }
@@ -129,8 +130,10 @@ void	Game::render(float gameSpeed) {
 	this->drawCeiling();
 
 	for(unsigned int i = 0; i < this->areas.size(); i++) {
-		this->areas[i]->drawGrid();
-		this->areas[i]->drawObstacleDebug();
+		if (this->debugMode) {
+			this->areas[i]->drawGrid();
+			this->areas[i]->drawObstacleDebug();
+		}
 		this->areas[i]->drawObstacles();
 		this->areas[i]->drawScenery();
 		if (!this->bonusCaught)
@@ -138,7 +141,8 @@ void	Game::render(float gameSpeed) {
 	}
 
 	player->draw(gameClockRender);
-	player->drawDebug(gameClockRender);
+	if (this->debugMode)
+		player->drawDebug(gameClockRender);
 
 	this->drawScore();
 	this->drawBonus();
@@ -147,9 +151,7 @@ void	Game::render(float gameSpeed) {
 void	Game::checkObstaclesCollision() {
 	glm::vec2 playerPosition = this->player->getPosition();
 	for (unsigned int i = 0; i < obstacles.size(); i++) {
-        if (obstacles[i].x == playerPosition.x && 
-            ((obstacles[i].y + 1) == playerPosition.y ||
-			 (obstacles[i].y ) == playerPosition.y) ) {
+        if (obstacles[i] == playerPosition) {
 			player->setState(1);
 			this->state = 2;
             return;
@@ -447,4 +449,8 @@ void	Game::start() {
 	this->bonusCaught = false;
 
 	this->state = 1;
+}
+
+void	Game::toggleDebugMode() {
+	this->debugMode = !this->debugMode;
 }

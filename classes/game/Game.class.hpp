@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/04 10:26:28 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/04 11:15:13 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ class Game {
 		void				displayScoreScreen() const;
 		int					getState() const;
 		void				start();
+		void				toggleDebugMode();
 		
 	private:
 		void				initAreas();
@@ -83,6 +84,7 @@ class Game {
 		bool					bonusCaught;
 
 		int						state;
+		bool					debugMode;
 };
 
 #endif
