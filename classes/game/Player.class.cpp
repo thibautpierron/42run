@@ -6,14 +6,14 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/10/02 12:58:08 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/04 13:12:46 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Player.class.hpp"
 
 Player::Player(unsigned int x, unsigned int areaLineNbr) : x(x), areaLineNbr(areaLineNbr) {
-    this->shader = new Shader("shaders/static_model.glvs", "shaders/diffuse_texture.glfs");
+    this->shader = new Shader("shaders/static_model_instanced.glvs", "shaders/player_diffuse.glfs");
     this->debugShader = new Shader("shaders/simple_grid.glvs", "shaders/geometry_shader.glgs", "shaders/simple_grid.glfs");
 
     this->model = new Model("./models/cowboy/marvin.obj", false);
@@ -91,14 +91,21 @@ void    Player::draw(float gameClock) const {
             angle = -90.f; break;
     }
 
+    std::vector<glm::mat4> data;
     glm::mat4 model;
     model = glm::scale(model, glm::vec3(1.f / scalingRate, 1.f / scalingRate, 1.f / scalingRate));
     model = glm::translate(model, glm::vec3(xScaled, yScaled, 0.f));
     model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
     model = glm::rotate(model, glm::radians(angle), glm::vec3(0.f, 1.f, 0.f));
+    data.push_back(model);
     
     this->shader->use();
 	this->shader->setModel(model);
+    this->model->setInstanceBuffer(data);
+    glUniform3f(glGetUniformLocation(this->shader->getProgramID(), "lightOffset"), static_cast<float>(this->x), static_cast<float>(this->y), gameClock);
+
+std::cout << cos(gameClock) << std::endl;
+
     this->shader->setView();
     this->model->draw(this->shader, 1);
 }
@@ -130,7 +137,7 @@ void    Player::drawDebug(float gameClock) const {
     this->debugShader->use();
     this->debugShader->setModel(model);
     this->debugShader->setView();
-    glUniform1i(glGetUniformLocation(debugShader->getProgramID(), "playerState"), this->state);    
+    glUniform1i(glGetUniformLocation(debugShader->getProgramID(), "playerState"), this->state);
 
     glBindVertexArray(this->debugVao);
     glDrawArrays(GL_POINTS, 0, 1);
