@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/03 16:56:01 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/04 10:26:28 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ Game::Game(float gameSpeed) : gameSpeed(gameSpeed) {
 										"shaders/simple_color.glfs");
 	this->ceilingShader = new Shader("shaders/static_model_instanced.glvs",
 										"shaders/simple_diffuse.glfs");
+	this->logoShader = new Shader("shaders/static_model_instanced.glvs",
+										"shaders/simple_diffuse.glfs");
+	this->logo = new Model("./models/scenery/logo_42run.obj", false);
+
 	this->areasUpdated = false;
 	this->currentAreaInd = 0;
     this->obstacles = this->areas[this->currentAreaInd]->getObstacles();
@@ -382,11 +386,29 @@ void		Game::drawBonus() const {
 
 void		Game::displayStartScreen() const {
 	static int t = 0;
+	static float r = 0.f;
 	t++;
+	r++;
 	if (t > 100)
 		t = 0;
 	if (t < 50)
-		this->glString->renderText("press space to start", 70.f, 512.f, glm::vec3(1.f, 1.f, 1.f));
+		this->glString->renderText("press space to start", 70.f, 100.f, glm::vec3(1.f, 1.f, 1.f));
+
+	if(r > 360)
+		r = 0;
+	std::vector<glm::mat4> data;
+
+	glm::mat4 model = glm::mat4();
+	model = glm::translate(model, glm::vec3(0.f, 5.f, 0.f));
+	model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
+	model = glm::rotate(model, glm::radians(r), glm::vec3(0.f, 1.f, 0.f));
+	data.push_back(model);
+
+	this->logo->setInstanceBuffer(data);
+
+	this->logoShader->use();
+    this->logoShader->setView();
+    this->logo->draw(this->logoShader, 1);
 }
 
 void		Game::displayScoreScreen() const {

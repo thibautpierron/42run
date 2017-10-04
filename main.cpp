@@ -6,14 +6,14 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:25:21 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/03 16:57:14 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/04 10:25:07 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "42run.hpp"
 
 void    glInit() {
-    glClearColor(0.f, 0.f, 0.f, 1.0f);
+    glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
