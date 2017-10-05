@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/05 11:12:32 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/05 11:52:20 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ bool	Game::checkBonusCollision() {
 	glm::vec2 bonusPosition = this->areas[this->currentAreaInd]->getBonus();
 	if (playerPosition == bonusPosition) {
 		this->bonusFactor++;
-		player->setState(1);
+		// player->setState(1);
 		return true;
 	}
 	// player->setState(0);

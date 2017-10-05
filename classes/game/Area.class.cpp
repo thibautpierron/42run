@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/10/04 14:12:15 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/05 11:59:36 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ Area::~Area() {
 	delete this->obstacleDebugShader;
 	delete this->obstacleShader;
 	delete this->obstacle;
+	delete this->sceneryShader;
+	delete this->scenery;
+	delete this->bonusShader;
+	delete this->bonus;
 }
 
 void    Area::setupGrid() {
@@ -356,37 +360,21 @@ void	Area::setBonus() {
 	this->bonus = new Model("./models/scenery/card.obj", false);
 
 	int offset = 3;
-	glm::vec2 crd;
+	glm::vec3 crd;
 	switch(orientation) {
 		case Orientation::NORTH:
-				crd = glm::vec2((rand() % this->lineNbr) + this->startX, (rand() % this->length - offset) + this->startY); break;
+				crd = glm::vec3((rand() % this->lineNbr) + this->startX, (rand() % this->length - offset) + this->startY, 0.2f); break;
 		case Orientation::SOUTH:
-				crd = glm::vec2(this->startX - (rand() % this->lineNbr) - 1, this->startY - (rand() % this->length - offset)); break;
+				crd = glm::vec3(this->startX - (rand() % this->lineNbr) - 1, this->startY - (rand() % this->length - offset), 0.2f); break;
 		case Orientation::WEST:
-				crd = glm::vec2(this->startX - (rand() % this->length - offset), (rand() % this->lineNbr) + this->startY); break;
+				crd = glm::vec3(this->startX - (rand() % this->length - offset), (rand() % this->lineNbr) + this->startY, 0.2f); break;
 		case Orientation::EAST:
-				crd = glm::vec2((rand() % this->length - offset) + this->startX, this->startY - (rand() % this->lineNbr) - 1); break;
+				crd = glm::vec3((rand() % this->length - offset) + this->startX, this->startY - (rand() % this->lineNbr) - 1, 0.2f); break;
 	}	
 
-	bool flag = true;
-	while (flag) {
-		flag = false;
-		for (unsigned int i = 0; i < obstacles.size(); i++) {
-			if (crd.x == obstacles[i].x && crd.y == obstacles[i].y) {
-				switch(orientation) {
-					case Orientation::NORTH:
-							crd = glm::vec2((rand() % this->lineNbr) + this->startX, (rand() % this->length - offset) + this->startY); break;
-					case Orientation::SOUTH:
-							crd = glm::vec2(this->startX - (rand() % this->lineNbr), this->startY - (rand() % this->length - offset)); break;
-					case Orientation::WEST:
-							crd = glm::vec2(this->startX - (rand() % this->length - offset), (rand() % this->lineNbr) + this->startY); break;
-					case Orientation::EAST:
-							crd = glm::vec2((rand() % this->length - offset) + this->startX, this->startY - (rand() % this->lineNbr)); break;
-				}	
-				flag = true;
-				break;
-			}
-		}
+	for (unsigned int i = 0; i < obstacles.size(); i++) {
+		if (crd.x == obstacles[i].x && crd.y == obstacles[i].y)
+			crd.z = 1.f;
 	}
 	this->bonusCrd = crd;
 }
@@ -396,7 +384,7 @@ void	Area::drawBonus() const {
 	static float angle = 0.f;
 
 	glm::mat4 model = glm::mat4();
-	model = glm::translate(model, glm::vec3(this->bonusCrd.x + 0.5f, this->bonusCrd.y + 0.5f, 0.2f));
+	model = glm::translate(model, glm::vec3(this->bonusCrd.x + 0.5f, this->bonusCrd.y + 0.5f, this->bonusCrd.z));
 	model = glm::rotate(model, glm::radians(angle) , glm::vec3(0.f, 0.f, 1.f));
 	model = glm::rotate(model, glm::radians(90.f) , glm::vec3(1.f, 0.f, 0.f));
 	model = glm::translate(model, glm::vec3(- 0.2f, - 0.2f, 0.f));
@@ -411,6 +399,6 @@ void	Area::drawBonus() const {
 		angle = 0.f;
 }
 
-glm::vec2	Area::getBonus() const {
+glm::vec3	Area::getBonus() const {
 	return this->bonusCrd;
 }
