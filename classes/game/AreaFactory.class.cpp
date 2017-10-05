@@ -6,19 +6,24 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 09:44:59 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/28 13:29:53 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/05 13:10:34 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./AreaFactory.class.hpp"
-
-AreaFactory::~AreaFactory() {}
 
 AreaFactory::AreaFactory() {
 	// std::cout << "AREA FACTO CONSTRUCTOR" << std::endl;
 	this->stages.push_back(new Stage(0));
 	this->stages.push_back(new Stage(1));
 	this->currentStage = 0;
+}
+
+AreaFactory::~AreaFactory() {
+	// std::cout << "AREA FACTO DESTRUCTOR" << std::endl;
+	for (unsigned int i = 0; i < this->stages.size(); i++) {
+		delete stages[i];
+	}
 }
 
 Area *	AreaFactory::createArea(Area * prev) {

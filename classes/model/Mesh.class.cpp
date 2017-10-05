@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:54:40 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/27 17:09:38 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/05 12:59:51 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ Mesh::~Mesh() {
 	// glDeleteBuffers(1, &this->ebo);
 	// glDeleteBuffers(1, &this->ibo);
 	// glDeleteVertexArrays(1, &this->vao);
+	delete this->rootJoint;
 	return;
 }
 

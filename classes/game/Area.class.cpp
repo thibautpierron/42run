@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/10/05 11:59:36 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/05 13:24:33 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ Area::~Area() {
 	delete this->obstacleDebugShader;
 	delete this->obstacleShader;
 	delete this->obstacle;
-	delete this->sceneryShader;
 	delete this->scenery;
 	delete this->bonusShader;
 	delete this->bonus;
