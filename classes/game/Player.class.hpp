@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:23:51 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/10/05 10:05:36 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/05 11:08:28 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ class Player {
         void    	draw(float);
         float   	getX() const;
         float   	getY() const;
+        bool        isJumping() const;
 
     private:
         Player();

@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/05 10:43:08 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/05 11:12:32 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void	Game::render(float gameSpeed) {
 void	Game::checkObstaclesCollision() {
 	glm::vec2 playerPosition = this->player->getPosition();
 	for (unsigned int i = 0; i < obstacles.size(); i++) {
-        if (obstacles[i] == playerPosition) {
+        if (obstacles[i] == playerPosition && !this->player->isJumping()) {
 			player->setState(1);
 			this->state = 2;
             return;

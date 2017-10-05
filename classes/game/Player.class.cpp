@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/10/05 10:41:10 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/05 11:24:00 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,10 +174,10 @@ void    Player::computeHeigth() {
     if (this->state != 2)
         return;
 
-    std::cout << "JUMP" << std::endl;
+    // std::cout << "JUMP" << std::endl;
     
     i += 0.1;
-    std::cout << i << " : " << 0.8571429 * i - 0.2142857 * i * i << std::endl;
+    // std::cout << i << " : " << 0.8571429 * i - 0.2142857 * i * i << std::endl;
 
 
     this->z = -0.02857143 + 0.8571429 * i - 0.2142857 * i * i;
@@ -186,4 +186,8 @@ void    Player::computeHeigth() {
         this->z = 0;
         this->state = 0;
     }
+}
+
+bool    Player::isJumping() const {
+    return (this->state == 2) ? true : false;
 }
