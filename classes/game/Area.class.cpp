@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/10/05 13:24:33 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/05 14:01:41 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ Area::Area(float startX, float startY,
 											"shaders/simple_grid.glfs");
 	this->obstacleShader = new Shader("shaders/static_model_instanced.glvs",
 										"shaders/simple_diffuse.glfs");
+	std::cout << "CONSTRUCTOR AREA" << std::endl;	
 }
 
 Area::~Area() {
+	std::cout << "DESTRUCTOR AREA" << std::endl;	
 	delete this->gridShader;
 	delete this->obstacleDebugShader;
 	delete this->obstacleShader;

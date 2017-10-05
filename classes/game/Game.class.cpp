@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/05 13:30:42 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/05 14:41:06 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ Game::Game(float gameSpeed) : gameSpeed(gameSpeed) {
 Game::~Game() {
 	delete this->player;
 	
-	delete	this->ground;
-	delete	this->groundShader;
-	delete	this->ceiling;
-	delete	this->ceilingShader;
-	delete	this->logo;
-	delete	this->logoShader;
-	delete  this->glString;
+	delete this->ground;
+	delete this->groundShader;
+	delete this->ceiling;
+	delete this->ceilingShader;
+	delete this->logo;
+	delete this->logoShader;
+	delete this->glString;
 	
 	for (unsigned int i = 0; i < this->areas.size(); i++) {
 		delete this->areas[i];
@@ -339,6 +339,7 @@ void	Game::delArea() {
 		return;
 
 	this->currentAreaInd--;
+	delete this->areas[0];
 	this->areas.pop_front();
 }
 

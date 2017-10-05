@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 14:54:16 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/03 10:06:36 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/05 13:41:10 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ GLString::GLString() {
 	if(GLString::characters.size() == 0)
 		this->initFont("models/oasis.TTF");
 	this->setupGl();
+}
+
+GLString::~GLString() {
+	delete this->shader;
 }
 
 void	GLString::initFont(std::string fontPath) {
