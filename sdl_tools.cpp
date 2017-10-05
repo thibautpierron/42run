@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/20 14:18:32 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/04 11:14:55 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/04 15:47:50 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void    eventManager(SDL_Event *events, bool *exitLoop, Game *game) {
             case SDLK_a: game->orientatePlayer(Orientation::WEST); break;
             case SDLK_RIGHT: game->movePlayerRight(); break;
             case SDLK_LEFT: game->movePlayerLeft(); break;
+            case SDLK_UP: game->jumpPlayer(); break;
             case SDLK_TAB: game->toggleDebugMode(); break;
-            // case SDLK_UP: game->area->n++; break;
             // case SDLK_DOWN: game->area->n--; break;
             // case SDLK_KP_MINUS: cameraRotation->z -= 0.5; *pause = true; break;
             // case SDLK_KP_PLUS: cameraRotation->z += 0.5; *pause = true; break;

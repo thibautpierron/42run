@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/10/04 13:22:42 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/05 10:41:10 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@ Player::Player(unsigned int x, unsigned int areaLineNbr) : x(x), areaLineNbr(are
     this->shader = new Shader("shaders/static_model_instanced.glvs", "shaders/player_diffuse.glfs");
     this->debugShader = new Shader("shaders/simple_grid.glvs", "shaders/geometry_shader.glgs", "shaders/simple_grid.glfs");
 
-    this->model = new Model("./models/cowboy/marvin.obj", false);
+    this->model = new Model("./models/marvin/marvin.obj", false);
 
     this->y = 0;
+    this->z = 0;
     this->state = 0;
     this->orientation = Orientation::NORTH;
     setupDebug();
@@ -66,7 +67,7 @@ void     Player::setupDebug() {
 	glBindVertexArray(0);
 }
 
-void    Player::draw(float gameClock) const {
+void    Player::draw(float gameClock) {
     float scalingRate = 0.5f;
     float xScaled;
     float yScaled;
@@ -91,10 +92,12 @@ void    Player::draw(float gameClock) const {
             angle = -90.f; break;
     }
 
+    this->computeHeigth();
+
     std::vector<glm::mat4> data;
     glm::mat4 model;
     model = glm::scale(model, glm::vec3(1.f / scalingRate, 1.f / scalingRate, 1.f / scalingRate));
-    model = glm::translate(model, glm::vec3(xScaled, yScaled, 0.f));
+    model = glm::translate(model, glm::vec3(xScaled, yScaled, this->z));
     model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
     model = glm::rotate(model, glm::radians(angle), glm::vec3(0.f, 1.f, 0.f));
     data.push_back(model);
@@ -102,6 +105,9 @@ void    Player::draw(float gameClock) const {
     this->shader->use();
 	this->shader->setModel(model);
     this->model->setInstanceBuffer(data);
+
+    // std::cout << this->state << std::endl;
+
     glUniform3f(glGetUniformLocation(this->shader->getProgramID(), "lightOffset"), static_cast<float>(this->x), static_cast<float>(this->y), gameClock);
     this->shader->setView();
     this->model->draw(this->shader, 1);
@@ -159,4 +165,25 @@ float   Player::getX() const {
 
 float   Player::getY() const {
     return this->y;
+}
+
+void    Player::computeHeigth() {
+    
+    static float i = 1;
+    
+    if (this->state != 2)
+        return;
+
+    std::cout << "JUMP" << std::endl;
+    
+    i += 0.1;
+    std::cout << i << " : " << 0.8571429 * i - 0.2142857 * i * i << std::endl;
+
+
+    this->z = -0.02857143 + 0.8571429 * i - 0.2142857 * i * i;
+    if (i > 4) {
+        i = 1;
+        this->z = 0;
+        this->state = 0;
+    }
 }

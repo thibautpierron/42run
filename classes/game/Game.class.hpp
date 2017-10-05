@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/04 11:15:13 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/04 15:41:35 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,12 @@ class Game {
 		~Game();
 		void				compute(float gameTime);
 		void				render(float gameTime);
-		Player				*getPlayer();
+		// Player				*getPlayer();
 		void				orientatePlayer();
 		void				orientatePlayer(Orientation::Enum);
 		void				movePlayerRight();
 		void				movePlayerLeft();
+		void				jumpPlayer();
 		void				setCamera();
 		void				displayStartScreen() const;
 		void				displayScoreScreen() const;

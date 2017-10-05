@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/04 13:23:23 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/05 10:43:08 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,38 +77,38 @@ void	Game::setCamera() {
 	switch(this->movementDirection) {
 		case Orientation::NORTH:
 			cameraX += this->areas[this->currentAreaInd]->getEndX() - this->areas[this->currentAreaInd]->getLineNbr();
-			if (this->areas[this->currentAreaInd]->getEndY() - this->player->getY() < 15 &&
+			if (this->areas[this->currentAreaInd]->getEndY() - this->player->getY() < 10 &&
 				this->areas[this->currentAreaInd]->getEndY() - this->player->getY() > 0 &&
 				this->areas[this->currentAreaInd + 1]->getOrientation() != Orientation::NORTH &&
 				this->camera.getAnimationState() == false) {
-				this->camera.startRotationAnimation(15 - 2.5, this->gameSpeed, this->areas[this->currentAreaInd + 1]->getOrientation());
+				this->camera.startRotationAnimation(10 - 2.5, this->gameSpeed, this->areas[this->currentAreaInd + 1]->getOrientation());
 			}
 			break;
 		case Orientation::SOUTH:
 			cameraX += this->areas[this->currentAreaInd]->getEndX();
-			if (this->player->getY() - this->areas[this->currentAreaInd]->getEndY() < 15 &&
+			if (this->player->getY() - this->areas[this->currentAreaInd]->getEndY() < 10 &&
 				this->player->getY() - this->areas[this->currentAreaInd]->getEndY() > 0 && 
 				this->areas[this->currentAreaInd + 1]->getOrientation() != Orientation::SOUTH &&
 				this->camera.getAnimationState() == false) {
-				this->camera.startRotationAnimation(15 - 2.5, this->gameSpeed, this->areas[this->currentAreaInd + 1]->getOrientation());
+				this->camera.startRotationAnimation(10 - 2.5, this->gameSpeed, this->areas[this->currentAreaInd + 1]->getOrientation());
 			}
 			break;
 		case Orientation::EAST:
 			cameraX += this->areas[this->currentAreaInd]->getEndY();
-			if (this->areas[this->currentAreaInd]->getEndX() - this->player->getX() < 15 &&
+			if (this->areas[this->currentAreaInd]->getEndX() - this->player->getX() < 10 &&
 				this->areas[this->currentAreaInd]->getEndX() - this->player->getX() > 0 &&
 				this->areas[this->currentAreaInd + 1]->getOrientation() != Orientation::EAST &&
 				this->camera.getAnimationState() == false) {
-				this->camera.startRotationAnimation(15 - 2.5, this->gameSpeed, this->areas[this->currentAreaInd + 1]->getOrientation());
+				this->camera.startRotationAnimation(10 - 2.5, this->gameSpeed, this->areas[this->currentAreaInd + 1]->getOrientation());
 			}
 			break;
 		case Orientation::WEST:
 			cameraX += this->areas[this->currentAreaInd]->getEndY() - this->areas[this->currentAreaInd]->getLineNbr();
-			if (this->player->getX() - this->areas[this->currentAreaInd]->getEndX() < 15 &&
+			if (this->player->getX() - this->areas[this->currentAreaInd]->getEndX() < 10 &&
 				this->player->getX() - this->areas[this->currentAreaInd]->getEndX() > 0 &&
 				this->areas[this->currentAreaInd + 1]->getOrientation() != Orientation::WEST &&
 				this->camera.getAnimationState() == false) {
-				this->camera.startRotationAnimation(15 - 2.5, this->gameSpeed, this->areas[this->currentAreaInd + 1]->getOrientation());
+				this->camera.startRotationAnimation(10 - 2.5, this->gameSpeed, this->areas[this->currentAreaInd + 1]->getOrientation());
 			}
 			break;
 	}
@@ -157,7 +157,7 @@ void	Game::checkObstaclesCollision() {
             return;
         }
     }
-	player->setState(0);
+	// player->setState(0);
     return;
 }
 
@@ -169,7 +169,7 @@ bool	Game::checkBonusCollision() {
 		player->setState(1);
 		return true;
 	}
-	player->setState(0);
+	// player->setState(0);
 	return false;
 }
 
@@ -361,7 +361,7 @@ void		Game::drawCeiling() const {
 	for (int j = plx - 6; j < plx + 6; j++) {
 		for (int i = ply - 6; i < ply + 6; i++) {
 			glm::mat4 model = glm::mat4();
-			model = glm::translate(model, glm::vec3(j * 8, i * 8, 3.5f));
+			model = glm::translate(model, glm::vec3(j * 8, i * 8, 4.f));
 			model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
 			model = glm::rotate(model, glm::radians(180.f), glm::vec3(1.f, 0.f, 0.f));
 			data.push_back(model);
@@ -453,4 +453,8 @@ void	Game::start() {
 
 void	Game::toggleDebugMode() {
 	this->debugMode = !this->debugMode;
+}
+
+void	Game::jumpPlayer() {
+	this->player->setState(2);
 }

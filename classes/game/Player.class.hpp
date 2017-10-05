@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:23:51 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/09/18 14:03:57 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/05 10:05:36 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ class Player {
         
         void		move(float, float);
         void		goAhead();
+        void        computeHeigth();
         void		setAreaLineNbr(unsigned int);
         void		setState(unsigned int);
         void		setOrientation(Orientation::Enum);
         glm::vec2   getPosition() const;
         void    	drawDebug(float) const;
-        void    	draw(float) const;
+        void    	draw(float);
         float   	getX() const;
         float   	getY() const;
 
@@ -41,6 +42,7 @@ class Player {
 
         int    				x;
         int    				y;
+        float               z;
         Orientation::Enum   orientation;
         unsigned int    	state;
         unsigned int    	areaLineNbr;

@@ -7,6 +7,8 @@ uniform int playerState;
 void main(){
     if (playerState == 0)
         outputColor = vec4(1.0, 1.0, 1.0, 1.0);
+    else if (playerState == 2)
+        outputColor = vec4(0.0, 1.0, 0.0, 1.0);
     else
         outputColor = vec4(1.0, 0.0, 0.0, 1.0);
 }
