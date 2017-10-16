@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 09:56:41 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/10/05 13:24:54 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/16 13:10:51 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ class Area {
         Shader                  *bonusShader;
         // unsigned int            obstacleVao;
         // unsigned int            obstacleVbo;
+        static int i;
 };
 
 #endif

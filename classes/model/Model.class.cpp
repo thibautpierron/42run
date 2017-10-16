@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/24 10:02:40 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/27 17:22:16 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/16 14:24:47 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,22 @@
 # define STB_IMAGE_IMPLEMENTATION
 # include "../libs/stb/stb_image.h"
 
+int	Model::i = 0;
 
 Model::Model(std::string path, bool animated) {
 	this->animated = animated;
 	loadModel(path);
+	Model::i++;
+	// std::cout << "MODEL CONSTRUCT: " << Model::i << std::endl;
 	return;
 }
 
 Model::~Model() {
+	for (unsigned int i = 0; i < this->meshes.size(); i++) {
+		delete this->meshes[i];
+	}
+	Model::i--;
+	// std::cout << "MODEL DESTRUCT: " << Model::i << std::endl;
 	return;
 }
 
@@ -85,16 +93,16 @@ void	Model::processNode(aiNode *node, const aiScene *scene) {
 			
 		if (this->animated == true) {
 			rootJoint = loadJoints(mesh);
-			this->meshes.push_back(Mesh(vertices, indices, materials, color, rootJoint, mesh->mNumBones));
+			this->meshes.push_back(new Mesh(vertices, indices, materials, color, rootJoint, mesh->mNumBones));
 			
 			this->readBonesHierarchy(scene->mRootNode, rootJoint); //localBindTrans == offset matrix
 			aiNode *rootBone = scene->mRootNode->FindNode(mesh->mBones[0]->mName.data);
 			this->readBonesHierarchy2(getKeyFrame(scene->mAnimations[0]), rootBone, glm::mat4(1.0));
-			setTransforms(finalTransform, meshes[0].getRootJoint()); //animatedTra = TRS matrix
+			setTransforms(finalTransform, meshes[0]->getRootJoint()); //animatedTra = TRS matrix
 		}
 		else {
 			rootJoint = NULL;
-			this->meshes.push_back(Mesh(vertices, indices, materials, color, rootJoint, mesh->mNumBones));
+			this->meshes.push_back(new Mesh(vertices, indices, materials, color, rootJoint, mesh->mNumBones));
 		}
 	}
 
@@ -344,7 +352,7 @@ std::vector<Texture> Model::loadTextures(aiMaterial *mat, aiTextureType type, st
 
 void	Model::draw(Shader *shader, unsigned int instanceCount) {
 	for(unsigned int i = 0; i < this->meshes.size(); i++) {
-		meshes[i].draw(shader, this->animated, instanceCount);
+		meshes[i]->draw(shader, this->animated, instanceCount);
 	}
 }
 
@@ -399,8 +407,8 @@ void				Model::printMat(glm::mat4 mat) {
 		std::cout << mat[3][0] << mat[3][1] << mat[3][2] << mat[3][3] << std::endl;
 }
 
-void				Model::setInstanceBuffer(std::vector<glm::mat4> data) {
+void				Model::setInstanceBuffer(std::vector<glm::mat4> const & data) {
 	for(unsigned int i = 0; i < this->meshes.size(); i++) {
-		meshes[i].setInstanceBuffer(data);
+		meshes[i]->setInstanceBuffer(data);
 	}
 }

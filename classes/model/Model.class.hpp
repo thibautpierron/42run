@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/24 09:40:41 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/26 12:58:50 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/16 14:24:59 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ class Model {
 		~Model();
 
 		void	draw(Shader *shader, unsigned int instanceCount);
-		void	setInstanceBuffer(std::vector<glm::mat4>);
+		void	setInstanceBuffer(std::vector<glm::mat4> const &);
 		// void drawInstanced(Shader *shader);
 		
 	private:
@@ -53,7 +53,7 @@ class Model {
 		std::vector<glm::mat4>		getKeyFrame(aiAnimation *animation);
 
 		bool								animated;
-		std::vector<Mesh>					meshes;
+		std::vector<Mesh*>					meshes;
 		std::string 						directory;
 		std::vector<Texture>    			texturesLoaded;
 		// std::vector<VertexBoneData> bones;
@@ -61,6 +61,8 @@ class Model {
 		std::vector<glm::mat4> 				bonesMatrix;
 		std::vector<glm::mat4> 				finalTransform;
 		glm::mat4							globalInverse;
+
+		static int i;
 };
 
 #endif

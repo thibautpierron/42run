@@ -6,11 +6,13 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/10/05 14:01:41 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/16 16:34:57 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Area.class.hpp"
+
+int	Area::i = 0;
 
 Area::Area(float startX, float startY,
             unsigned int length, Stage *stage,
@@ -31,11 +33,11 @@ Area::Area(float startX, float startY,
 											"shaders/simple_grid.glfs");
 	this->obstacleShader = new Shader("shaders/static_model_instanced.glvs",
 										"shaders/simple_diffuse.glfs");
-	std::cout << "CONSTRUCTOR AREA" << std::endl;	
+	Area::i++;
+	// std::cout << "AREA CONSTRUCT: " << Area::i << std::endl;	
 }
 
 Area::~Area() {
-	std::cout << "DESTRUCTOR AREA" << std::endl;	
 	delete this->gridShader;
 	delete this->obstacleDebugShader;
 	delete this->obstacleShader;
@@ -43,6 +45,13 @@ Area::~Area() {
 	delete this->scenery;
 	delete this->bonusShader;
 	delete this->bonus;
+	glDeleteBuffers(1, &this->vbo);
+	glDeleteBuffers(1, &this->ebo);
+	glDeleteVertexArrays(1, &this->vao);
+	glDeleteBuffers(1, &this->obstacleDebugVbo);
+	glDeleteVertexArrays(1, &this->obstacleDebugVao);
+	Area::i--;
+	// std::cout << "AREA DESTRUCT: " << Area::i << std::endl;	
 }
 
 void    Area::setupGrid() {

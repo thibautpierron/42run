@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:54:43 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/27 17:08:06 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/16 14:25:36 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,12 @@ class Mesh {
         Mesh(std::vector<Vertex>, std::vector<unsigned int>,
                 std::vector<Texture>, aiColor3D color, 
                 Joint *rootJoint, unsigned int jointNbr);
+        Mesh(Mesh const & src);
         ~Mesh();
+    
 
 		void	draw(Shader *shader, bool animated, unsigned int instanceCount);
-        void    setInstanceBuffer(std::vector<glm::mat4>);
+        void    setInstanceBuffer(std::vector<glm::mat4> const &);
 		glm::mat4* getJointTransforms() const;
         Joint *getRootJoint();
         void printJointMatrices(Joint *joint);
@@ -74,6 +76,8 @@ class Mesh {
         unsigned int            vbo;
         unsigned int            ebo;
         unsigned int            ibo;
+
+        static int i;
 };
 
 #endif

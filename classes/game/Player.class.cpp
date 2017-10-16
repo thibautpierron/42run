@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/10/05 11:24:00 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/16 12:54:28 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ Player::~Player() {
     delete this->shader;
     delete this->debugShader;
     delete this->model;
+    glDeleteBuffers(1, &this->debugVbo);
+	glDeleteVertexArrays(1, &this->debugVao);
 }
 
 void    Player::setAreaLineNbr(unsigned int n) {

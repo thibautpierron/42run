@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+// /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   Mesh.class.cpp                                     :+:      :+:    :+:   */
@@ -6,11 +6,13 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:54:40 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/05 12:59:51 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/05 16:21:42 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Mesh.class.hpp"
+
+int	Mesh::i = 0;
 
 void Mesh::printJointMatrices(Joint *joint) {
 	glm::mat4 at = joint->getAnimatedTransform();
@@ -35,6 +37,7 @@ void Mesh::printJointMatrices(Joint *joint) {
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,
 			std::vector<Texture> textures, aiColor3D color, Joint* rootJoint, unsigned int jointNbr)
 : vertices(vertices), indices(indices), textures(textures), color(color), rootJoint(rootJoint), jointNbr(jointNbr) {
+	// Mesh::i++;
 	// this->rootJoint->calcInverseBindTransform(glm::mat4());
 	// printJointMatrices(&rootJoint);
 	setupMesh();
@@ -42,15 +45,27 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,
 		// std::cout << "bonesID: " << vertices[i].bonesID[0] << " : " << vertices[i].bonesID[1] << " : " << vertices[i].bonesID[2] << std::endl;
 		// std::cout << "bonesWeigths: " << vertices[i].weigths[0] << " : " << vertices[i].weigths[1] << " : " << vertices[i].weigths[2] << std::endl;
 	// }
+	// std::cout << "MESH CONSTRUCT: " << ++Mesh::i << std::endl;
 	return;
 }
 
+Mesh::Mesh(Mesh const & src) {
+	
+	// std::cout << "MESH CONSTRUCT: " << ++Mesh::i << std::endl;
+	*this = src;
+}
+
 Mesh::~Mesh() {
-	// glDeleteBuffers(1, &this->vbo);
-	// glDeleteBuffers(1, &this->ebo);
-	// glDeleteBuffers(1, &this->ibo);
-	// glDeleteVertexArrays(1, &this->vao);
+	glDeleteBuffers(1, &this->vbo);
+	glDeleteBuffers(1, &this->ebo);
+	glDeleteBuffers(1, &this->ibo);
+	glDeleteVertexArrays(1, &this->vao);
+	for (unsigned int i = 0; i < this->textures.size(); i++) {
+		glDeleteTextures(1, &textures[i].id);
+	}
 	delete this->rootJoint;
+	Mesh::i--;
+	// std::cout << "MESH DESTRUCT: " << Mesh::i << std::endl;
 	return;
 }
 
@@ -103,7 +118,7 @@ void	Mesh::setupMesh() {
 	return;
 }
 
-void	Mesh::setInstanceBuffer(std::vector<glm::mat4> data) {
+void	Mesh::setInstanceBuffer(std::vector<glm::mat4> const & data) {
 
 	glBindVertexArray(this->vao);
 	glGenBuffers(1, &this->ibo);
@@ -128,6 +143,8 @@ void	Mesh::setInstanceBuffer(std::vector<glm::mat4> data) {
 	glVertexAttribDivisor(7, 1); 
 	glVertexAttribDivisor(8, 1); 
 	glBindVertexArray(0);
+	
+	glDeleteBuffers(1, &this->ibo);
 }
 
 void	Mesh::draw(Shader *shader, bool animated, unsigned int instanceCount) {
