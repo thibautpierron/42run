@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/17 13:29:05 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/17 13:35:39 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,6 @@ void	Game::checkObstaclesCollision() {
             return;
         }
     }
-	// player->setState(0);
     return;
 }
 
@@ -454,45 +453,3 @@ void	Game::toggleDebugMode() {
 void	Game::jumpPlayer() {
 	this->player->setState(2);
 }
-
-// void	Game::detectAreaOverLaping(Area *nextArea) const {
-// 	float nextX = nextArea->getEndX();
-// 	float nextY = nextArea->getEndY();
-// 	Orientation::Enum nextOrientation = nextArea->getOrientation();
-// 	float currentX = this->areas[this->currentAreaInd]->getEndX();
-// 	float currentY = this->areas[this->currentAreaInd]->getEndY();
-// 	switch(this->movementDirection) {
-// 		case Orientation::NORTH:
-// 			if (nextOrientation == Orientation::EAST &&
-// 				nextX > currentX && nextY > currentY)
-// 				std::cout << "OVERLAPING: " << this->movementDirection << " " << nextOrientation << std::endl;
-// 			else if (nextOrientation == Orientation::WEST &&
-// 				nextX < currentX && nextY < currentY)
-// 				std::cout << "OVERLAPING: " << this->movementDirection << " " << nextOrientation << std::endl;
-// 			break;
-// 		case Orientation::SOUTH:
-// 			if (nextOrientation == Orientation::EAST &&
-// 				nextX < currentX && nextY < currentY)
-// 				std::cout << "OVERLAPING: " << this->movementDirection << " " << nextOrientation << std::endl;
-// 			else if (nextOrientation == Orientation::WEST &&
-// 				nextX > currentX && nextY > currentY)
-// 				std::cout << "OVERLAPING: " << this->movementDirection << " " << nextOrientation << std::endl;
-// 			break;
-// 		case Orientation::WEST:
-// 			if (nextOrientation == Orientation::NORTH &&
-// 				nextX < currentX && nextY > currentY)
-// 				std::cout << "OVERLAPING: " << this->movementDirection << " " << nextOrientation << std::endl;
-// 			else if (nextOrientation == Orientation::SOUTH &&
-// 				nextX > currentX && nextY < currentY)
-// 				std::cout << "OVERLAPING: " << this->movementDirection << " " << nextOrientation << std::endl;
-// 			break;
-// 		case Orientation::EAST:
-// 			if (nextOrientation == Orientation::NORTH &&
-// 				nextX < currentX && nextY > currentY)
-// 				std::cout << "OVERLAPING: " << this->movementDirection << " " << nextOrientation << std::endl;
-// 			else if (nextOrientation == Orientation::SOUTH &&
-// 				nextX > currentX && nextY < currentY)
-// 				std::cout << "OVERLAPING: " << this->movementDirection << " " << nextOrientation << std::endl;
-// 			break;
-// 	}
-// }

@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:29:37 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/10/16 12:54:28 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/17 13:35:36 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,15 +108,12 @@ void    Player::draw(float gameClock) {
 	this->shader->setModel(model);
     this->model->setInstanceBuffer(data);
 
-    // std::cout << this->state << std::endl;
-
     glUniform3f(glGetUniformLocation(this->shader->getProgramID(), "lightOffset"), static_cast<float>(this->x), static_cast<float>(this->y), gameClock);
     this->shader->setView();
     this->model->draw(this->shader, 1);
 }
 
 void    Player::drawDebug(float gameClock) const {
-    // std::cout << "Player: x: " << this->x << " y: " << this->y << std::endl;
     float xScaled;
     float yScaled;
 
@@ -137,7 +134,6 @@ void    Player::drawDebug(float gameClock) const {
 
     glm::mat4 model = glm::mat4();
     model = glm::translate(model, glm::vec3(xScaled, yScaled, 0.01f));
-    // model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
     
     this->debugShader->use();
     this->debugShader->setModel(model);
@@ -176,12 +172,7 @@ void    Player::computeHeigth() {
     if (this->state != 2)
         return;
 
-    // std::cout << "JUMP" << std::endl;
-    
     i += 0.1;
-    // std::cout << i << " : " << 0.8571429 * i - 0.2142857 * i * i << std::endl;
-
-
     this->z = -0.02857143 + 0.8571429 * i - 0.2142857 * i * i;
     if (i > 4) {
         i = 1;

@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/10/16 17:38:03 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/17 13:32:36 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ Area::Area(float startX, float startY,
 	this->obstacleShader = new Shader("shaders/static_model_instanced.glvs",
 										"shaders/simple_diffuse.glfs");
 	Area::i++;
-	// std::cout << "AREA CONSTRUCT: " << Area::i << std::endl;	
 }
 
 Area::~Area() {
@@ -52,7 +51,6 @@ Area::~Area() {
 	glDeleteBuffers(1, &this->obstacleDebugVbo);
 	glDeleteVertexArrays(1, &this->obstacleDebugVao);
 	Area::i--;
-	// std::cout << "AREA DESTRUCT: " << Area::i << std::endl;	
 }
 
 void    Area::setupGrid() {
@@ -294,7 +292,6 @@ void		Area::setSceneryModel(Model * model) {
 
 	switch (this->orientation) {
 		case Orientation::NORTH:
-			// std::cout << "N" << std::endl;
 			for (unsigned int i = 0; i <= limit + 1; i++) {
 				glm::mat4 model = glm::mat4();
 				model = glm::translate(model, glm::vec3(this->startX, this->startY + i * this->patternLength - 2, 0.f));
@@ -311,7 +308,6 @@ void		Area::setSceneryModel(Model * model) {
 				data.push_back(model2);
 			} break;
 		case Orientation::SOUTH:
-			// std::cout << "S" << std::endl;
 			for (unsigned int i = 0; i < limit + 2; i++) {
 				glm::mat4 model = glm::mat4();
 				model = glm::translate(model, glm::vec3(this->startX - 3, this->startY - i * 9 + 9, 0.f));
@@ -328,7 +324,6 @@ void		Area::setSceneryModel(Model * model) {
 				data.push_back(model2);
 			} break;
 		case Orientation::EAST:
-			// std::cout << "E" << std::endl;
 			for (unsigned int i = 1; i < limit - 1; i++) {
 				glm::mat4 model = glm::mat4();
 				model = glm::translate(model, glm::vec3(i * 8 + this->startX + 8, this->startY - 2, 0.f));
@@ -345,7 +340,6 @@ void		Area::setSceneryModel(Model * model) {
 				data.push_back(model2);
 			} break;
 		case Orientation::WEST:
-			// std::cout << "W" << std::endl;
 			for (unsigned int i = 1; i < limit - 1; i++) {
 				glm::mat4 model = glm::mat4();
 				model = glm::translate(model, glm::vec3((this->startX - 1) - (i * 8), this->startY, 0.f));
@@ -391,7 +385,6 @@ void	Area::setBonus() {
 }
 
 void	Area::drawBonus() const {
-	// std::vector<glm::mat4> data;
 	static float angle = 0.f;
 
 	glm::mat4 model = glm::mat4();
@@ -399,8 +392,7 @@ void	Area::drawBonus() const {
 	model = glm::rotate(model, glm::radians(angle) , glm::vec3(0.f, 0.f, 1.f));
 	model = glm::rotate(model, glm::radians(90.f) , glm::vec3(1.f, 0.f, 0.f));
 	model = glm::translate(model, glm::vec3(- 0.2f, - 0.2f, 0.f));
-	// data.push_back(model);
-	// this->bonus->setInstanceBuffer(data);
+
 	this->bonusShader->use();
     this->bonusShader->setView();
 	this->bonusShader->setModel(model);

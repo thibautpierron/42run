@@ -6,14 +6,13 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 11:33:21 by tpierron          #+#    #+#             */
-/*   Updated: 2017/09/28 09:33:28 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/17 13:36:16 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./Stage.class.hpp"
 
 Stage::Stage(int n) {
-	// std::cout << "STAGE CONSTRUCTOR" << std::endl;
 	switch (n) {
 		case 0: initClusterStage(); break;
 		case 1: initOutsideStage(); break;
