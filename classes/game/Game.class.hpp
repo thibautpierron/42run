@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:15:50 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/16 17:32:43 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/17 13:28:33 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ class Game {
 		void				manageAreas();
 		bool				playerCanTurn();
 		void				transcriptCrdToCameraRef(float *, float *, Orientation::Enum);
+		// void				detectAreaOverLaping(Area *nextArea) const;
 		void				drawGround() const;
 		void				drawCeiling() const;
 		void				drawScore() const;

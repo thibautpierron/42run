@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/17 09:26:34 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/17 13:29:05 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ Game::Game(float gameSpeed) : gameSpeed(gameSpeed) {
 	this->areasUpdated = false;
 	this->currentAreaInd = 0;
     this->obstacles = this->areas[this->currentAreaInd]->getObstacles();
-    // this->obstacles = this->areas.front()->getObstacles();
 
     this->player = new Player(0, this->areas.front()->getLineNbr());
 	this->movementDirection = Orientation::NORTH;
@@ -40,7 +39,6 @@ Game::Game(float gameSpeed) : gameSpeed(gameSpeed) {
 	this->score = 0.f;
 	this->distance = 0.f;
 	this->bonusFactor = 1.f;
-	// this->bonusCaught = false;
 	this->debugMode = false;
 
 	this->state = 0;
@@ -70,18 +68,9 @@ void	Game::compute(float gameTick) {
 		this->score = distance * bonusFactor;
 	}
 
-	// if (!this->bonusCaught) {
-	// 	if (checkBonusCollision())
-	// 		this->bonusCaught = true;
-// }
-
 	checkBonusCollision();
 	checkObstaclesCollision();
 	if (checkWallCollision()) {
-	// 	this->areas[this->currentAreaInd]->setBonusOff();
-	// }
-		// std::cout << "WALL" << std::endl;
-		// this->currentAreaInd++;
 		this->state = 2;
 	}
 	manageAreas();
@@ -187,11 +176,6 @@ void	Game::checkBonusCollision() {
 		this->bonusFactor++;
 		this->areas[this->currentAreaInd]->setBonusOff();
 	}
-	// 	// player->setState(1);
-	// 	return true;
-	// }
-	// // player->setState(0);
-	// return false;
 }
 
 bool	Game::checkWallCollision() {
@@ -252,23 +236,6 @@ void	Game::movePlayerLeft() {
 }
 
 bool	Game::playerCanTurn() {
-	// if (this->movementDirection == this->areas[this->currentAreaInd + 1]->getOrientation()) {
-	// 	switch(this->movementDirection) {
-	// 		case Orientation::NORTH:
-	// 			if (this->player->getY() > this->areas[this->currentAreaInd]->getEndY())
-	// 				this->currentAreaInd++; break;
-	// 		case Orientation::SOUTH:
-	// 			if (this->player->getY() < this->areas[this->currentAreaInd]->getEndY())
-	// 				this->currentAreaInd++; break;
-	// 		case Orientation::EAST:
-	// 			if (this->player->getX() > this->areas[this->currentAreaInd]->getEndX())
-	// 				this->currentAreaInd++; break;
-	// 		case Orientation::WEST:
-	// 			if (this->player->getX() < this->areas[this->currentAreaInd]->getEndX())
-	// 				this->currentAreaInd++; break;
-	// 	}
-	// 	return false;
-	// }
 	switch (this->movementDirection) {
 		case Orientation::NORTH:
 			if (this->player->getY() >= this->areas[this->currentAreaInd]->getEndY() - this->areas[this->currentAreaInd + 1]->getLineNbr())
@@ -328,19 +295,21 @@ void	Game::manageAreas() {
 	bool flag = false;
 	switch (this->movementDirection) {
 		case Orientation::NORTH:
-			if (this->player->getY() > this->areas[0]->getEndY() - 5) flag = true; break;
+			if (this->player->getY() > this->areas[this->currentAreaInd]->getEndY() - 5) flag = true; break;
 		case Orientation::SOUTH:
-			if (this->player->getY() < this->areas[0]->getEndY() + 5) flag = true; break;
+			if (this->player->getY() < this->areas[this->currentAreaInd]->getEndY() + 5) flag = true; break;
 		case Orientation::EAST:
-			if (this->player->getX() > this->areas[0]->getEndX() - 5) flag = true; break;
+			if (this->player->getX() > this->areas[this->currentAreaInd]->getEndX() - 5) flag = true; break;
 		case Orientation::WEST:
-			if (this->player->getX() < this->areas[0]->getEndX() + 5) flag = true; break;
+			if (this->player->getX() < this->areas[this->currentAreaInd]->getEndX() + 5) flag = true; break;
 	}
 	
 	if (flag) {
-		this->areas.push_back(this->areaFactory.createArea(this->areas.back()));
+		Area * nextArea = this->areaFactory.createArea(this->areas.back());
+		this->areas.push_back(nextArea);
 		this->areasUpdated = true;
 	}
+
 }
 
 void	Game::delArea() {
@@ -485,3 +454,45 @@ void	Game::toggleDebugMode() {
 void	Game::jumpPlayer() {
 	this->player->setState(2);
 }
+
+// void	Game::detectAreaOverLaping(Area *nextArea) const {
+// 	float nextX = nextArea->getEndX();
+// 	float nextY = nextArea->getEndY();
+// 	Orientation::Enum nextOrientation = nextArea->getOrientation();
+// 	float currentX = this->areas[this->currentAreaInd]->getEndX();
+// 	float currentY = this->areas[this->currentAreaInd]->getEndY();
+// 	switch(this->movementDirection) {
+// 		case Orientation::NORTH:
+// 			if (nextOrientation == Orientation::EAST &&
+// 				nextX > currentX && nextY > currentY)
+// 				std::cout << "OVERLAPING: " << this->movementDirection << " " << nextOrientation << std::endl;
+// 			else if (nextOrientation == Orientation::WEST &&
+// 				nextX < currentX && nextY < currentY)
+// 				std::cout << "OVERLAPING: " << this->movementDirection << " " << nextOrientation << std::endl;
+// 			break;
+// 		case Orientation::SOUTH:
+// 			if (nextOrientation == Orientation::EAST &&
+// 				nextX < currentX && nextY < currentY)
+// 				std::cout << "OVERLAPING: " << this->movementDirection << " " << nextOrientation << std::endl;
+// 			else if (nextOrientation == Orientation::WEST &&
+// 				nextX > currentX && nextY > currentY)
+// 				std::cout << "OVERLAPING: " << this->movementDirection << " " << nextOrientation << std::endl;
+// 			break;
+// 		case Orientation::WEST:
+// 			if (nextOrientation == Orientation::NORTH &&
+// 				nextX < currentX && nextY > currentY)
+// 				std::cout << "OVERLAPING: " << this->movementDirection << " " << nextOrientation << std::endl;
+// 			else if (nextOrientation == Orientation::SOUTH &&
+// 				nextX > currentX && nextY < currentY)
+// 				std::cout << "OVERLAPING: " << this->movementDirection << " " << nextOrientation << std::endl;
+// 			break;
+// 		case Orientation::EAST:
+// 			if (nextOrientation == Orientation::NORTH &&
+// 				nextX < currentX && nextY > currentY)
+// 				std::cout << "OVERLAPING: " << this->movementDirection << " " << nextOrientation << std::endl;
+// 			else if (nextOrientation == Orientation::SOUTH &&
+// 				nextX > currentX && nextY < currentY)
+// 				std::cout << "OVERLAPING: " << this->movementDirection << " " << nextOrientation << std::endl;
+// 			break;
+// 	}
+// }

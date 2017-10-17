@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 09:44:59 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/05 13:10:34 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/17 11:43:24 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,13 @@ AreaFactory::~AreaFactory() {
 }
 
 Area *	AreaFactory::createArea(Area * prev) {
-	// static int areaCounter = 0;
-	// if (areaCounter >= 5) {
-	// 	this->changeStage();
-	// 	areaCounter = 0;
-	// }
-	// areaCounter++;
 	
 	Orientation::Enum lastOrientation = prev->getOrientation();	
 	Orientation::Enum nextOrientation = getNextOrientationAfter(lastOrientation);
 	float prevX = prev->getEndX();
 	float prevY = prev->getEndY();
 	int nextAreaLength = rand() % 3 + 2;
-	// int nextAreaLength = 1;
+
 	int nextAreaLineNbr;
 	if (nextOrientation == Orientation::NORTH || nextOrientation == Orientation::SOUTH) {
 		nextAreaLength *= this->stages[this->currentStage]->getPatternLength(Orientation::NORTH);
