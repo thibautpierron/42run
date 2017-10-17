@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/11 11:16:01 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/05 14:41:06 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/17 09:26:34 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ Game::Game(float gameSpeed) : gameSpeed(gameSpeed) {
 	this->score = 0.f;
 	this->distance = 0.f;
 	this->bonusFactor = 1.f;
-	this->bonusCaught = false;
+	// this->bonusCaught = false;
 	this->debugMode = false;
 
 	this->state = 0;
@@ -70,12 +70,16 @@ void	Game::compute(float gameTick) {
 		this->score = distance * bonusFactor;
 	}
 
-	if (!this->bonusCaught) {
-		if (checkBonusCollision())
-			this->bonusCaught = true;
-	}
+	// if (!this->bonusCaught) {
+	// 	if (checkBonusCollision())
+	// 		this->bonusCaught = true;
+// }
+
+	checkBonusCollision();
 	checkObstaclesCollision();
 	if (checkWallCollision()) {
+	// 	this->areas[this->currentAreaInd]->setBonusOff();
+	// }
 		// std::cout << "WALL" << std::endl;
 		// this->currentAreaInd++;
 		this->state = 2;
@@ -148,7 +152,7 @@ void	Game::render(float gameSpeed) {
 		}
 		this->areas[i]->drawObstacles();
 		this->areas[i]->drawScenery();
-		if (!this->bonusCaught)
+		if (this->areas[i]->isBonusOn())
 			this->areas[i]->drawBonus();
 	}
 
@@ -173,16 +177,21 @@ void	Game::checkObstaclesCollision() {
     return;
 }
 
-bool	Game::checkBonusCollision() {
+void	Game::checkBonusCollision() {
+	if(!this->areas[this->currentAreaInd]->isBonusOn())
+		return;
+	
 	glm::vec2 playerPosition = this->player->getPosition();
 	glm::vec2 bonusPosition = this->areas[this->currentAreaInd]->getBonus();
 	if (playerPosition == bonusPosition) {
 		this->bonusFactor++;
-		// player->setState(1);
-		return true;
+		this->areas[this->currentAreaInd]->setBonusOff();
 	}
-	// player->setState(0);
-	return false;
+	// 	// player->setState(1);
+	// 	return true;
+	// }
+	// // player->setState(0);
+	// return false;
 }
 
 bool	Game::checkWallCollision() {

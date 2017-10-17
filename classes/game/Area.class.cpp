@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 10:01:40 by thibautpier       #+#    #+#             */
-/*   Updated: 2017/10/16 16:34:57 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/16 17:38:03 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ Area::Area(float startX, float startY,
 				length(length - 2), orientation(orientation) {
 	this->lineNbr = stage->getLineNbr(orientation);
 	this->patternLength = stage->getPatternLength(orientation);
+	this->bonusCaught = false;
 	setupGrid();
 	generateObstacles();
 	setBonus();
@@ -411,4 +412,12 @@ void	Area::drawBonus() const {
 
 glm::vec3	Area::getBonus() const {
 	return this->bonusCrd;
+}
+
+void		Area::setBonusOff() {
+	this->bonusCaught = true;
+}
+
+bool		Area::isBonusOn() const {
+	return !this->bonusCaught;
 }
