@@ -20,5 +20,4 @@ void main(){
 	vec3 diffuse = diff * lightColor;
 
     outputColor = texture(texture_diffuse, UV);
-//    outputColor = vec4(fragColor, 1.0);
 }

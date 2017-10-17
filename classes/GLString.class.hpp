@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 14:47:43 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/05 13:41:44 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/17 13:44:26 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 # include FT_FREETYPE_H
 
 struct Character {
-    GLuint     textureID;  // ID handle of the glyph texture
-    glm::ivec2 size;       // Size of glyph
-    glm::ivec2 bearing;    // Offset from baseline to left/top of glyph
-    GLuint     advance;    // Offset to advance to next glyph
+    GLuint     textureID;
+    glm::ivec2 size;
+    glm::ivec2 bearing;
+    GLuint     advance;
 };
 
 class GLString {

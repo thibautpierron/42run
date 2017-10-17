@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/21 11:25:21 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/04 10:25:07 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/17 13:46:14 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int     main() {
                 game.render(gameSpeed);
                 break;
             case 2: game.displayScoreScreen(); break;
-            // default: game.displayStartScreen(); break;
         }
         
         SDL_GL_SwapWindow(win);

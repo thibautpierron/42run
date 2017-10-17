@@ -6,7 +6,7 @@
 /*   By: tpierron <tpierron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 14:54:16 by tpierron          #+#    #+#             */
-/*   Updated: 2017/10/05 13:41:10 by tpierron         ###   ########.fr       */
+/*   Updated: 2017/10/17 13:43:00 by tpierron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,11 @@ void	GLString::initFont(std::string fontPath) {
   
 	for (GLubyte c = 0; c < 128; c++)
 	{
-		// Load character glyph 
 		if (FT_Load_Char(face, c, FT_LOAD_RENDER))
 		{
 			std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
 			continue;
 		}
-		// Generate texture
 		GLuint texture;
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
@@ -61,12 +59,11 @@ void	GLString::initFont(std::string fontPath) {
 			GL_UNSIGNED_BYTE,
 			face->glyph->bitmap.buffer
 		);
-		// Set texture options
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		// Now store character for later use
+
 		Character character = {
 			texture, 
 			glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
@@ -83,8 +80,6 @@ void	GLString::initFont(std::string fontPath) {
 void	GLString::setupGl() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
-
-	// glm::mat4 projection = glm::ortho(0.0f, 1024.0f, 0.0f, 1024.0f);
 	
 	glGenVertexArrays(1, &this->VAO);
 	glGenBuffers(1, &this->VBO);
@@ -98,14 +93,12 @@ void	GLString::setupGl() {
 }
 
 void	GLString::renderText(std::string text, float x, float y, glm::vec3 color) const {
-    // Activate corresponding render state	
     this->shader->use();
 	this->shader->setOrthoView(1024.f, 1024.f);
     glUniform3f(glGetUniformLocation(this->shader->getProgramID(), "textColor"), color.x, color.y, color.z);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(this->VAO);
 
-    // Iterate through all characters
     std::string::const_iterator c;
     for (c = text.begin(); c != text.end(); c++)
     {
@@ -116,7 +109,6 @@ void	GLString::renderText(std::string text, float x, float y, glm::vec3 color) c
 
         GLfloat w = ch.size.x;
         GLfloat h = ch.size.y;
-        // Update VBO for each character
         GLfloat vertices[6][4] = {
             { xpos,     ypos + h,   0.0, 0.0 },            
             { xpos,     ypos,       0.0, 1.0 },
@@ -126,16 +118,12 @@ void	GLString::renderText(std::string text, float x, float y, glm::vec3 color) c
             { xpos + w, ypos,       1.0, 1.0 },
             { xpos + w, ypos + h,   1.0, 0.0 }           
         };
-        // Render glyph texture over quad
         glBindTexture(GL_TEXTURE_2D, ch.textureID);
-        // Update content of VBO memory
         glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-        // Render quad
         glDrawArrays(GL_TRIANGLES, 0, 6);
-        // Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-        x += (ch.advance >> 6); // Bitshift by 6 to get value in pixels (2^6 = 64)
+        x += (ch.advance >> 6);
     }
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
